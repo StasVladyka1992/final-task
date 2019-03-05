@@ -19,8 +19,10 @@ public class CommandStorage {
         commands.put("authorized_user_main_page", new GoToAuthorizedMain());
         commands.put("sign_out", new UserSignOut());
         commands.put("go_to_client_main", new GoToClientMain());
+        commands.put("go_to_pharmacist_main", new GoToPharmacistMain());
         commands.put("go_to_remedy", new GoToRemedy());
         commands.put("find_remedy", new FindRemedy());
+        commands.put("go_to_remedy_administration", new RemedyAdministration());
     }
 
     public Command getCommand(String command) {

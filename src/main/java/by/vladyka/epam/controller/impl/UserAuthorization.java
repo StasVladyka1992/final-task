@@ -2,6 +2,7 @@ package by.vladyka.epam.controller.impl;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.util.URLRestorer;
+
 import by.vladyka.epam.entity.User;
 import by.vladyka.epam.service.ServiceCreator;
 import by.vladyka.epam.service.exception.ServiceException;
@@ -12,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+
 import static by.vladyka.epam.controller.util.JSPNavigation.*;
-import static by.vladyka.epam.controller.util.UserNavigationQualifier.scenarios;
+import static by.vladyka.epam.controller.util.UserNavigationManager.*;
 
 /**
  * Created by Vladyka Stas
@@ -35,9 +37,9 @@ public class UserAuthorization implements Command {
                 req.getRequestDispatcher(GO_TO_AUTHORIZATION).forward(req,resp);
             } else {
                 Character role = user.getRole();
-                String command =  scenarios.get(role);
+                String navigationCommand = authorization_scenarios.get(role);
                 session.setAttribute("user", user);
-                req.getRequestDispatcher(command).forward(req,resp);
+                req.getRequestDispatcher(navigationCommand).forward(req,resp);
             }
         } catch (ServiceException ex) {
 //            TODO   log.error(eq)

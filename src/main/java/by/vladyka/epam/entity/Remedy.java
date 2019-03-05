@@ -7,12 +7,23 @@ import java.io.Serializable;
  * on 26.02.2019 at 1:38
  **/
 public class Remedy implements Serializable {
+
+
     private int idRemedy;
     private String name;
     private String packing;
     private String maker;
-    private int remainder;
+    private int quantity;
     private double price;
+    private char receipt;
+
+    public char getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(char receipt) {
+        this.receipt = receipt;
+    }
 
     public int getIdRemedy() {
         return idRemedy;
@@ -46,12 +57,12 @@ public class Remedy implements Serializable {
         this.maker = maker;
     }
 
-    public int getRemainder() {
-        return remainder;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setRemainder(int remainder) {
-        this.remainder = remainder;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {
@@ -69,9 +80,10 @@ public class Remedy implements Serializable {
 
         Remedy remedy = (Remedy) o;
 
-        if (remainder != remedy.remainder) return false;
         if (idRemedy != remedy.idRemedy) return false;
+        if (quantity != remedy.quantity) return false;
         if (Double.compare(remedy.price, price) != 0) return false;
+        if (receipt != remedy.receipt) return false;
         if (!name.equals(remedy.name)) return false;
         if (!packing.equals(remedy.packing)) return false;
         return maker.equals(remedy.maker);
@@ -81,25 +93,14 @@ public class Remedy implements Serializable {
     public int hashCode() {
         int result;
         long temp;
-        result = name.hashCode();
+        result = idRemedy;
+        result = 31 * result + name.hashCode();
         result = 31 * result + packing.hashCode();
         result = 31 * result + maker.hashCode();
-        result = 31 * result + remainder;
-        result = 31 * result + idRemedy;
+        result = 31 * result + quantity;
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (int) receipt;
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Remedy{" +
-                "name='" + name + '\'' +
-                ", packing='" + packing + '\'' +
-                ", maker='" + maker + '\'' +
-                ", remainder=" + remainder +
-                ", idRemedy=" + idRemedy +
-                ", price=" + price +
-                '}';
     }
 }

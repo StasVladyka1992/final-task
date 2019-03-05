@@ -7,12 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"  %>
 <%@ include file="../../constant_part/navbar.jsp" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+
+
     <c:out value=" secure doctor"></c:out>
     <%@ include file="../../constant_part/footer.jsp"%>
-</body>
-</html>
+

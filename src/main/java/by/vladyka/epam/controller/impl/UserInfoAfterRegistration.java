@@ -19,7 +19,7 @@ public class UserInfoAfterRegistration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = URLRestorer.restoreURL(req);
-        req.getSession(false).setAttribute("previous_url", url);
+        req.getSession(true).setAttribute("previous_url", url);
         req.getRequestDispatcher(REGISTRATION_RESULT).forward(req, resp);
     }
 }

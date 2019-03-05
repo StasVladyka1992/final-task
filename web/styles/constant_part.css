@@ -8,6 +8,9 @@ img {
 #navbar, #footer{
     background-color: #10d510; !important;
 }
+#navbar {
+    padding: 0.25rem;
+}
 .nav-link, .constText {
     color: #fff; !important;
 }
@@ -96,4 +99,17 @@ ul.menu li a i.fa-youtube-play:hover::after {
 .table td, .table th{
     padding-top: 0; !important;
     padding-bottom: 0; !important;
+}
+#footer{
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right:5px;
+    padding-left: 5px;
+}
+#rights{
+    margin-bottom: 0.5rem;!important;
+}
+#star{
+    color: red;
 }

@@ -16,8 +16,6 @@
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="startWork" var="startWork"/>
 
-<html>
-<body>
 <h3>
     <c:out value="${registrationResult}"/>
 </h3>
@@ -43,8 +41,7 @@
 </div>
     <c:out value="${userMessageAfterTable}"></c:out>
     <a href="/secure?command=authorized_user_main_page"/>${startWork}</a>
-</body>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../constant_part/footer.jsp"%>
 </div>
-</html>
+

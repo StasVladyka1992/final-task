@@ -4,12 +4,12 @@ import by.vladyka.epam.dao.RemedyDAO;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.SQLConnectionHelper;
 import by.vladyka.epam.entity.Remedy;
+import by.vladyka.epam.entity.RemedySearchingResult;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+import static by.vladyka.epam.dao.util.SQLQuery.QUERY_COUNT_SIMULAR_REMEDIES;
 import static by.vladyka.epam.dao.util.SQLQuery.QUERY_FIND_REMEDY;
 
 /**
@@ -18,8 +18,8 @@ import static by.vladyka.epam.dao.util.SQLQuery.QUERY_FIND_REMEDY;
  **/
 public class SQLRemedyDAO extends SQLConnectionHelper implements RemedyDAO {
 
-    public List<Remedy> find(String name, int start, int offset) throws DAOException {
-        ArrayList<Remedy> remedies = new ArrayList<>();
+    public RemedySearchingResult findRemedy(String name, int start, int offset) throws DAOException {
+        RemedySearchingResult result = new RemedySearchingResult();
         try (Connection connection = DriverManager.getConnection(URL, props);
              PreparedStatement preparedStatement = connection.prepareStatement(QUERY_FIND_REMEDY)) {
             preparedStatement.setString(1, "%" + name + "%");
@@ -28,12 +28,14 @@ public class SQLRemedyDAO extends SQLConnectionHelper implements RemedyDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Remedy remedy = createRemedy(resultSet);
-                remedies.add(remedy);
+                result.getRemedies().add(remedy);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
-        return remedies;
+        result.setFoundRemediesNumber(getFoundRemediesNumber(name));
+
+        return result;
     }
 
     private Remedy createRemedy(ResultSet resultSet) throws SQLException {
@@ -42,20 +44,36 @@ public class SQLRemedyDAO extends SQLConnectionHelper implements RemedyDAO {
         remedy.setName(resultSet.getString("name"));
         remedy.setPacking(resultSet.getString("packing"));
         remedy.setMaker(resultSet.getString("maker"));
-        remedy.setRemainder(resultSet.getInt("remainder"));
+        remedy.setQuantity(resultSet.getInt("quantity"));
         remedy.setPrice(resultSet.getDouble("price"));
+        remedy.setReceipt(resultSet.getString("receipt").charAt(0));
         return remedy;
     }
 
-    public boolean update(Map<String, String> parameters) {
+    private static int getFoundRemediesNumber (String remedyName) throws DAOException {
+        int foundRemediesNumber =0;
+        try(Connection connection = DriverManager.getConnection(URL, props);
+        PreparedStatement preparedStatement = connection.prepareStatement(QUERY_COUNT_SIMULAR_REMEDIES)){
+            preparedStatement.setString(1, "%"+remedyName+"%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                foundRemediesNumber = resultSet.getInt(1);
+            }
+        }catch (SQLException ex){
+            throw new DAOException();
+        }
+        return foundRemediesNumber;
+    }
+
+    public boolean updateRemedy(Map<String, String> parameters) {
         return true;
     }
 
-    public boolean add(Map<String, String> parameters) {
+    public boolean addRemedy(Map<String, String> parameters) {
         return true;
     }
 
-    public boolean delete(Map<String, String> parameters) {
+    public boolean deleteRemedy(Map<String, String> parameters) {
         return true;
     }
 }

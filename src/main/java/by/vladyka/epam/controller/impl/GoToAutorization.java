@@ -14,7 +14,7 @@ public class GoToAutorization implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
         String url = URLRestorer.restoreURL(req);
-        req.getSession(false).setAttribute("previous_url", url);
+        req.getSession(true).setAttribute("previous_url", url);
         req.getRequestDispatcher(AUTHORIZATION).forward(req, response);
     }
 }

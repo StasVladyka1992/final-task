@@ -7,6 +7,7 @@ import java.io.Serializable;
  * on 17.02.2019 at 13:39
  **/
 public class User implements Serializable {
+    private static final long serialVersionUID = -8641397894979627026L;
     private int idUser;
     private String email;
     private String firstName;

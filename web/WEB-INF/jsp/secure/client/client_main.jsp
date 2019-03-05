@@ -5,35 +5,43 @@
   Time: 16:41
   To change this template use File | Settings | File Templates.
 --%>
-<
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link rel="stylesheet" href="../../../../styles/user_main.css">
 <%@ include file="../../constant_part/navbar.jsp" %>
-
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-2">
-            <a href="#remedy" data-toggle="collapse">Collapsible</a>
-            <div class="collapse" id="remedy">
-                <p>Here you can order a remedy or you can check it's existance. <a href="/secure?command=go_to_remedy">Find remedy</a></p>
+    <div class="d-flex flex-wrap justify-content-around mt-1">
+        <div class="card mt-1 mb-1">
+            <img class="card-img-top" src="../../../../images/remedy_searching.jpeg">
+            <div class="card-body">
+                <h5 class="card-title text-center">Поиск медицинских препаратов</h5>
+                <p class="card-text">Поиск медицинских препаратов, добавление в корзину и покупка</p>
+                <div class="d-flex justify-content-around">
+                    <a href="/secure?command=go_to_remedy" type="button" class="btn btn-success">Далее</a>
+                </div>
             </div>
         </div>
-        <div class="col-sm-2">
-            <a href="#receipt" data-toggle="collapse">Collapsible</a>
-            <div class="collapse" id="receipt">
-                <p>You can ask your doctor from here for remedy receipt. <a href="">Ask for receipt</a></p>
+        <div class="card mt-1 mb-1">
+            <img class="card-img-top" src="../../../../images/doctor_receipt.jpg">
+            <div class="card-body">
+                <h5 class="card-title text-center">Обращение за рецептом</h5>
+                <p class="card-text">Обращение к врачу для выписки или продления электронного рецепта</p>
+                <div class="d-flex justify-content-around">
+                    <a href="#" type="button" class="btn btn-success">Далее</a>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-1 mb-1">
+            <img class="card-img-top" src="../../../../images/personal_data.jpeg">
+            <div class="card-body">
+                <h5 class="card-title text-center">Редактирование личных данных</h5>
+                <p class="card-text">Редактирование личных учетных данных</p>
+                <div class="d-flex justify-content-around">
+                    <a href="#" type="button" class="btn btn-success ">Далее</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<a href="/index?command=command">empty command</a>
 <div class="container-fluid fixed-bottom" id="footer">
-<%@ include file="../../constant_part/footer.jsp"%>
+    <%@ include file="../../constant_part/footer.jsp" %>
 </div>
-</body>
-</html>

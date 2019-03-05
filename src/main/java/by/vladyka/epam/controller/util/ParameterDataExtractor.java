@@ -1,5 +1,7 @@
 package by.vladyka.epam.controller.util;
 
+import by.vladyka.epam.entity.Remedy;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -9,6 +11,8 @@ import java.util.Map;
  * Created by Vladyka Stas
  * on 21.02.2019 at 2:10
  **/
+
+
 public final class ParameterDataExtractor {
     public static Map<String, String> extractAllParameters(HttpServletRequest req) {
         Map<String, String> parameters = new HashMap<>();
@@ -25,6 +29,20 @@ public final class ParameterDataExtractor {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("email", request.getParameter("email"));
         parameters.put("role", request.getParameter("role"));
+        parameters.put("firstName", request.getParameter("firstName"));
+        parameters.put("lastName", request.getParameter("lastName"));
+        parameters.put("password", request.getParameter("password"));
+        parameters.put("phone", request.getParameter("phone"));
+        return parameters;
+    }
+
+    public static Map<String, String> extractRemedyAddingParameters(HttpServletRequest request){
+        Map<String, String> parameters = new HashMap<>();
+        Remedy remedy = (Remedy)request.getSession(false).getAttribute("remedy");
+
+
+        parameters.put("email", request.getParameter("name"));
+        parameters.put("role", request.getParameter("packing"));
         parameters.put("firstName", request.getParameter("firstName"));
         parameters.put("lastName", request.getParameter("lastName"));
         parameters.put("password", request.getParameter("password"));

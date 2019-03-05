@@ -26,11 +26,9 @@
     <link rel='stylesheet prefetch'
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
     <link rel="stylesheet" href="../../../styles/constant_part.css">
-
 </head>
 <body>
-
-<nav class="navbar navbar-expand-sm fixed-top" id="navbar">
+<nav class="navbar navbar-expand-sm" id="navbar">
     <img class="navbar-brand" src="images/logo.jpeg">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="fa fa-navicon"></span>
@@ -57,7 +55,6 @@
                         <a class="dropdown-item" href="/index?command=change_language&language=en">${en}</a>
                     </div>
                 </li>
-
                 <c:if test="${sessionScope.user ==null}">
                     <li class="nav-item">
                         <a class="nav-link" href="/index?command=go_to_registration">${registration}</a>
@@ -65,8 +62,6 @@
                 </c:if>
                 <c:if test="${sessionScope.user!=null}">
                 </c:if>
-
-
                 <c:if test="${sessionScope.user ==null}">
                     <li class="nav-item">
                         <a class="nav-link" href="/index?command=go_to_authorization">${signIn}</a>
@@ -81,9 +76,6 @@
         </div>
     </div>
 </nav>
-</br>
-</br>
-</br>
-</br>
+
 </body>
 </html>

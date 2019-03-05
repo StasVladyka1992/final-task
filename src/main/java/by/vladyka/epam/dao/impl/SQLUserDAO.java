@@ -74,7 +74,7 @@ public class SQLUserDAO extends SQLConnectionHelper implements UserDAO {
              PreparedStatement statement = connection.prepareStatement(QUERY_CHECK_MAIL_USAGE)) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 foundedEmailsNumber = resultSet.getInt(1);
                 if (foundedEmailsNumber >= 1) {
                     return true;

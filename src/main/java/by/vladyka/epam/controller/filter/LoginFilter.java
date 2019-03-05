@@ -23,7 +23,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
+        if (session.getAttribute("user") == null || session==null) {
             request.getRequestDispatcher(GO_TO_AUTHORIZATION).forward(request, response);
         } else {
             filterChain.doFilter(request, response);

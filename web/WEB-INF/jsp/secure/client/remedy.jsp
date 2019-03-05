@@ -10,24 +10,25 @@
 <fmt:message bundle="${loc}" key="name" var="name"/>
 <fmt:message bundle="${loc}" key="packing" var="packing"/>
 <fmt:message bundle="${loc}" key="maker" var="maker"/>
-<fmt:message bundle="${loc}" key="remainder" var="remainder"/>
+<fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<fmt:message bundle="${loc}" key="next" var="next"/>
+<fmt:message bundle="${loc}" key="previous" var="previous"/>
+<fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
+<fmt:message bundle="${loc}" key="search" var="search"/>
+<fmt:message bundle="${loc}" key="yDefenition" var="yDefenition"/>
+
 <div class="container-fluid">
     <h4>Поиск медицинского препарата:</h4>
     <form action="/secure?command=find_remedy" method="post">
         <div class="form-row align-items-center">
             <div class="col-sm-5 my-1">
-                <input type="text" class="form-control" name="name" placeholder="Введите название медпрепарата"
+                <input type="text" class="form-control" name="remedyName" placeholder="Введите название медпрепарата"
                        required>
             </div>
             <div class="col-auto my-1">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">${search}</button>
             </div>
         </div>
         <div class="col-auto my-1">
@@ -37,64 +38,78 @@
                     Показывать только те, которые в наличии
                 </label>
             </div>
+            <input type="hidden" name="currentPage" value="1"/>
         </div>
     </form>
 </div>
-
-<c:if test="${remedyList.size()!=0 || remedList !=null}">
-    <div class="col-sm-10">
-        <table class="table table-hover table-bordered">
-            <thead>
-            <th class="align-middle"><c:out value="${name}"/></th>
-            <th class="align-middle"><c:out value="${packing}"/></th>
-            <th class="align-middle"><c:out value="${maker}"/></th>
-            <th class="align-middle"><c:out value="${remainder}"/></th>
-            <th class="align-middle"><c:out value="${price}"/></th>
-            </thead>
+<div class="table-responsive-md">
+    <table class="table table-bordered">
+        <thead>
+        <th class="align-middle"><c:out value="${name}"/></th>
+        <th class="align-middle"><c:out value="${packing}"/></th>
+        <th class="align-middle"><c:out value="${maker}"/></th>
+        <th class="align-middle"><c:out value="${quantity}"/></th>
+        <th class="align-middle"><c:out value="${price}"/></th>
+        <th class="align-middle"><c:out value="${receipt}"/></th>
+        </thead>
+        <c:if test="${remedyList.size()!=0 || remedyList !=null}">
             <c:forEach var="remedy" items="${remedyList}">
                 <tr>
                     <td><c:out value="${remedy.name}"/></td>
                     <td><c:out value="${remedy.packing}"/></td>
                     <td><c:out value="${remedy.maker}"/></td>
-                    <td><c:out value="${remedy.remainder}"/></td>
+                    <td><c:out value="${remedy.quantity}"/></td>
                     <td><c:out value="${remedy.price}"/></td>
-                    <td><a href="#">Купить</a> <a href="#" value="Купить">Добавить в корзину</a></td>
+                    <td><c:out value="${remedy.receipt}"/></td>
+                    <td><a href="#">Купить</a>
+                        <a href="#" value="Купить">Добавить в корзину</a>
+                        <c:if test="${remedy.receipt == 'y'.charAt(0)}">
+                            <a href="#">Заявка на рецепт</a>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
-        </table>
-    </div>
-    </div>
-</c:if>
-<c:if test="${pagesNumber!=1}">
+        </c:if>
+        <c:if test="${remedyList.size()==0}">
+            <tr>
+                <td colspan="6"><c:out value="${nothingFound}"/></td>
+            </tr>
+        </c:if>
+    </table>
+    <c:if test="${remedyList.size()!=0&& remedyList !=null}">
+        <p><span id='star'>*</span>${yDefenition}</p>
+    </c:if>
+</div>
+<c:if test="${sessionScope.pagesNumber>1}">
     <ul class="pagination justify-content-center">
         <!--available "Previous" link-->
         <c:if test="${currentPage>1}">
             <li class="page-item"><a class="page-link"
-                                     href="/secure?currentPage=${currentPage-1}&command=find_remedy"><c:out
-                    value="${previousP}"/></a>
+                                     href="/secure?command=find_remedy&currentPage=${currentPage-1}"><c:out
+                    value="${previous}"/></a>
             </li>
         </c:if>
         <!--disabled "Previous" link-->
         <c:if test="${currentPage==1}">
-            <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${previousP}"/></a></li>
+            <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${previous}"/></a></li>
         </c:if>
         <!--setting  query's parameters depending on clicked page-->
         <c:forEach begin="${1}" end="${pagesNumber}" var="i">
             <c:choose>
                 <c:when test="${currentPage==i}">
                     <li class="page-item active"><a class="page-link"
-                                                    href="/secure?currentPage=${i}&command=find_remedy">${i}</a>
+                                                    href="/secure?command=find_remedy&currentPage=${i}">${i}</a>
                     </li>
                 </c:when>
                 <c:when test="${i!=currentPage}">
                     <c:if test="${i>currentPage}">
                         <li class="page-item"><a class="page-link"
-                                                 href="/secure?currentPage=${i}&command=find_remedy">${i}</a>
+                                                 href="/secure?command=find_remedy&currentPage=${i}">${i}</a>
                         </li>
                     </c:if>
                     <c:if test="${i<currentPage}">
                         <li class="page-item"><a class="page-link"
-                                                 href="/secure?currentPage=${i}&command=find_remedy">${i}</a>
+                                                 href="/secure?command=find_remedy&currentPage=${i}">${i}</a>
                         </li>
                     </c:if>
                 </c:when>
@@ -103,18 +118,17 @@
         <!--available "Next" link-->
         <c:if test="${currentPage+1<=pagesNumber}">
             <li class="page-item"><a class="page-link"
-                                     href="/secure?currentPage=${currentPage+1}&command=find_remedy"><c:out
-                    value="${nextP}"/></a>
+                                     href="/secure?command=find_remedy&currentPage=${currentPage+1}"><c:out
+                    value="${next}"/></a>
             </li>
         </c:if>
         <!--disabled "Next" link-->
         <c:if test="${currentPage==pagesNumber}">
-            <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${nextP}"/></a></li>
+            <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${next}"/></a></li>
         </c:if>
     </ul>
 </c:if>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>
 </div>
-</body>
-</html>
+

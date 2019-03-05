@@ -7,9 +7,8 @@
         </div>
     </div>
 </div>
+
 <div class="container-fluid fixed-bottom" id="footer">
 <%@ include file="constant_part/footer.jsp"%>
 </div>
-</body>
-</html>
 

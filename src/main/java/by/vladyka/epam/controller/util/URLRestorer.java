@@ -21,5 +21,4 @@ public final class URLRestorer {
         url = req.getRequestURL() + "?" + url;
         return url;
     }
-
 }

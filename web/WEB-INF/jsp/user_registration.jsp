@@ -92,5 +92,3 @@
 <div class="container-fluid" id="footer">
     <%@ include file="constant_part/footer.jsp" %>
 </div>
-</body>
-</html>
