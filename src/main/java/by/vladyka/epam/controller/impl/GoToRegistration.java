@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.REGISTRATION;
+import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
 
 /**
  * Created by Vladyka Stas
@@ -17,8 +18,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REGISTRATION;
 public class GoToRegistration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = URLRestorer.restoreURL(req);
-        req.getSession(true).setAttribute("previous_url", url);
+        rememberLastPage(req);
         req.getRequestDispatcher(REGISTRATION).forward(req, resp);
     }
 }

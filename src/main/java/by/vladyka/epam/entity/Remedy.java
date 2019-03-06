@@ -7,8 +7,7 @@ import java.io.Serializable;
  * on 26.02.2019 at 1:38
  **/
 public class Remedy implements Serializable {
-
-
+    private static final long serialVersionUID = -8323226256168843003L;
     private int idRemedy;
     private String name;
     private String packing;

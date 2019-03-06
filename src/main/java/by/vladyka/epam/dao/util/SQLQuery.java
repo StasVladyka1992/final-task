@@ -12,6 +12,6 @@ public final class SQLQuery {
     public static final String QUERY_CHECK_MAIL_USAGE = "SELECT COUNT(email) FROM users WHERE email=?";
     
     //remedy's queries
-    public static final String QUERY_FIND_REMEDY = "SELECT * FROM remedies WHERE name LIKE? LIMIT ?,?";
-    public static final String QUERY_COUNT_SIMULAR_REMEDIES = "SELECT COUNT(name) FROM remedies WHERE name LIKE?";
+    public static final String QUERY_FIND_REMEDY = "SELECT * FROM remedies WHERE remedyName LIKE? LIMIT ?,?";
+    public static final String QUERY_COUNT_SIMULAR_REMEDIES = "SELECT COUNT(name) FROM remedies WHERE remedyName LIKE?";
 }

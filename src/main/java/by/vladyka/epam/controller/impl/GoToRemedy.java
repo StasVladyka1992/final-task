@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
+import static by.vladyka.epam.controller.util.ParameterName.USER;
 import static by.vladyka.epam.controller.util.UserNavigationManager.remedy_searching_scenarios;
 /**
  * Created by Vladyka Stas
@@ -20,9 +22,8 @@ public class GoToRemedy implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
-        String url = URLRestorer.restoreURL(req);
-        session.setAttribute("previous_url", url);
-        User user = (User)session.getAttribute("user");
+        rememberLastPage(req);
+        User user = (User)session.getAttribute(USER);
         String navigationCommand = remedy_searching_scenarios.get(user.getRole());
         req.getRequestDispatcher(navigationCommand).forward(req, resp);
     }

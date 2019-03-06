@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_AUTHORIZATION;
+import static by.vladyka.epam.controller.util.ParameterName.USER;
 
 /**
  * Created by Vladyka Stas
@@ -23,7 +24,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
 
-        if (session.getAttribute("user") == null || session==null) {
+        if (session.getAttribute(USER) == null || session==null) {
             request.getRequestDispatcher(GO_TO_AUTHORIZATION).forward(request, response);
         } else {
             filterChain.doFilter(request, response);

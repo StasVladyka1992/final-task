@@ -15,15 +15,14 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
  **/
 public final class CredentialsValidator extends AbstractValidator {
 
-    public boolean authorizationDataValidator(String email, String password) {
+    public boolean isAuthorizationDataCorrect(String email, String password) {
         boolean isEmailCorrect = checkEmailAndSetMessage(email);
         boolean isPasswordCorrect = checkPasswordAndSetMessage(password);
-
         boolean result = isEmailCorrect && isPasswordCorrect;
         return result;
     }
 
-    public boolean registrationDataValidator(Map<String, String> userData) {
+    public boolean isRegistrationDataCorrect(Map<String, String> userData) {
         boolean isEmailCorrect = checkEmailAndSetMessage(userData.get("email"));
         boolean isPasswordCorrect = checkPasswordAndSetMessage(userData.get("password"));
         boolean isFirstNameCorrect = checkNameAndSetMessage(userData.get("firstName"));

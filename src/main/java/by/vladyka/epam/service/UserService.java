@@ -12,6 +12,5 @@ import java.util.Map;
  **/
 public interface UserService<T extends User> {
     boolean registration(Map<String, String> userData) throws ServiceException;
-
     T authorization(String email, String password) throws ServiceException;
 }

@@ -13,7 +13,7 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.REME
  **/
 public final class RemedyInfoValidator extends AbstractValidator {
 
-    public boolean searchingParametersValidator(String remedyName) {
+    public boolean isSearchingParametersCorrect(String remedyName) {
         return checkRemedyNameAndSetMessage(remedyName);
     }
 

@@ -1,20 +1,11 @@
 package by.vladyka.epam.controller.impl;
 
 import by.vladyka.epam.controller.Command;
-import by.vladyka.epam.controller.util.URLRestorer;
-import by.vladyka.epam.entity.RemedySearchingResult;
-import by.vladyka.epam.service.ServiceCreator;
-import by.vladyka.epam.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REMEDY;
-import static by.vladyka.epam.controller.util.Pagination.*;
-import static by.vladyka.epam.controller.util.Pagination.calculatePagesNumber;
 
 /**
  * Created by Vladyka Stas
@@ -27,7 +18,7 @@ public class AddRemedy implements Command {
 //        int currentPage = Integer.parseInt(req.getParameter("currentPage"));
 //        int startPosition = calculateStartPosition(currentPage);
 //        RemedySearchingResult remedySearchingResult;
-//        ServiceCreator creator = ServiceCreator.getInstance();
+//        ServiceProvider creator = ServiceProvider.getInstance();
 //        try {
 //            remedySearchingResult = creator.getRemedyService().find(remedyName, startPosition, OFFSET);
 //        } catch (ServiceException ex) {

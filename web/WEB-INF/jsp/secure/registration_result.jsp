@@ -21,8 +21,8 @@
 </h3>
 </br>
 <c:out value="${userMessageBeforeTable}"></c:out>
-<div class="table-responsive col-sm-8 table-bordered">
-    <table class="table">
+<div class="table-responsive-md col-sm-10">
+    <table class="table col-sm-10 table-bordered">
         <thead>
         <tr>
             <th>${firstName}</th>

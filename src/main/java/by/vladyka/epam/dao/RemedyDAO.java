@@ -12,8 +12,8 @@ import java.util.Map;
  * on 26.02.2019 at 1:59
  **/
 public interface RemedyDAO {
-    public RemedySearchingResult findRemedy(String name, int start, int offset) throws DAOException;
-    public boolean updateRemedy(Map<String, String> parameters) throws DAOException;
-    public boolean addRemedy(Map<String, String> parameters) throws DAOException;
-    public boolean deleteRemedy(Map<String, String> parameters) throws DAOException;
+    RemedySearchingResult findRemedy(String name, int start, int offset) throws DAOException;
+    boolean updateRemedy(Map<String, String> parameters) throws DAOException;
+    boolean addRemedy(Map<String, String> parameters) throws DAOException;
+    boolean deleteRemedy(Map<String, String> parameters) throws DAOException;
 }

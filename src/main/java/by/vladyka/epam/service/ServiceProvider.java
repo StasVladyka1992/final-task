@@ -7,8 +7,8 @@ import by.vladyka.epam.service.impl.UserServiceImpl;
  * Created by Vladyka Stas
  * on 17.02.2019 at 14:50
  **/
-public class ServiceCreator {
-    private static final ServiceCreator instance = new ServiceCreator();
+public class ServiceProvider {
+    private static final ServiceProvider instance = new ServiceProvider();
     private final UserServiceImpl userService = new UserServiceImpl();
     private final RemedyServiceImpl remedyService = new RemedyServiceImpl();
 
@@ -20,7 +20,7 @@ public class ServiceCreator {
         return remedyService;
     }
 
-    public static ServiceCreator getInstance() {
+    public static ServiceProvider getInstance() {
         return instance;
     }
 }

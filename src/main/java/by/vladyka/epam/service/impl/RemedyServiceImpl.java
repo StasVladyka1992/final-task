@@ -1,14 +1,12 @@
 package by.vladyka.epam.service.impl;
 
-import by.vladyka.epam.dao.DAOCreator;
+import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.exception.DAOException;
-import by.vladyka.epam.entity.Remedy;
 import by.vladyka.epam.entity.RemedySearchingResult;
 import by.vladyka.epam.service.RemedyService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.RemedyInfoValidator;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,15 +19,15 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public RemedySearchingResult find(String name, int start, int offset) throws ServiceException {
         remedyInfoValidator = new RemedyInfoValidator();
-        boolean validationResult = remedyInfoValidator.searchingParametersValidator(name);
+        boolean validationResult = remedyInfoValidator.isSearchingParametersCorrect(name);
         if (!validationResult) {
             incorrectDataMessages = remedyInfoValidator.getIncorrectMessages();
             return null;
         }
         RemedySearchingResult remedySearchingResult;
-        DAOCreator daoCreator = DAOCreator.getInstance();
+        DAOProvider daoProvider = DAOProvider.getInstance();
         try {
-            remedySearchingResult = daoCreator.getSQLRemedyDAO().findRemedy(name, start, offset);
+            remedySearchingResult = daoProvider.getSQLRemedyDAO().findRemedy(name, start, offset);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }

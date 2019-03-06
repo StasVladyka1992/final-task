@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
+
 public interface Command {
     void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
-    default void rememberLastPage (HttpServletRequest req){
+    default void rememberLastPage (HttpServletRequest req) {
         HttpSession session = req.getSession(true);
         String url = URLRestorer.restoreURL(req);
-        session.setAttribute("previous_url", url);
+        session.setAttribute(PREVIOUS_URL, url);
     }
 }

@@ -7,9 +7,7 @@ import java.util.Map;
 
 public interface UserDAO {
     User authentication(String login, String password) throws DAOException;
-
     boolean registration(Map<String, String> userData) throws DAOException;
-
     boolean updatePersonalInfo(Map<String, String> userData) throws DAOException;
 }
 

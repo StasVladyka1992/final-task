@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>by.vladyka.epam</groupId>
-    <artifactId>final-task</artifactId>
+    <artifactId>FinalTask</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>final-task</name>
+    <name>FinalTask</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -45,6 +45,16 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
             <version>5.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.2</version>
         </dependency>
     </dependencies>
     <build>

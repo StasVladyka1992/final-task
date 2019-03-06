@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.AUTHORIZATION;
+import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
 
 public class GoToAutorization implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
-        String url = URLRestorer.restoreURL(req);
-        req.getSession(true).setAttribute("previous_url", url);
+        rememberLastPage(req);
         req.getRequestDispatcher(AUTHORIZATION).forward(req, response);
     }
 }

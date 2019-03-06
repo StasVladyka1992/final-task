@@ -18,13 +18,19 @@
 <fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
 <fmt:message bundle="${loc}" key="search" var="search"/>
 <fmt:message bundle="${loc}" key="yDefenition" var="yDefenition"/>
+<fmt:message bundle="${loc}" key="searchingRemedyPlaceholder" var="searchingRemedyPlaceholder"/>
+<fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
+<fmt:message bundle="${loc}" key="buy" var="buy"/>
+<fmt:message bundle="${loc}" key="addToBasket" var="addToBasket"/>
+<fmt:message bundle="${loc}" key="appealForReceipt" var="appealForReceipt"/>
+<fmt:message bundle="${loc}" key="showOnlyInStock" var="showOnlyInStock"/>
 
 <div class="container-fluid">
-    <h4>Поиск медицинского препарата:</h4>
+    <h4>${remedySearching}</h4>
     <form action="/secure?command=find_remedy" method="post">
         <div class="form-row align-items-center">
             <div class="col-sm-5 my-1">
-                <input type="text" class="form-control" name="remedyName" placeholder="Введите название медпрепарата"
+                <input type="text" class="form-control" name="remedyName" placeholder="${searchingRemedyPlaceholder}"
                        required>
             </div>
             <div class="col-auto my-1">
@@ -35,7 +41,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="isExist" value="true" id="existence">
                 <label class="form-check-label" for="existence">
-                    Показывать только те, которые в наличии
+                ${showOnlyInStock}
                 </label>
             </div>
             <input type="hidden" name="currentPage" value="1"/>
@@ -61,10 +67,10 @@
                     <td><c:out value="${remedy.quantity}"/></td>
                     <td><c:out value="${remedy.price}"/></td>
                     <td><c:out value="${remedy.receipt}"/></td>
-                    <td><a href="#">Купить</a>
-                        <a href="#" value="Купить">Добавить в корзину</a>
+                    <td><a href="#">${buy}</a>
+                        <a href="#" value="Купить">${addToBasket}</a>
                         <c:if test="${remedy.receipt == 'y'.charAt(0)}">
-                            <a href="#">Заявка на рецепт</a>
+                            <a href="#">${appealForReceipt}</a>
                         </c:if>
                     </td>
                 </tr>

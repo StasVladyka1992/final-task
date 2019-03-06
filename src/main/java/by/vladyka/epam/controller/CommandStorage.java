@@ -6,23 +6,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandStorage {
+
+    private static final String GO_TO_DEFAULT = "go_to_default";
+    private static final String GO_TO_AUTHORIZATION = "go_to_authorization";
+    private static final String GO_TO_REGISTRATION = "go_to_registration";
+    private static final String CHANGE_LANGUAGE = "change_language";
+    private static final String AUTHORIZATION = "authorization";
+    private static final String REGISTRATION = "registration";
+    private static final String USER_INFO_AFTER_REGISTRATION = "user_info_after_registration";
+    private static final String AUTHORIZED_USER_MAIN_PAGE = "authorized_user_main_page";
+    private static final String SIGN_OUT = "sign_out";
+    private static final String GO_TO_CLIENT_MAIN = "go_to_client_main";
+    private static final String GO_TO_PHARMACIST_MAIN = "go_to_pharmacist_main";
+    private static final String GO_TO_REMEDY = "go_to_remedy";
+    private static final String FIND_REMEDY = "find_remedy";
+    private static final String GO_TO_REMEDY_ADMINISTRATION = "go_to_remedy_administration";
+
     private Map<String, Command> commands = new HashMap<>();
 
     public CommandStorage() {
-        commands.put("go_to_default", new GoToDefault());
-        commands.put("go_to_authorization", new GoToAutorization());
-        commands.put("go_to_registration", new GoToRegistration());
-        commands.put("change_language", new ChangeLanguage());
-        commands.put("authorization", new UserAuthorization());
-        commands.put("registration", new UserRegistration());
-        commands.put("user_info_after_registration", new UserInfoAfterRegistration());
-        commands.put("authorized_user_main_page", new GoToAuthorizedMain());
-        commands.put("sign_out", new UserSignOut());
-        commands.put("go_to_client_main", new GoToClientMain());
-        commands.put("go_to_pharmacist_main", new GoToPharmacistMain());
-        commands.put("go_to_remedy", new GoToRemedy());
-        commands.put("find_remedy", new FindRemedy());
-        commands.put("go_to_remedy_administration", new RemedyAdministration());
+        commands.put(GO_TO_DEFAULT, new GoToDefault());
+        commands.put(GO_TO_AUTHORIZATION, new GoToAutorization());
+        commands.put(GO_TO_REGISTRATION, new GoToRegistration());
+        commands.put(CHANGE_LANGUAGE, new ChangeLanguage());
+        commands.put(AUTHORIZATION, new UserAuthorization());
+        commands.put(REGISTRATION, new UserRegistration());
+        commands.put(USER_INFO_AFTER_REGISTRATION, new UserInfoAfterRegistration());
+        commands.put(AUTHORIZED_USER_MAIN_PAGE, new GoToAuthorizedMain());
+        commands.put(SIGN_OUT, new UserSignOut());
+        commands.put(GO_TO_CLIENT_MAIN, new GoToClientMain());
+        commands.put(GO_TO_PHARMACIST_MAIN, new GoToPharmacistMain());
+        commands.put(GO_TO_REMEDY, new GoToRemedy());
+        commands.put(FIND_REMEDY, new FindRemedy());
+        commands.put(GO_TO_REMEDY_ADMINISTRATION, new RemedyAdministration());
     }
 
     public Command getCommand(String command) {

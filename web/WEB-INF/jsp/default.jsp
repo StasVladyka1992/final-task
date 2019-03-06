@@ -3,11 +3,10 @@
 <div class="container">
     <div class="jumbotron col-md-5 ml-auto mr-auto">
         <div class="container">
-            <h3>Хотите стать пользователем? </h3>
+            <h3>Онлайн-аптека</h3>
         </div>
     </div>
 </div>
-
 <div class="container-fluid fixed-bottom" id="footer">
 <%@ include file="constant_part/footer.jsp"%>
 </div>

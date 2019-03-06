@@ -3,15 +3,14 @@ package by.vladyka.epam.dao;
 import by.vladyka.epam.dao.impl.SQLRemedyDAO;
 import by.vladyka.epam.dao.impl.SQLUserDAO;
 
-public class DAOCreator {
-    private static final DAOCreator instance = new DAOCreator();
+public class DAOProvider {
+    private static final DAOProvider instance = new DAOProvider();
     private final UserDAO sqlUserDao = new SQLUserDAO();
     private final RemedyDAO sqlRemedyDao = new SQLRemedyDAO();
 
-    private DAOCreator() {
-    }
+    private DAOProvider() {}
 
-    public static DAOCreator getInstance(){
+    public static DAOProvider getInstance(){
         return instance;
     }
 

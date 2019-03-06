@@ -1,6 +1,6 @@
 package by.vladyka.epam.service.impl;
 
-import by.vladyka.epam.dao.DAOCreator;
+import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.UserDAO;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.entity.User;
@@ -26,15 +26,15 @@ public class UserServiceImpl implements UserService {
     public boolean registration(Map userData) throws ServiceException {
         //TODO может происходить одновременная регистрация 2 разных пользователей с одной и той же почтой
         credentialsValidator = new CredentialsValidator();
-        boolean isRegistrationDataCorrect = credentialsValidator.registrationDataValidator(userData);
+        boolean isRegistrationDataCorrect = credentialsValidator.isRegistrationDataCorrect(userData);
         if (!isRegistrationDataCorrect) {
             incorrectDataMessages = credentialsValidator.getIncorrectMessages();
             return false;
         }
-        DAOCreator daoCreator = DAOCreator.getInstance();
+        DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isRegistrationPerfomed;
         try {
-            isRegistrationPerfomed = daoCreator.getSQLUserDAO().registration(userData);
+            isRegistrationPerfomed = daoProvider.getSQLUserDAO().registration(userData);
             if (!isRegistrationPerfomed) {
                 incorrectDataMessages = new StringBuilder();
                 incorrectDataMessages.append(USER_EXIST);
@@ -48,11 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User authorization(String email, String password) throws ServiceException {
         credentialsValidator = new CredentialsValidator();
-        if (!credentialsValidator.authorizationDataValidator(email, password)) {
+        if (!credentialsValidator.isAuthorizationDataCorrect(email, password)) {
             return null;
         }
-        DAOCreator daoCreator = DAOCreator.getInstance();
-        UserDAO userDAO = daoCreator.getSQLUserDAO();
+        DAOProvider daoProvider = DAOProvider.getInstance();
+        UserDAO userDAO = daoProvider.getSQLUserDAO();
         User user;
         try {
             user = userDAO.authentication(email, password);

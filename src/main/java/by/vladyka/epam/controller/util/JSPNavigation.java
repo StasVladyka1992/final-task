@@ -27,6 +27,4 @@ public final class JSPNavigation {
     
     public static final String REGISTRATION_RESULT= "/WEB-INF/jsp/secure/registration_result.jsp";
     public static final String GO_TO_REGISTRATION_RESULT = "/secure?command=user_info_after_registration";
-
-
 }

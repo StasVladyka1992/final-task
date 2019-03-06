@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.REMEDY_ADMINISTRATION;
+import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
 
 /**
  * Created by Vladyka Stas
@@ -18,9 +19,8 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REMEDY_ADMINISTRATIO
 public class RemedyAdministration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = URLRestorer.restoreURL(req);
         HttpSession session = req.getSession(true);
-        session.setAttribute("previous_url", url);
+        rememberLastPage(req);
         req.getRequestDispatcher(REMEDY_ADMINISTRATION).forward(req,resp);
     }
 }
