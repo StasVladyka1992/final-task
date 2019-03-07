@@ -1,9 +1,11 @@
 package by.vladyka.epam.dao.impl;
 
 import by.vladyka.epam.controller.util.ParameterName;
+import by.vladyka.epam.dao.AbstractDAO;
 import by.vladyka.epam.dao.UserDAO;
+import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
-import by.vladyka.epam.dao.util.SQLConnectionHelper;
+import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.entity.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -13,21 +15,29 @@ import java.util.Map;
 import static by.vladyka.epam.controller.util.ParameterName.*;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
-public class SQLUserDAO extends SQLConnectionHelper implements UserDAO {
+public class SQLUserDAO extends AbstractDAO implements UserDAO {
+    private static final ConnectionPool pool = ConnectionPool.getInstance();
+
     @Override
     public User authentication(String email, String password) throws DAOException {
         User user = null;
-        try (Connection connection = DriverManager.getConnection(URL, PROPS);
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_CHECK_USER_EXISTANCE)) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = pool.takeConnection();
+            preparedStatement = connection.prepareStatement(QUERY_CHECK_USER_EXISTANCE);
             preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 if (BCrypt.checkpw(password, resultSet.getString(ParameterName.PASSWORD))) {
                     user = createUser(resultSet);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
+        } finally {
+            closeConnection(connection, preparedStatement, resultSet);
         }
         return user;
     }
@@ -43,8 +53,11 @@ public class SQLUserDAO extends SQLConnectionHelper implements UserDAO {
             return false;
         }
         int insertionResult;
-        try (Connection connection = DriverManager.getConnection(URL, PROPS);
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_USER)) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = pool.takeConnection();
+            preparedStatement = connection.prepareStatement(QUERY_INSERT_USER);
             preparedStatement.setString(1, userData.get(EMAIL));
             preparedStatement.setString(2, BCrypt.hashpw(userData.get(ParameterName.PASSWORD), BCrypt.gensalt()));
             preparedStatement.setString(3, userData.get(FIRST_NAME));
@@ -52,10 +65,11 @@ public class SQLUserDAO extends SQLConnectionHelper implements UserDAO {
             preparedStatement.setString(5, userData.get(ROLE));
             preparedStatement.setString(6, userData.get(PHONE));
             insertionResult = preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
+        } finally {
+            closeConnection(connection, preparedStatement);
         }
-
         return insertionResult == 1;
     }
 
@@ -72,18 +86,25 @@ public class SQLUserDAO extends SQLConnectionHelper implements UserDAO {
 
     private boolean isMailOccupied(String email) throws DAOException {
         int foundedEmailsNumber;
-        try (Connection connection = DriverManager.getConnection(URL, PROPS);
-             PreparedStatement statement = connection.prepareStatement(QUERY_CHECK_MAIL_USAGE)) {
-            statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                foundedEmailsNumber = resultSet.getInt(1);
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = pool.takeConnection();
+            ps = con.prepareStatement(QUERY_CHECK_MAIL_USAGE);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                foundedEmailsNumber = rs.getInt(1);
                 if (foundedEmailsNumber >= 1) {
                     return true;
                 }
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
+        } finally {
+            closeConnection(con, ps, rs);
         }
         return false;
     }

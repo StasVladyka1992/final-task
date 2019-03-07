@@ -30,8 +30,6 @@ public class UserRegistration implements Command {
     private static final Logger logger = LogManager.getLogger(UserRegistration.class);
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(true);
-        rememberLastPage(req);
         Map<String, String> parameters = ParameterDataExtractor.extractUserRegistrationParameters(req);
         UserService<User> userService = ServiceProvider.getInstance().getUserService();
         boolean isRegistrationSuccessful;
@@ -41,6 +39,8 @@ public class UserRegistration implements Command {
             logger.error(e);
             throw new ServletException();
         }
+        HttpSession session = req.getSession(true);
+        rememberLastPage(req);
         if (isRegistrationSuccessful) {
             User user = new User();
             user.setFirstName(parameters.get(FIRST_NAME));

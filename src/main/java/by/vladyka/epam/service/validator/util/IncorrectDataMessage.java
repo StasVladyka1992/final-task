@@ -17,5 +17,10 @@ public final class IncorrectDataMessage {
     public static final String USER_EXIST = "userExist=true&";
 
     //remedy's incorrect messages
-    public static final String INCORRECT_REMEDY_NAME = "incorrectName=true";
+    public static final String INCORRECT_REMEDY_NAME = "incorrectName=true&";
+    public static final String INCORRECT_PACKING = "incorrectPacking=true&";
+    public static final String INCORRECT_MAKER = "incorrectMaker=true&";
+    public static final String INCORRECT_QUANTITY = "incorrectQuantity=true&";
+    public static final String INCORRECT_PRICE = "incorrectPrice=true&";
+    public static final String INCORRECT_RECEIPT = "incorrectReceipt=true&";
 }

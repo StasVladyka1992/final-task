@@ -1,27 +1,24 @@
 package by.vladyka.epam.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vladyka Stas
  * on 26.02.2019 at 1:38
  **/
 public class Remedy implements Serializable {
-    private static final long serialVersionUID = -8323226256168843003L;
+    private static final long serialVersionUID = -3165863950136927834L;
     private int idRemedy;
     private String name;
-    private String packing;
+    private Packing packing;
     private String maker;
     private int quantity;
     private double price;
     private char receipt;
 
-    public char getReceipt() {
-        return receipt;
-    }
-
-    public void setReceipt(char receipt) {
-        this.receipt = receipt;
+    public Remedy() {
     }
 
     public int getIdRemedy() {
@@ -40,11 +37,11 @@ public class Remedy implements Serializable {
         this.name = name;
     }
 
-    public String getPacking() {
+    public Packing getPacking() {
         return packing;
     }
 
-    public void setPacking(String packing) {
+    public void setPacking(Packing packing) {
         this.packing = packing;
     }
 
@@ -72,6 +69,14 @@ public class Remedy implements Serializable {
         this.price = price;
     }
 
+    public char getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(char receipt) {
+        this.receipt = receipt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,7 +89,7 @@ public class Remedy implements Serializable {
         if (Double.compare(remedy.price, price) != 0) return false;
         if (receipt != remedy.receipt) return false;
         if (!name.equals(remedy.name)) return false;
-        if (!packing.equals(remedy.packing)) return false;
+        if (packing != remedy.packing) return false;
         return maker.equals(remedy.maker);
     }
 
@@ -101,5 +106,47 @@ public class Remedy implements Serializable {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (int) receipt;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Remedy{" +
+                "idRemedy=" + idRemedy +
+                ", name='" + name + '\'' +
+                ", packing=" + packing +
+                ", maker='" + maker + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", receipt=" + receipt +
+                '}';
+    }
+
+    public enum Packing {
+        POWDER, PILL, TUBE, STANDARD, ANOTHER;
+
+        @Override
+        public String toString() {
+            return valuesContainer.get(this);
+        }
+
+        private static Map<Packing, String> valuesContainer = new HashMap<>();
+
+        static {
+            valuesContainer.put(PILL, "таблетки");
+            valuesContainer.put(TUBE, "туба");
+            valuesContainer.put(STANDARD, "стандарт");
+            valuesContainer.put(POWDER, "порошок");
+            valuesContainer.put(ANOTHER, "другое");
+        }
+
+        public static Packing getEnumElementByValue(String packingValue) {
+            Packing packing = null;
+            for (Map.Entry<Packing, String> pair : valuesContainer.entrySet()) {
+                if (packingValue.equals(pair.getValue())) {
+                    packing = pair.getKey();
+                }
+            }
+            return packing;
+        }
     }
 }

@@ -13,5 +13,7 @@ public final class SQLQuery {
     
     //remedy's queries
     public static final String QUERY_FIND_REMEDY = "SELECT * FROM remedies WHERE remedyName LIKE? LIMIT ?,?";
-    public static final String QUERY_COUNT_SIMULAR_REMEDIES = "SELECT COUNT(name) FROM remedies WHERE remedyName LIKE?";
+    public static final String QUERY_COUNT_SIMULAR_REMEDIES = "SELECT COUNT(remedyName) FROM remedies WHERE remedyName LIKE?";
+    public static final String QUERY_ADD_REMEDY = "INSERT INTO remedies (remedyName, packing, maker, quantity, price," +
+            " receipt) VALUES (?,?,?,?,?,?)";
 }

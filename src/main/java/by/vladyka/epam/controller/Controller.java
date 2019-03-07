@@ -18,24 +18,30 @@ public class Controller extends HttpServlet {
     //TODO указать welcome page в web.xml
     //TODO сделать отсылку оплаченного счета стр. 163 Head First: Servlets and JSP
     //TODO сделать список лекарств на стартовой странице
-    //TODO сделать валидацию данных формы при помощи js
-    //TODO БД синхронизирует внесение записей сама. А вот доступ к Connection надо syncronize. Можно сделать коллекцию,
-    // которая хранит коннекш concurrent
+    //TODO сделать валидацию данных формы(add_remedy(наименование,производитель) при помощи js, чтоб сохран. введен. инфа
     //TODO Сделать rollback операции при покупке книги.При rollback ПОСЛЕ commit (или в connection pool) сбрасывать настройки Сonnection до default
-    //TODO Сделать connection pool. см. лекцию.
     //TODO просмотреть классы, чтобы не исполнялись пустые команды, если в них не будет потребности в следующих строчках кода
     //TODO если ParameterDataExtractor будет исполняться один раз, то подумать над тем, чтобы сделать его аннонимным
     //TODO сделать всплывающее сообщение о некоректном вводе
     //TODO сделать так, чтобы метод find работал на критериях, как в дз
-    //TODO в случае возникновения exception должно каждый раз выводит разное сообщение
+    //TODO в случае возникновения exception должно каждый раз выводит разное сообщение, т.е. на каждую ошибку - свое сообщение.
+    //TODO Пагинацию сделать через commit
+    //TODO Listener сделан через аннотацию код для замены в web.xml
+    //TODO при создании User в UserRegistration было бы проще сразу же вернуть готовый объект, а не заниматься созданием в Сontroller, то же самое относится и к добавлению Remedy
+    //TODO придумать, как я могу не создавать в каждом классе один и тот же logger
+//    <listener>
+//	<listener-class>
+//    com.mkyong.listener.MyAppServletContextListener
+//            </listener-class>
+//   </listener>
     //!!!ВАЖНО
     //TODO попросить посмотреть реализацию SQLRemedyDAO
-    //TODO интерфейс команда с дефолтным методом rememberLastPage
-
+    //TODO строковые константы - возможно их логичнее сделать вообще в отдельной папке?
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         process(req,resp);
+
     }
 
     @Override

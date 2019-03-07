@@ -39,7 +39,7 @@ public final class CredentialsValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         } else {
-            getIncorrectDataMessages().append(INCORRECT_PASSWORD);
+            incorrectDataMessages.append(INCORRECT_PASSWORD);
             return false;
         }
     }
@@ -49,7 +49,7 @@ public final class CredentialsValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         } else {
-            getIncorrectDataMessages().append(INCORRECT_EMAIL);
+            incorrectDataMessages.append(INCORRECT_EMAIL);
             return false;
         }
     }
@@ -59,8 +59,8 @@ public final class CredentialsValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         } else {
-            if (!getIncorrectDataMessages().toString().contains(INCORRECT_USER_NAME)) {
-                getIncorrectDataMessages().append(INCORRECT_USER_NAME);
+            if (!incorrectDataMessages.toString().contains(INCORRECT_USER_NAME)) {
+                incorrectDataMessages.append(INCORRECT_USER_NAME);
             }
             return false;
         }
@@ -71,7 +71,7 @@ public final class CredentialsValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         }
-        getIncorrectDataMessages().append(INCORRECT_ROLE);
+        incorrectDataMessages.append(INCORRECT_ROLE);
         return false;
     }
 
@@ -80,14 +80,13 @@ public final class CredentialsValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         }
-        getIncorrectDataMessages().append(INCORRECT_PHONE);
+        incorrectDataMessages.append(INCORRECT_PHONE);
         return false;
     }
 
     public StringBuilder getIncorrectMessages() {
-        return getIncorrectDataMessages();
+        return incorrectDataMessages;
     }
-
 }
 
 

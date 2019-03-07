@@ -5,6 +5,9 @@ import by.vladyka.epam.controller.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static by.vladyka.epam.controller.util.JSPNavigation.ADD_REMEDY;
+import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REMEDY_MODIFICATION_RESULT;
+
 public class CommandStorage {
 
     private static final String GO_TO_DEFAULT = "go_to_default";
@@ -21,12 +24,14 @@ public class CommandStorage {
     private static final String GO_TO_REMEDY = "go_to_remedy";
     private static final String FIND_REMEDY = "find_remedy";
     private static final String GO_TO_REMEDY_ADMINISTRATION = "go_to_remedy_administration";
+    private static final String ADD_REMEDY = "add_remedy";
+    private static final String GO_TO_REMEDY_MODIFICATION_RESULT = "go_to_remedy_modification_result";
 
     private Map<String, Command> commands = new HashMap<>();
 
     public CommandStorage() {
         commands.put(GO_TO_DEFAULT, new GoToDefault());
-        commands.put(GO_TO_AUTHORIZATION, new GoToAutorization());
+//        commands.put(GO_TO_AUTHORIZATION, new GoToAutorization());
         commands.put(GO_TO_REGISTRATION, new GoToRegistration());
         commands.put(CHANGE_LANGUAGE, new ChangeLanguage());
         commands.put(AUTHORIZATION, new UserAuthorization());
@@ -38,7 +43,9 @@ public class CommandStorage {
         commands.put(GO_TO_PHARMACIST_MAIN, new GoToPharmacistMain());
         commands.put(GO_TO_REMEDY, new GoToRemedy());
         commands.put(FIND_REMEDY, new FindRemedy());
-        commands.put(GO_TO_REMEDY_ADMINISTRATION, new RemedyAdministration());
+        commands.put(GO_TO_REMEDY_ADMINISTRATION, new GoToRemedyAdministration());
+        commands.put(ADD_REMEDY, new AddRemedy());
+        commands.put(GO_TO_REMEDY_MODIFICATION_RESULT, new GoToRemedyModificationResult());
     }
 
     public Command getCommand(String command) {

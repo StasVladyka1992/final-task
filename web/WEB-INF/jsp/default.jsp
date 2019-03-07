@@ -3,7 +3,7 @@
 <div class="container">
     <div class="jumbotron col-md-5 ml-auto mr-auto">
         <div class="container">
-            <h3>Онлайн-аптека</h3>
+            <h3>Онлайн-аптека<br></h3>
         </div>
     </div>
 </div>

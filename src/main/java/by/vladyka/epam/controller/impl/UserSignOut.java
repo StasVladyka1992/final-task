@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.vladyka.epam.controller.util.JSPNavigation.AUTHORIZATION;
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_AUTHORIZATION;
 import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
 
@@ -22,6 +23,6 @@ public class UserSignOut implements Command {
         HttpSession session = req.getSession(true);
         rememberLastPage(req);
         session.invalidate();
-        resp.sendRedirect(GO_TO_AUTHORIZATION);
+        resp.sendRedirect(AUTHORIZATION);
     }
 }

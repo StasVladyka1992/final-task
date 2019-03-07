@@ -11,7 +11,7 @@
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
 <fmt:message bundle="${loc}" key="remedySearchingMessage" var="remedySearchingMessage"/>
-<fmt:message bundle="${loc}" key="next" var="next"/>
+<fmt:message bundle="${loc}" key="further" var="further"/>
 <fmt:message bundle="${loc}" key="appealForReceipt" var="appealForReceipt"/>
 <fmt:message bundle="${loc}" key="appealForReceiptMessage" var="appealForReceiptMessage"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfo" var="updatePersonalInfo"/>
@@ -24,7 +24,7 @@
                 <h5 class="card-title text-center">${remedySearching}</h5>
                 <p class="card-text">${remedySearchingMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="/secure?command=go_to_remedy" type="button" class="btn btn-success">${next}</a>
+                    <a href="/secure?command=go_to_remedy" type="button" class="btn btn-success">${further}</a>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <h5 class="card-title text-center">${appealForReceipt}</h5>
                 <p class="card-text">${appealForReceiptMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="#" type="button" class="btn btn-success">${next}</a>
+                    <a href="#" type="button" class="btn btn-success">${further}</a>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 <h5 class="card-title text-center">${updatePersonalInfo}</h5>
                 <p class="card-text">${updatePersonalInfoMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="#" type="button" class="btn btn-success ">${next}</a>
+                    <a href="#" type="button" class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  * on 01.03.2019 at 12:08
  **/
 public class Pagination {
-    public static final int OFFSET = 5;
+    public static final int OFFSET = 2;
 
     public static int calculatePagesNumber(RemedySearchingResult remedySearchingResult) {
         int remediesNumber = remedySearchingResult.getFoundRemediesNumber();

@@ -16,10 +16,9 @@ import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
  * Created by Vladyka Stas
  * on 03.03.2019 at 23:17
  **/
-public class RemedyAdministration implements Command {
+public class GoToRemedyAdministration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(true);
         rememberLastPage(req);
         req.getRequestDispatcher(REMEDY_ADMINISTRATION).forward(req,resp);
     }

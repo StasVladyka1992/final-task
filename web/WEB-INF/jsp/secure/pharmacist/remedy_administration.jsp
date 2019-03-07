@@ -28,6 +28,11 @@
 <fmt:message bundle="${loc}" key="remedyAdding" var="remedyAdding"/>
 <fmt:message bundle="${loc}" key="yes" var="yes"/>
 <fmt:message bundle="${loc}" key="no" var="no"/>
+<fmt:message bundle="${loc}" key="powder" var="powder"/>
+<fmt:message bundle="${loc}" key="pill" var="pill"/>
+<fmt:message bundle="${loc}" key="another" var="another"/>
+<fmt:message bundle="${loc}" key="standard" var="standard"/>
+<fmt:message bundle="${loc}" key="tube" var="tube"/>
 
 <div class="container-fluid">
     <h5>${remedyAdministration}</h5>
@@ -127,52 +132,82 @@
     </ul>
 </c:if>
 <div class="container-fluid">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">${add}</button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">${add}</button>
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">${remedyAdding}</h4>
+                    <h5 class="modal-title">${remedyAdding}</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form action="/action_page.php">
+                    <form action="/secure?command=add_remedy" method="post">
                         <div class="form-group">
                             <label for="name">${name}</label>
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" class="form-control" id="name" name="remedyName">
                         </div>
                         <div class="form-group">
                             <label for="packing">${packing}</label>
-                            <input type="text" class="form-control" id="packing">
+                            <select  id="packing" class="custom-select" name="packing">
+                                <option selected value="таблетки">${pill}</option>
+                                <option value="туба">${tube}</option>
+                                <option value="порошок">${powder}</option>
+                                <option value="стандарт">${standard}</option>
+                                <option value="другое">${another}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="maker">${maker}</label>
-                            <input type="text" class="form-control" id="maker">
+                            <input type="text" class="form-control" id="maker" name="maker">
                         </div>
                         <div class="form-group">
                             <label for="quantity">${quantity}</label>
-                            <input type="number" step="1" min=0 class="form-control" id="quantity">
+                            <input type="number" step="1" min=0 class="form-control" id="quantity" name="quantity">
                         </div>
                         <div class="form-group">
                             <label for="price">${price}</label>
-                            <input type="number" min="0.00" step="0.01" class="form-control" id="price">
+                            <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control" id="price"
+                                   name="price">
                         </div>
                         <div class="form-group">
                             <label for="receipt">${receipt}</label>
-                            <select id="receipt" class="custom-select">
+                            <select id="receipt" class="custom-select" name="receipt">
                                 <option selected value="n">${no}</option>
                                 <option value="y">${yes}</option>
                             </select>
                         </div>
+                        <div class="modal-footer" id="addingRemedyModalFooter">
+                            <button type="submit" class="btn btn-primary btn-sm">${add}</button>
+                        </div>
                     </form>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">${add}</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">${close}</button>
+                    <c:if test="${not empty param.userExist}">
+                        <p class="text-danger">
+                            <c:out value="${userExist}"/>
+                        </p>
+                    </c:if>
+                    <c:if test="${not empty param.incorrectName}">
+                        <p class="text-danger">
+                            <c:out value="${incorrectUserName}"/>
+                        </p>
+                    </c:if>
+                    <c:if test="${not empty param.incorrectEmail}">
+                        <p class="text-danger">
+                            <c:out value="${incorrectEmail}"/>
+                        </p>
+                    </c:if>
+                    <c:if test="${not empty param.incorrectPassword}">
+                        <p class="text-danger">
+                            <c:out value="${incorrectPassword}"/>
+                        </p>
+                    </c:if>
+                    <c:if test="${not empty param.incorrectPhone}">
+                        <p class="text-danger">
+                            <c:out value="${incorrectPhone}"/>
+                        </p>
+                    </c:if>
                 </div>
             </div>
         </div>

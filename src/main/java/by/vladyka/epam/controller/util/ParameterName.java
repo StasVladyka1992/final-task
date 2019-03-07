@@ -11,7 +11,7 @@ public class ParameterName {
     public static final String REMEDY_LIST = "remedyList";
     public static final String PAGES_NUMBER = "pagesNumber";
 
-    //password
+    //user's parameters
     public static final String ID_USER = "idUser";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
@@ -20,7 +20,7 @@ public class ParameterName {
     public static final String ROLE = "role";
     public static final String PHONE = "phone";
 
-
+    //remedy's parameters
     public static final String ID_REMEDY = "idRemedy";
     public static final String REMEDY_NAME = "remedyName";
     public static final String PACKING = "packing";

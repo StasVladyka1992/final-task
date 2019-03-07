@@ -29,12 +29,13 @@ public class FindRemedy implements Command {
         String remedyName = saveSearchingName(req, REMEDY_NAME);
         int currentPage = Integer.parseInt(req.getParameter(CURRENT_PAGE));
         int startPosition = calculateStartPosition(currentPage);
-        RemedySearchingResult remedySearchingResult;
+        RemedySearchingResult remedySearchingResult = null;
         ServiceProvider creator = ServiceProvider.getInstance();
         try {
             remedySearchingResult = creator.getRemedyService().find(remedyName, startPosition, OFFSET);
         } catch (ServiceException ex) {
             logger.error(ex);
+            //TODO сделать перевод на страницу с ошибкой, а не выброс исключения
             throw new ServletException();
         }
         HttpSession session = req.getSession(true);

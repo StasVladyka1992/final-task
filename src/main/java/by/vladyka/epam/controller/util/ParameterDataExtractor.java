@@ -38,15 +38,14 @@ public final class ParameterDataExtractor {
         return parameters;
     }
 
-//    public static Map<String, String> extractRemedyAddingParameters(HttpServletRequest request){
-//        Map<String, String> parameters = new HashMap<>();
-//        Remedy remedy = (Remedy)request.getSession(false).getAttribute("remedy");
-//        parameters.put("email", request.getParameter("name"));
-//        parameters.put("role", request.getParameter("packing"));
-//        parameters.put("firstName", request.getParameter("firstName"));
-//        parameters.put("lastName", request.getParameter("lastName"));
-//        parameters.put("password", request.getParameter("password"));
-//        parameters.put("phone", request.getParameter("phone"));
-//        return parameters;
-//    }
+    public static Map<String, String> extractRemedyAddingParameters(HttpServletRequest request){
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(REMEDY_NAME, request.getParameter(REMEDY_NAME));
+        parameters.put(PACKING, request.getParameter(PACKING));
+        parameters.put(MAKER, request.getParameter(MAKER));
+        parameters.put(QUANTITY, request.getParameter(QUANTITY));
+        parameters.put(PRICE, request.getParameter(PRICE));
+        parameters.put(RECEIPT, request.getParameter(RECEIPT));
+        return parameters;
+    }
 }

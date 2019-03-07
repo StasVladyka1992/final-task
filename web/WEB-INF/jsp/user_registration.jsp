@@ -15,7 +15,7 @@
 <fmt:message bundle="${loc}" key="userExist" var="userExist"/>
 <fmt:message bundle="${loc}" key="incorrectPassword" var="incorrectPassword"/>
 <fmt:message bundle="${loc}" key="incorrectEmail" var="incorrectEmail"/>
-<fmt:message bundle="${loc}" key="incorrectName" var="incorrectName"/>
+<fmt:message bundle="${loc}" key="incorrectUserName" var="incorrectUserName"/>
 <fmt:message bundle="${loc}" key="incorrectPhone" var="incorrectPhone"/>
 
 <div class="container-fluid">
@@ -25,7 +25,7 @@
             <form action="/index?command=registration" method="post">
                 <div class="form-group">
                     <label for="email">${email}</label>
-                    <input type="email" id="email" onchange="checkeamil()" name="email" class="form-control" placeholder="newemail@mail.ru"
+                    <input type="email" id="email" name="email" class="form-control" placeholder="newemail@mail.ru"
                            required maxlength="40"/>
                 </div>
                 <div class="form-group">
@@ -63,12 +63,12 @@
             </form>
             <c:if test="${not empty param.userExist}">
                 <p class="text-danger">
-                    <c:out value="${userExist}"></c:out>
+                    <c:out value="${userExist}"/>
                 </p>
             </c:if>
             <c:if test="${not empty param.incorrectName}">
                 <p class="text-danger">
-                    <c:out value="${incorrectName}"/>
+                    <c:out value="${incorrectUserName}"/>
                 </p>
             </c:if>
             <c:if test="${not empty param.incorrectEmail}">

@@ -113,3 +113,8 @@ ul.menu li a i.fa-youtube-play:hover::after {
 #star{
     color: red;
 }
+
+#addingRemedyModalFooter{
+    padding: 0;
+}
+

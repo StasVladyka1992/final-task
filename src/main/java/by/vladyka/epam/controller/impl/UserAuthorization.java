@@ -44,6 +44,7 @@ public class UserAuthorization implements Command {
                 session.setAttribute(USER, user);
                 req.getRequestDispatcher(navigationCommand).forward(req,resp);
             }
+            //TODO не бросать ServletException, а перекидывать на норм страницу
         } catch (ServiceException ex) {
             logger.error(ex);
             throw new ServletException();

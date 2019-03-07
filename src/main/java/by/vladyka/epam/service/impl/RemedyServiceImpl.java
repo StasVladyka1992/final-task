@@ -14,11 +14,11 @@ import java.util.Map;
  * on 26.02.2019 at 1:54
  **/
 public class RemedyServiceImpl implements RemedyService {
-    private RemedyInfoValidator remedyInfoValidator;
+    private RemedyInfoValidator remedyInfoValidator = new RemedyInfoValidator();
     private StringBuilder incorrectDataMessages;
+
     @Override
     public RemedySearchingResult find(String name, int start, int offset) throws ServiceException {
-        remedyInfoValidator = new RemedyInfoValidator();
         boolean validationResult = remedyInfoValidator.isSearchingParametersCorrect(name);
         if (!validationResult) {
             incorrectDataMessages = remedyInfoValidator.getIncorrectMessages();
@@ -40,8 +40,20 @@ public class RemedyServiceImpl implements RemedyService {
     }
 
     @Override
-    public boolean add(Map<String, String> parameters) {
-        return false;
+    public boolean add(Map<String, String> parameters) throws ServiceException {
+        boolean validationResult = remedyInfoValidator.isRemedyAddingDataCorrect(parameters);
+        if (!validationResult) {
+            incorrectDataMessages = remedyInfoValidator.getIncorrectMessages();
+            return false;
+        }
+        DAOProvider daoProvider = DAOProvider.getInstance();
+        boolean isAddingSuccessfull;
+        try {
+            isAddingSuccessfull = daoProvider.getSQLRemedyDAO().addRemedy(parameters);
+        } catch (DAOException ex) {
+            throw new ServiceException(ex);
+        }
+        return isAddingSuccessfull;
     }
 
     @Override
