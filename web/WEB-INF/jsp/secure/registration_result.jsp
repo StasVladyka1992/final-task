@@ -40,7 +40,7 @@
     </table>
 </div>
     <c:out value="${userMessageAfterTable}"></c:out>
-    <a href="/secure?command=authorized_user_main_page"/>${startWork}</a>
+    <a href="/secure?command=go_to_authorized_user_main_page"/>${startWork}</a>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../constant_part/footer.jsp"%>
 </div>

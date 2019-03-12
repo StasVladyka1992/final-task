@@ -58,7 +58,7 @@ public class ConnectionPool {
                 connectionQueue.add(pooledConnection);
             }
         } catch (ClassNotFoundException ex) {
-            throw new ConnectionPoolException("Can't find driver", ex);
+            throw new ConnectionPoolException("Can't findFromStartPosition driver", ex);
         } catch (SQLException ex) {
             throw new ConnectionPoolException("SQLException in connection pool during it's initialization", ex);
         }
@@ -97,6 +97,38 @@ public class ConnectionPool {
             throw new ConnectionPoolException("Error connecting to the data source", ex);
         }
         return connection;
+    }
+
+    public void closeConnection(Connection con, Statement st) {
+        closeStatementAndConnection(con, st);
+    }
+
+    public void closeConnection(Connection con, Statement st, ResultSet resultSet) {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        } catch (SQLException ex) {
+            logger.error("ResultSet wasn't closed", ex);
+        }
+        closeStatementAndConnection(con, st);
+    }
+
+    private void closeStatementAndConnection(Connection con, Statement st) {
+        try {
+            if (st != null) {
+                st.close();
+            }
+        } catch (SQLException ex) {
+            logger.error("Statement wasn't closed", ex);
+        }
+        try {
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException ex) {
+            logger.error("Connection wasn't returned to the pool", ex);
+        }
     }
 
     private class PooledConnection implements Connection {
@@ -396,5 +428,4 @@ public class ConnectionPool {
             return connection.isWrapperFor(iface);
         }
     }
-
 }

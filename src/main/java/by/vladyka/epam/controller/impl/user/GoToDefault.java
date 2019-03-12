@@ -1,4 +1,4 @@
-package by.vladyka.epam.controller.impl;
+package by.vladyka.epam.controller.impl.user;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.util.URLRestorer;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.DEFAULT;
+import static by.vladyka.epam.controller.util.ParameterName.ADMIN_MAIL;
 import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
 
 /**
@@ -18,12 +19,11 @@ import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
  * on 15.02.2019 at 22:17
  **/
 public class GoToDefault implements Command {
-    private static final String ADMIN_MAIL = "adminMail";
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String adminMail = (String) req.getServletContext().getAttribute(ADMIN_MAIL);
         HttpSession session = req.getSession(true);
         rememberLastPage(req);
-        String adminMail = (String) req.getServletContext().getAttribute(ADMIN_MAIL);
         session.setAttribute(ADMIN_MAIL, adminMail);
         req.getRequestDispatcher(DEFAULT).forward(req, resp);
     }

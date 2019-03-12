@@ -1,22 +1,22 @@
-package by.vladyka.epam.controller.impl;
+package by.vladyka.epam.controller.impl.pharmacist;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.service.RemedyService;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.RemedyServiceImpl;
+import by.vladyka.epam.service.validator.impl.RemedyInfoValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Map;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.*;
-import static by.vladyka.epam.controller.util.ParameterDataExtractor.extractRemedyAddingParameters;
+import static by.vladyka.epam.controller.util.ParameterName.*;
+import static by.vladyka.epam.controller.util.ParameterValue.REMEDY_ADD_RESULT_SUCCESS;
 
 /**
  * Created by Vladyka Stas
@@ -27,23 +27,27 @@ public class AddRemedy implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map<String, String> remedyData = extractRemedyAddingParameters(req);
+        String name = req.getParameter(REMEDY_NAME);
+        double price = Double.parseDouble(req.getParameter(PRICE));
+        boolean receiptRequired = Boolean.parseBoolean(req.getParameter(RECEIPT_REQUIRED));
+        String description = req.getParameter(DESCRIPTION);
+
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         RemedyService remedyService = serviceProvider.getRemedyService();
         boolean isAddingSuccessful = false;
         try {
-            isAddingSuccessful = remedyService.add(remedyData);
+            isAddingSuccessful = remedyService.add(name, description, price, receiptRequired);
         } catch (ServiceException e) {
+            //TODO перебросить на страницу с ошибкой
             logger.error(e);
-            //TODO бросить на страницу с ошибкой
         }
         rememberLastPage(req);
         if (!isAddingSuccessful) {
-            String incorrectDataMessages = ((RemedyServiceImpl) remedyService).getIncorrectDataMessages();
-            //TODO сделать валидацию перед отправкой запроса с помощью js.
-            resp.sendRedirect(REMEDY_ADMINISTRATION + incorrectDataMessages);
+            RemedyInfoValidator validator = ((RemedyServiceImpl) remedyService).getRemedyInfoValidator();
+            String incorrectDataMessages = validator.getIncorrectDataMessages().toString();
+            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + incorrectDataMessages);
         } else {
-            resp.sendRedirect(GO_TO_REMEDY_MODIFICATION_RESULT);
+            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION +REMEDY_ADDING_RESULT+"="+ REMEDY_ADD_RESULT_SUCCESS);
         }
     }
 }

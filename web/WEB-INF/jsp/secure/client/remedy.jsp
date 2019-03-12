@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
-<fmt:message bundle="${loc}" key="name" var="name"/>
+<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="packing" var="packing"/>
 <fmt:message bundle="${loc}" key="maker" var="maker"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
@@ -51,7 +51,7 @@
 <div class="table-responsive-md">
     <table class="table table-bordered">
         <thead>
-        <th class="align-middle"><c:out value="${name}"/></th>
+        <th class="align-middle"><c:out value="${remedyName}"/></th>
         <th class="align-middle"><c:out value="${packing}"/></th>
         <th class="align-middle"><c:out value="${maker}"/></th>
         <th class="align-middle"><c:out value="${quantity}"/></th>
@@ -68,7 +68,7 @@
                     <td><c:out value="${remedy.price}"/></td>
                     <td><c:out value="${remedy.receipt}"/></td>
                     <td><a href="#">${buy}</a>
-                        <a href="#" value="Купить">${addToBasket}</a>
+                        <a href="" value="Купить">${addToBasket}</a>
                         <c:if test="${remedy.receipt == 'y'.charAt(0)}">
                             <a href="#">${appealForReceipt}</a>
                         </c:if>

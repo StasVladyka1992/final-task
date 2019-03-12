@@ -23,7 +23,7 @@ public class Pagination {
                 result = 1;
             }
         } else {
-            if (fullPages > 1) {
+            if (fullPages >= 1) {
                 result = fullPages + 1;
             } else {
                 result = 1;

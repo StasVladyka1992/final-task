@@ -5,7 +5,7 @@ package by.vladyka.epam.service.validator;
  * on 01.03.2019 at 16:30
  **/
 public abstract class AbstractValidator {
-    protected StringBuilder incorrectDataMessages = new StringBuilder();
+    private StringBuilder incorrectDataMessages = new StringBuilder();
 
     protected StringBuilder getIncorrectDataMessages() {
         return incorrectDataMessages;
@@ -13,5 +13,9 @@ public abstract class AbstractValidator {
 
     protected void setIncorrectDataMessages(StringBuilder incorrectDataMessages) {
         this.incorrectDataMessages = incorrectDataMessages;
+    }
+
+    protected void addIncorrectDataMessage(String incorrectMessage) {
+        incorrectDataMessages.append(incorrectMessage);
     }
 }

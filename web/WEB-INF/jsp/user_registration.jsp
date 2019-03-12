@@ -17,32 +17,52 @@
 <fmt:message bundle="${loc}" key="incorrectEmail" var="incorrectEmail"/>
 <fmt:message bundle="${loc}" key="incorrectUserName" var="incorrectUserName"/>
 <fmt:message bundle="${loc}" key="incorrectPhone" var="incorrectPhone"/>
+<fmt:message bundle="${loc}" key="incorrectRole" var="incorrectRole"/>
 
-<div class="container-fluid">
-    <div class="card col-5 m-auto">
+
+<%--TODO локализация--%>
+<%--Your email must be 6-40 characters long, contain letters, numbers,".", "_" or @.--%>
+<%--Your password must be 1-30 characters long, contain letters and numbers "." or "_".--%>
+<%--Your first name be more 1-30 characters long and contain only letters.--%>
+<%--Your last name must be 1-30 characters long and contain only letters.--%>
+
+<div class="container-fluid mt-2 mb-2">
+    <div class="card col-6 m-auto">
         <div class="card-body">
             <h4 class="card-title text-center">${registrationForm}</h4>
             <form action="/index?command=registration" method="post">
                 <div class="form-group">
                     <label for="email">${email}</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="newemail@mail.ru"
+                    <input type="text" id="email" name="email" class="form-control" aria-describedby="emailHelpBlock" placeholder="newemail@mail.ru"
                            required maxlength="40"/>
+                    <small id="emailHelpBlock" class="form-text text-muted">
+                        Your email must be 6-40 characters long, contain letters, numbers,".", "_" or @.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="password">${password}:</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="${password}"
+                    <input type="password" id="password" name="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="${password}"
                            required maxlength="30">
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        Your password must be 1-30 characters long, contain letters and numbers "." or "_".
+                    </small>
                 </div>
 
                 <div class="form-group">
                     <label for="firstName">${firstName}</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control" placeholder="${firstName}"
+                    <input type="text" id="firstName" name="firstName" class="form-control" aria-describedby="firstNameHelpBlock" placeholder="${firstName}"
                            required maxlength="30">
+                    <small id="firstNameHelpBlock" class="form-text text-muted">
+                        Your first name must be 1-30 characters long and contain only letters.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="lastName">${lastName}</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" placeholder="${lastName}"
+                    <input type="text" id="lastName" name="lastName" class="form-control" aria-describedby="lastNameHelpBlock" placeholder="${lastName}"
                            required maxlength="30">
+                    <small id="lastNameHelpBlock" class="form-text text-muted">
+                        Your last name must be 1-30 characters long and contain only letters.
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="phone">${phone}</label>
@@ -52,9 +72,9 @@
                 <div class="form-group">
                     <label for="type">${type}</label>
                     <select class="form-control" id="type" name="role">
-                        <option value="p">${pharmacist} </option>
-                        <option value="c">${client}</option>
-                        <option value="d">${doctor}</option>
+                        <option value="PHARMACIST">${pharmacist} </option>
+                        <option value="CLIENT">${client}</option>
+                        <option value="DOCTOR">${doctor}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -66,7 +86,7 @@
                     <c:out value="${userExist}"/>
                 </p>
             </c:if>
-            <c:if test="${not empty param.incorrectName}">
+            <c:if test="${not empty param.incorrectUserName}">
                 <p class="text-danger">
                     <c:out value="${incorrectUserName}"/>
                 </p>
@@ -84,6 +104,11 @@
             <c:if test="${not empty param.incorrectPhone}">
                 <p class="text-danger">
                     <c:out value="${incorrectPhone}"/>
+                </p>
+            </c:if>
+            <c:if test="${not empty param.incorrectRole}">
+                <p class="text-danger">
+                    <c:out value="${incorrectRole}"/>
                 </p>
             </c:if>
         </div>

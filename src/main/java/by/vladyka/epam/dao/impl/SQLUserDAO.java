@@ -1,21 +1,24 @@
 package by.vladyka.epam.dao.impl;
 
 import by.vladyka.epam.controller.util.ParameterName;
-import by.vladyka.epam.dao.AbstractDAO;
 import by.vladyka.epam.dao.UserDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.entity.User;
+import by.vladyka.epam.entity.UserRole;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.sql.*;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
-import static by.vladyka.epam.controller.util.ParameterName.*;
+import static by.vladyka.epam.dao.util.DBColumn.*;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
-public class SQLUserDAO extends AbstractDAO implements UserDAO {
+public class SQLUserDAO implements UserDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
@@ -37,19 +40,15 @@ public class SQLUserDAO extends AbstractDAO implements UserDAO {
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, preparedStatement, resultSet);
+            pool.closeConnection(connection, preparedStatement, resultSet);
         }
         return user;
     }
 
     @Override
-    public boolean updatePersonalInfo(Map<String, String> userData) throws DAOException {
-        return false;
-    }
-
-    @Override
-    public boolean registration(Map<String, String> userData) throws DAOException {
-        if (isMailOccupied(userData.get(EMAIL))) {
+    public boolean registration(String email, String firstName, String lastName, String password, String phone,
+                                UserRole role) throws DAOException {
+        if (isMailOccupied(email)) {
             return false;
         }
         int insertionResult;
@@ -58,28 +57,28 @@ public class SQLUserDAO extends AbstractDAO implements UserDAO {
         try {
             connection = pool.takeConnection();
             preparedStatement = connection.prepareStatement(QUERY_INSERT_USER);
-            preparedStatement.setString(1, userData.get(EMAIL));
-            preparedStatement.setString(2, BCrypt.hashpw(userData.get(ParameterName.PASSWORD), BCrypt.gensalt()));
-            preparedStatement.setString(3, userData.get(FIRST_NAME));
-            preparedStatement.setString(4, userData.get(LAST_NAME));
-            preparedStatement.setString(5, userData.get(ROLE));
-            preparedStatement.setString(6, userData.get(PHONE));
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
+            preparedStatement.setString(3, firstName);
+            preparedStatement.setString(4, lastName);
+            preparedStatement.setString(5, role.toString());
+            preparedStatement.setString(6, phone);
             insertionResult = preparedStatement.executeUpdate();
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
         } finally {
-            closeConnection(connection, preparedStatement);
+            pool.closeConnection(connection, preparedStatement);
         }
         return insertionResult == 1;
     }
 
     private User createUser(ResultSet resultSet) throws SQLException {
         User user = new User();
-        user.setIdUser(resultSet.getInt(ID_USER));
+        user.setId(resultSet.getInt(ID));
         user.setEmail(resultSet.getString(EMAIL));
         user.setFirstName(resultSet.getString(FIRST_NAME));
         user.setLastName(resultSet.getString(LAST_NAME));
-        user.setRole(resultSet.getString(ROLE).charAt(0));
+        user.setRole(UserRole.valueOf(resultSet.getString(ROLE)));
         user.setPhone(resultSet.getString(PHONE));
         return user;
     }
@@ -104,9 +103,32 @@ public class SQLUserDAO extends AbstractDAO implements UserDAO {
         } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
-            closeConnection(con, ps, rs);
+            pool.closeConnection(con, ps, rs);
         }
         return false;
     }
+
+    @Override
+    public boolean update(String email, String firstName, String lastName, String password, String phone,
+                          UserRole role) throws DAOException {
+        return false;
+    }
+
+    @Override
+    public User findById(int id) throws DAOException {
+        return null;
+    }
+
+    @Override
+    public boolean deleteById(int id) throws DAOException {
+        //заюзать deleteHelper
+        return false;
+    }
+
+    @Override
+    public List findAll() {
+        return null;
+    }
+
 }
 

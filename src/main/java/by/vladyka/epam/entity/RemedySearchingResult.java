@@ -8,9 +8,9 @@ import java.util.List;
  * Created by Vladyka Stas
  * on 17.02.2019 at 15:53
  **/
-//TODO Нужно ли такие классы делать serializable и переопределять все необход. свойства
+
 public class RemedySearchingResult implements Serializable {
-    private static final long serialVersionUID = -85604143901893419L;
+    private static final long serialVersionUID = -2650708455747923267L;
     private int foundRemediesNumber;
     private List<Remedy> remedies = new ArrayList<>();
 

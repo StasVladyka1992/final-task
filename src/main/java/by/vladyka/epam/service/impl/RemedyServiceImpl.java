@@ -2,12 +2,13 @@ package by.vladyka.epam.service.impl;
 
 import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.exception.DAOException;
+import by.vladyka.epam.entity.Remedy;
 import by.vladyka.epam.entity.RemedySearchingResult;
 import by.vladyka.epam.service.RemedyService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.RemedyInfoValidator;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by Vladyka Stas
@@ -15,19 +16,37 @@ import java.util.Map;
  **/
 public class RemedyServiceImpl implements RemedyService {
     private RemedyInfoValidator remedyInfoValidator = new RemedyInfoValidator();
-    private StringBuilder incorrectDataMessages;
 
     @Override
-    public RemedySearchingResult find(String name, int start, int offset) throws ServiceException {
-        boolean validationResult = remedyInfoValidator.isSearchingParametersCorrect(name);
+    public Remedy findById(int id) throws ServiceException {
+        boolean validationResult = remedyInfoValidator.checkIdAndSetMessage(id);
+        Remedy remedy = null;
+        if (validationResult){
+            DAOProvider provider = DAOProvider.getInstance();
+            try {
+                remedy = provider.getSQLRemedyDAO().findById(id);
+            } catch (DAOException e) {
+                throw new ServiceException(e);
+            }
+        }
+        return remedy;
+    }
+
+    @Override
+    public List<Remedy> findAll() throws ServiceException {
+        return null;
+    }
+
+    @Override
+    public RemedySearchingResult findFromStartPosition(String name, int start, int offset) throws ServiceException {
+        boolean validationResult = remedyInfoValidator.checkNameAndSetMessage(name);
         if (!validationResult) {
-            incorrectDataMessages = remedyInfoValidator.getIncorrectMessages();
             return null;
         }
         RemedySearchingResult remedySearchingResult;
         DAOProvider daoProvider = DAOProvider.getInstance();
         try {
-            remedySearchingResult = daoProvider.getSQLRemedyDAO().findRemedy(name, start, offset);
+            remedySearchingResult = daoProvider.getSQLRemedyDAO().findFromStartPosition(name, start, offset);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
@@ -35,21 +54,33 @@ public class RemedyServiceImpl implements RemedyService {
     }
 
     @Override
-    public boolean update(Map<String, String> parameters) {
-        return false;
+    public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws ServiceException {
+        boolean validationResult = remedyInfoValidator.isRemedyAddingDataCorrect(name, description, price, receiptRequired);
+        if(!validationResult){
+            return false;
+        }
+        DAOProvider daoProvider = DAOProvider.getInstance();
+        boolean isUpdatigSuccessfull;
+        try {
+            isUpdatigSuccessfull = daoProvider.getSQLRemedyDAO().update(id, name, description, price, receiptRequired);
+        }
+        catch (DAOException ex){
+            throw new ServiceException(ex);
+        }
+        return isUpdatigSuccessfull;
     }
 
     @Override
-    public boolean add(Map<String, String> parameters) throws ServiceException {
-        boolean validationResult = remedyInfoValidator.isRemedyAddingDataCorrect(parameters);
+    public boolean add(String name, String decscription, double price, boolean receiptRequired) throws ServiceException {
+        boolean validationResult = remedyInfoValidator.isRemedyAddingDataCorrect(name, decscription, price,
+                receiptRequired);
         if (!validationResult) {
-            incorrectDataMessages = remedyInfoValidator.getIncorrectMessages();
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isAddingSuccessfull;
         try {
-            isAddingSuccessfull = daoProvider.getSQLRemedyDAO().addRemedy(parameters);
+            isAddingSuccessfull = daoProvider.getSQLRemedyDAO().create(name, decscription, price, receiptRequired);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
@@ -57,11 +88,24 @@ public class RemedyServiceImpl implements RemedyService {
     }
 
     @Override
-    public boolean delete(Map<String, String> parameters) {
-        return false;
+    public boolean delete(int id) throws ServiceException {
+        boolean isDeletingSuccessfull = false;
+        if (remedyInfoValidator.checkIdAndSetMessage(id)) {
+            DAOProvider daoProvider = DAOProvider.getInstance();
+            try {
+                isDeletingSuccessfull = daoProvider.getSQLRemedyDAO().deleteById(id);
+            } catch (DAOException e) {
+                throw new ServiceException(e);
+            }
+        }
+        return isDeletingSuccessfull;
     }
 
-    public String getIncorrectDataMessages() {
-        return incorrectDataMessages.toString();
+    public RemedyInfoValidator getRemedyInfoValidator() {
+        return remedyInfoValidator;
+    }
+
+    public void setRemedyInfoValidator(RemedyInfoValidator remedyInfoValidator) {
+        this.remedyInfoValidator = remedyInfoValidator;
     }
 }

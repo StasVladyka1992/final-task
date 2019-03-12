@@ -6,23 +6,14 @@ import java.io.Serializable;
  * Created by Vladyka Stas
  * on 17.02.2019 at 13:39
  **/
-public class User implements Serializable {
-    private static final long serialVersionUID = -8641397894979627026L;
-    private int idUser;
+public class User extends AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 6502299125364074265L;
     private String email;
     private String firstName;
     private String lastName;
     private String password;
     private String phone;
-    char role;
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
+    private UserRole role;
 
     public String getEmail() {
         return email;
@@ -56,14 +47,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public char getRole() {
-        return role;
-    }
-
-    public void setRole(char role) {
-        this.role = role;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -72,38 +55,45 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
-
-        if (idUser != user.idUser) return false;
-        if (role != user.role) return false;
+        if (getId() != user.getId()) return false;
         if (!email.equals(user.email)) return false;
         if (!firstName.equals(user.firstName)) return false;
         if (!lastName.equals(user.lastName)) return false;
         if (!password.equals(user.password)) return false;
-        return phone.equals(user.phone);
+        if (!phone.equals(user.phone)) return false;
+        return role == user.role;
     }
 
     @Override
     public int hashCode() {
-        int result = idUser;
-        result = 31 * result + email.hashCode();
+        int result = email.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         result = 31 * result + password.hashCode();
         result = 31 * result + phone.hashCode();
-        result = 31 * result + (int) role;
+        result = 31 * result + role.hashCode();
+        result = 31 * result + getId();
         return result;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "idUser=" + idUser +
+                "id=" + getId() +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

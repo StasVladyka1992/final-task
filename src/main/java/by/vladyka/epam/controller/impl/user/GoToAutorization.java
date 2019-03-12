@@ -1,4 +1,4 @@
-package by.vladyka.epam.controller.impl;
+package by.vladyka.epam.controller.impl.user;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.util.URLRestorer;

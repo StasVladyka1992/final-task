@@ -1,4 +1,4 @@
-package by.vladyka.epam.controller.impl;
+package by.vladyka.epam.controller.impl.user;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.util.URLRestorer;
@@ -22,9 +22,9 @@ public class GoToRemedy implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
-        rememberLastPage(req);
         User user = (User)session.getAttribute(USER);
         String navigationCommand = remedy_searching_scenarios.get(user.getRole());
+        rememberLastPage(req);
         req.getRequestDispatcher(navigationCommand).forward(req, resp);
     }
 }

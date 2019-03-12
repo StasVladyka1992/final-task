@@ -1,30 +1,27 @@
 package by.vladyka.epam.controller.util;
 
-import by.vladyka.epam.entity.User;
+import by.vladyka.epam.entity.UserRole;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.*;
+import static by.vladyka.epam.entity.UserRole.*;
 
 /**
  * Created by Vladyka Stas
  * on 01.03.2019 at 0:46
  **/
 public final class UserNavigationManager {
-    public static final Map<Character, String> authorization_scenarios = new HashMap<>();
-    public static final Map<Character, String> remedy_searching_scenarios = new HashMap<>();
-    private static final char CLIENT = 'c';
-    private static final char DOCTOR = 'd';
-    private static final char PHARMACIST = 'p';
+    public static final Map<UserRole, String> authorization_scenarios = new HashMap<>();
+    public static final Map<UserRole, String> remedy_searching_scenarios = new HashMap<>();
     static {
-        authorization_scenarios.put(CLIENT, GO_TO_CLIENT_MAIN);
-        authorization_scenarios.put(DOCTOR, GO_TO_DOCTOR_MAIN);
-        authorization_scenarios.put(PHARMACIST, GO_TO_PHARMACIST_MAIN);
+        authorization_scenarios.put(CLIENT, CLIENT_MAIN);
+        authorization_scenarios.put(DOCTOR, DOCTOR_MAIN);
+        authorization_scenarios.put(PHARMACIST, PHARMACIST_MAIN);
 
         remedy_searching_scenarios.put(CLIENT, REMEDY_CLIENT);
         remedy_searching_scenarios.put(PHARMACIST, REMEDY_ADMINISTRATION);
     }
-
 
 }

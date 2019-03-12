@@ -1,4 +1,4 @@
-package by.vladyka.epam.controller.impl;
+package by.vladyka.epam.controller.impl.lang;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.exception.UnsupportedMethodException;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.vladyka.epam.controller.util.ParameterName.LANGUAGE;
 import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
 
 /**
@@ -16,7 +17,6 @@ import static by.vladyka.epam.controller.util.ParameterName.PREVIOUS_URL;
  * on 16.02.2019 at 13:12
  **/
 public class ChangeLanguage implements Command {
-    private static final String LANGUAGE = "language";
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String language = req.getParameter(LANGUAGE);

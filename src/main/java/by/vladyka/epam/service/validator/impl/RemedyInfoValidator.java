@@ -14,78 +14,66 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
  * on 26.02.2019 at 2:00
  **/
 public final class RemedyInfoValidator extends AbstractValidator {
-
-    public boolean isSearchingParametersCorrect(String remedyName) {
-        return checkRemedyNameAndSetMessage(remedyName);
+    public boolean isRemedyAddingDataCorrect(String name, String decscription, double price,
+                                             boolean receiptRequired) {
+        boolean isNameCorrect = checkNameAndSetMessage(name);
+        boolean isDescriptionCorrect = checkDescriptionAndSetMessage(decscription);
+        boolean isPriceCorrect = checkPriceAndSetMessage(price);
+        boolean isReceiptRequiredCorrect = checkReceiptRequiredAndSetMessage(receiptRequired);
+        return isNameCorrect && isDescriptionCorrect && isPriceCorrect && isReceiptRequiredCorrect;
     }
 
-    public boolean isRemedyAddingDataCorrect(Map<String, String> remedyData) {
-        boolean isNameCorrect = checkRemedyNameAndSetMessage(remedyData.get(ParameterName.REMEDY_NAME));
-        boolean isPackingCorrect = checkPackingAndSetMessage(remedyData.get(ParameterName.PACKING));
-        boolean isMakerCorrect = checkMakerAndSetMessage(remedyData.get(ParameterName.MAKER));
-        boolean isQuantityCorrect = checkQuantityAndSetMessage(remedyData.get(ParameterName.QUANTITY));
-        boolean isPriceCorrect = checkPriceAndSetMessage(remedyData.get(ParameterName.PRICE));
-        boolean isReceiptCorrect = checkReceiptAndSetMessage(remedyData.get(ParameterName.RECEIPT));
-        boolean isRemedyDataCorrect = isNameCorrect && isPackingCorrect && isMakerCorrect &&
-                isQuantityCorrect && isPriceCorrect && isReceiptCorrect;
-        return isRemedyDataCorrect;
-    }
-
-    private boolean checkRemedyNameAndSetMessage(String name) {
+    public boolean checkNameAndSetMessage(String name) {
         Matcher matcher = REMEDY_NAME.matcher(name);
         if (matcher.find()) {
             return true;
         }
-        incorrectDataMessages.append(INCORRECT_REMEDY_NAME);
+        addIncorrectDataMessage(INCORRECT_REMEDY_NAME);
         return false;
     }
 
-    private boolean checkPackingAndSetMessage(String packing) {
-        Matcher matcher = PACKING.matcher(packing);
+
+    public boolean checkIdAndSetMessage(int id) {
+        Matcher matcher = ID_REMEDY.matcher(String.valueOf(id));
         if (matcher.find()) {
             return true;
         }
-        incorrectDataMessages.append(INCORRECT_PACKING);
+        addIncorrectDataMessage(INCORRECT_ID_REMEDY);
         return false;
     }
 
-    private boolean checkMakerAndSetMessage(String maker) {
-        Matcher matcher = MAKER.matcher(maker);
+    public boolean checkPriceAndSetMessage(double price) {
+        Matcher matcher = PRICE.matcher(String.valueOf(price));
         if (matcher.find()) {
             return true;
         }
-        incorrectDataMessages.append(INCORRECT_MAKER);
+        addIncorrectDataMessage(INCORRECT_PRICE);
         return false;
     }
 
-    private boolean checkQuantityAndSetMessage(String quantity) {
-        Matcher matcher = QUANTITY.matcher(quantity);
+    public boolean checkReceiptRequiredAndSetMessage(boolean receiptRequired) {
+        Matcher matcher = RECEIPT.matcher(String.valueOf(receiptRequired));
         if (matcher.find()) {
             return true;
         }
-        incorrectDataMessages.append(INCORRECT_QUANTITY);
+        addIncorrectDataMessage(INCORRECT_RECEIPT_REQUIRED);
         return false;
     }
 
-    private boolean checkPriceAndSetMessage(String price) {
-        Matcher matcher = PRICE.matcher(price);
+    public boolean checkDescriptionAndSetMessage(String description) {
+        Matcher matcher = DESCRIPTION.matcher(description);
         if (matcher.find()) {
             return true;
         }
-        incorrectDataMessages.append(INCORRECT_PRICE);
+        addIncorrectDataMessage(INCORRECT_DESCRIPTION);
         return false;
     }
 
-    private boolean checkReceiptAndSetMessage(String receipt) {
-        Matcher matcher = RECEIPT.matcher(receipt);
-        if (matcher.find()) {
-            return true;
-        }
-        incorrectDataMessages.append(INCORRECT_RECEIPT);
-        return false;
+    public StringBuilder getIncorrectDataMessages() {
+        return super.getIncorrectDataMessages();
     }
 
-    public StringBuilder getIncorrectMessages() {
-        return incorrectDataMessages;
+    public void addIncorrectDataMessage(String incorrectMessage) {
+        super.addIncorrectDataMessage(incorrectMessage);
     }
 }

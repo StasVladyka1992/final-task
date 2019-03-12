@@ -1,33 +1,19 @@
 package by.vladyka.epam.entity;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Vladyka Stas
  * on 26.02.2019 at 1:38
  **/
-public class Remedy implements Serializable {
-    private static final long serialVersionUID = -3165863950136927834L;
-    private int idRemedy;
+public class Remedy extends AbstractEntity implements Serializable {
+
+    private static final long serialVersionUID = 6142050425358602007L;
     private String name;
-    private Packing packing;
-    private String maker;
-    private int quantity;
+    private String description;
     private double price;
-    private char receipt;
+    private boolean receiptRequired;
 
-    public Remedy() {
-    }
-
-    public int getIdRemedy() {
-        return idRemedy;
-    }
-
-    public void setIdRemedy(int idRemedy) {
-        this.idRemedy = idRemedy;
-    }
 
     public String getName() {
         return name;
@@ -37,28 +23,12 @@ public class Remedy implements Serializable {
         this.name = name;
     }
 
-    public Packing getPacking() {
-        return packing;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPacking(Packing packing) {
-        this.packing = packing;
-    }
-
-    public String getMaker() {
-        return maker;
-    }
-
-    public void setMaker(String maker) {
-        this.maker = maker;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getPrice() {
@@ -69,12 +39,12 @@ public class Remedy implements Serializable {
         this.price = price;
     }
 
-    public char getReceipt() {
-        return receipt;
+    public boolean isReceiptRequired() {
+        return receiptRequired;
     }
 
-    public void setReceipt(char receipt) {
-        this.receipt = receipt;
+    public void setReceiptRequired(boolean receiptRequired) {
+        this.receiptRequired = receiptRequired;
     }
 
     @Override
@@ -83,70 +53,34 @@ public class Remedy implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         Remedy remedy = (Remedy) o;
-
-        if (idRemedy != remedy.idRemedy) return false;
-        if (quantity != remedy.quantity) return false;
+        if (getId() != remedy.getId()) return false;
         if (Double.compare(remedy.price, price) != 0) return false;
-        if (receipt != remedy.receipt) return false;
+        if (receiptRequired != remedy.receiptRequired) return false;
         if (!name.equals(remedy.name)) return false;
-        if (packing != remedy.packing) return false;
-        return maker.equals(remedy.maker);
+        return description.equals(remedy.description);
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        result = idRemedy;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + packing.hashCode();
-        result = 31 * result + maker.hashCode();
-        result = 31 * result + quantity;
+        result = name.hashCode();
+        result = 31 * result + description.hashCode();
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (int) receipt;
+        result = 31 * result + (receiptRequired ? 1 : 0);
+        result = 31 * result + getId();
         return result;
     }
 
     @Override
     public String toString() {
         return "Remedy{" +
-                "idRemedy=" + idRemedy +
+                "id=" + getId() +
                 ", name='" + name + '\'' +
-                ", packing=" + packing +
-                ", maker='" + maker + '\'' +
-                ", quantity=" + quantity +
+                ", description='" + description + '\'' +
                 ", price=" + price +
-                ", receipt=" + receipt +
+                ", receiptRequired=" + receiptRequired +
                 '}';
-    }
-
-    public enum Packing {
-        POWDER, PILL, TUBE, STANDARD, ANOTHER;
-
-        @Override
-        public String toString() {
-            return valuesContainer.get(this);
-        }
-
-        private static Map<Packing, String> valuesContainer = new HashMap<>();
-
-        static {
-            valuesContainer.put(PILL, "таблетки");
-            valuesContainer.put(TUBE, "туба");
-            valuesContainer.put(STANDARD, "стандарт");
-            valuesContainer.put(POWDER, "порошок");
-            valuesContainer.put(ANOTHER, "другое");
-        }
-
-        public static Packing getEnumElementByValue(String packingValue) {
-            Packing packing = null;
-            for (Map.Entry<Packing, String> pair : valuesContainer.entrySet()) {
-                if (packingValue.equals(pair.getValue())) {
-                    packing = pair.getKey();
-                }
-            }
-            return packing;
-        }
     }
 }

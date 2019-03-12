@@ -8,13 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
 
-<fmt:message bundle="${loc}" key="name" var="name"/>
+<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="idRemedy" var="idRemedy"/>
-<fmt:message bundle="${loc}" key="packing" var="packing"/>
-<fmt:message bundle="${loc}" key="maker" var="maker"/>
-<fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
+<fmt:message bundle="${loc}" key="description" var="description"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
 <fmt:message bundle="${loc}" key="previous" var="previous"/>
 <fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
@@ -24,22 +22,30 @@
 <fmt:message bundle="${loc}" key="close" var="close"/>
 <fmt:message bundle="${loc}" key="searchingRemedyPlaceholder" var="searchingRemedyPlaceholder"/>
 <fmt:message bundle="${loc}" key="delete" var="delete"/>
-<fmt:message bundle="${loc}" key="update" var="update"/>
+<fmt:message bundle="${loc}" key="alter" var="alter"/>
 <fmt:message bundle="${loc}" key="remedyAdding" var="remedyAdding"/>
-<fmt:message bundle="${loc}" key="yes" var="yes"/>
-<fmt:message bundle="${loc}" key="no" var="no"/>
 <fmt:message bundle="${loc}" key="powder" var="powder"/>
 <fmt:message bundle="${loc}" key="pill" var="pill"/>
 <fmt:message bundle="${loc}" key="another" var="another"/>
 <fmt:message bundle="${loc}" key="standard" var="standard"/>
 <fmt:message bundle="${loc}" key="tube" var="tube"/>
+<fmt:message bundle="${loc}" key="deletingUnsuccessfull" var="deletingUnsuccessfull"/>
+<fmt:message bundle="${loc}" key="deletingSuccessfull" var="deletingSuccessfull"/>
+<fmt:message bundle="${loc}" key="addingSuccessfull" var="addingSuccessfull"/>
+<fmt:message bundle="${loc}" key="delete" var="delete"/>
+<fmt:message bundle="${loc}" key="alter" var="alter"/>
+<fmt:message bundle="${loc}" key="confirm" var="confirm"/>
+<fmt:message bundle="${loc}" key="incorrectId" var="incorrectId"/>
+<fmt:message bundle="${loc}" key="yes" var="yes"/>
+<fmt:message bundle="${loc}" key="no" var="no"/>
 
-<div class="container-fluid">
+
+<div class="container-fluid mb-2">
     <h5>${remedyAdministration}</h5>
     <form action="/secure?command=find_remedy" method="post">
         <div class="form-row align-items-center">
             <div class="col-sm-5 my-1">
-                <input type="text" class="form-control" name="remedyName" placeholder="${searchingRemedyPlaceholder}"
+                <input type="text" class="form-control" name="name" placeholder="${searchingRemedyPlaceholder}"
                        required>
             </div>
             <div class="col-auto my-1">
@@ -49,39 +55,77 @@
         <input type="hidden" name="currentPage" value="1"/>
     </form>
 </div>
-<div class="table-responsive-md col-sm-10">
-    <table class="table col-sm-10 table-bordered">
-        <thead>
-        <th class="aligh-miide"><c:out value="${idRemedy}"/></th>
-        <th class="align-middle"><c:out value="${name}"/></th>
-        <th class="align-middle"><c:out value="${packing}"/></th>
-        <th class="align-middle"><c:out value="${maker}"/></th>
-        <th class="align-middle"><c:out value="${quantity}"/></th>
-        <th class="align-middle"><c:out value="${price}"/></th>
-        <th class="align-middle"><c:out value="${receipt}"/></th>
-        </thead>
-        <c:if test="${remedyList.size()!=0 || remedyList !=null}">
-            <c:forEach var="remedy" items="${remedyList}">
+<div class="container-fluid">
+    <div class="table-responsive-md">
+        <table class="table table-bordered">
+            <thead>
+            <th class="aligh-miide"><c:out value="${idRemedy}"/></th>
+            <th class="align-middle"><c:out value="${remedyName}"/></th>
+            <th class="align-middle"><c:out value="${description}"/></th>
+            <th class="align-middle"><c:out value="${price}"/></th>
+            <th class="align-middle"><c:out value="${receipt}"/></th>
+            <%--<th class="align-middle"><c:out value="${quantity}"/></th>--%>
+            </thead>
+            <c:if test="${remedyList.size()!=0 || remedyList !=null}">
+                <c:forEach var="remedy" items="${remedyList}">
+                    <tr>
+                        <td><c:out value="${remedy.id}"/></td>
+                        <td><c:out value="${remedy.name}"/></td>
+                        <td><c:out value="${remedy.description}"/></td>
+                        <td><c:out value="${remedy.price}"/></td>
+                        <td><c:out value="${remedy.receiptRequired}"/></td>
+                            <%--<td><c:out value="${remedy.quantity}"/></td>--%>
+                        <td>
+                            <div class="row justify-content-center">
+                                <form class="form-inline mr-2 ml-2" action="/secure?command=delete_remedy"
+                                      method="post">
+                                    <button type="submit" class="btn btn-sm btn-primary">${delete}</button>
+                                    <input type="hidden" value="${remedy.id}" name="id">
+                                </form>
+                                <form class="form-inline mr-2 ml-2" action="/secure?command=go_to_update_remedy_quantity"
+                                      method="post">
+                                    <button type="submit" class="btn btn-sm btn-primary">${alter}</button>
+                                    <input type="hidden" value="${remedy.id}" name="id">
+                                </form>
+                                <form class="form-inline mr-2 ml-2" action="/secure?command=go_to_update_quantity"
+                                      method="post">
+                                    <button type="submit" class="btn btn-sm btn-primary">Изменить количество</button>
+                                    <input type="hidden" value="${remedy.id}" name="id">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            <c:if test="${remedyList.size()==0}">
                 <tr>
-                    <td><c:out value="${remedy.idRemedy}"/></td>
-                    <td><c:out value="${remedy.name}"/></td>
-                    <td><c:out value="${remedy.packing}"/></td>
-                    <td><c:out value="${remedy.maker}"/></td>
-                    <td><c:out value="${remedy.quantity}"/></td>
-                    <td><c:out value="${remedy.price}"/></td>
-                    <td><c:out value="${remedy.receipt}"/></td>
-                    <td><a href="#">${delete}</a>
-                        <a href="#">${update}</a>
-                    </td>
+                    <td colspan="6"><c:out value="${nothingFound}"/></td>
                 </tr>
-            </c:forEach>
-        </c:if>
-        <c:if test="${remedyList.size()==0}">
-            <tr>
-                <td colspan="6"><c:out value="${nothingFound}"/></td>
-            </tr>
-        </c:if>
-    </table>
+            </c:if>
+        </table>
+    </div>
+    <c:if test="${param.incorrectId.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${deletingUnsuccessfull}"/>
+            <c:out value="${incorrectId}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.remedyDeleteResult.equals('remedyDeleteSuccessfull')}">
+        <p class="text-success">
+            <c:out value="${deletingSuccessfull}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.remedyAddResult.equals('remedyAddSuccessfull')}">
+        <p class="text-success">
+            <c:out value="${addingSuccessfull}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.remedyUpdateResult.equals('remedyUpdateSuccessfull')}">
+        <p class="text-success">
+            <c:out value="${addingSuccessfull}"/>
+        </p>
+    </c:if>
+
 </div>
 <c:if test="${sessionScope.pagesNumber>1}">
     <ul class="pagination justify-content-center">
@@ -131,88 +175,51 @@
         </c:if>
     </ul>
 </c:if>
-<div class="container-fluid">
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">${add}</button>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h5 class="modal-title">${remedyAdding}</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form action="/secure?command=add_remedy" method="post">
-                        <div class="form-group">
-                            <label for="name">${name}</label>
-                            <input type="text" class="form-control" id="name" name="remedyName">
-                        </div>
-                        <div class="form-group">
-                            <label for="packing">${packing}</label>
-                            <select  id="packing" class="custom-select" name="packing">
-                                <option selected value="таблетки">${pill}</option>
-                                <option value="туба">${tube}</option>
-                                <option value="порошок">${powder}</option>
-                                <option value="стандарт">${standard}</option>
-                                <option value="другое">${another}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="maker">${maker}</label>
-                            <input type="text" class="form-control" id="maker" name="maker">
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">${quantity}</label>
-                            <input type="number" step="1" min=0 class="form-control" id="quantity" name="quantity">
-                        </div>
-                        <div class="form-group">
-                            <label for="price">${price}</label>
-                            <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control" id="price"
-                                   name="price">
-                        </div>
-                        <div class="form-group">
-                            <label for="receipt">${receipt}</label>
-                            <select id="receipt" class="custom-select" name="receipt">
-                                <option selected value="n">${no}</option>
-                                <option value="y">${yes}</option>
-                            </select>
-                        </div>
-                        <div class="modal-footer" id="addingRemedyModalFooter">
-                            <button type="submit" class="btn btn-primary btn-sm">${add}</button>
-                        </div>
-                    </form>
-                    <c:if test="${not empty param.userExist}">
-                        <p class="text-danger">
-                            <c:out value="${userExist}"/>
-                        </p>
-                    </c:if>
-                    <c:if test="${not empty param.incorrectName}">
-                        <p class="text-danger">
-                            <c:out value="${incorrectUserName}"/>
-                        </p>
-                    </c:if>
-                    <c:if test="${not empty param.incorrectEmail}">
-                        <p class="text-danger">
-                            <c:out value="${incorrectEmail}"/>
-                        </p>
-                    </c:if>
-                    <c:if test="${not empty param.incorrectPassword}">
-                        <p class="text-danger">
-                            <c:out value="${incorrectPassword}"/>
-                        </p>
-                    </c:if>
-                    <c:if test="${not empty param.incorrectPhone}">
-                        <p class="text-danger">
-                            <c:out value="${incorrectPhone}"/>
-                        </p>
-                    </c:if>
-                </div>
+<div class="container-fluid col-sm-8 mb-3 mt-5">
+    <form class="border border-secondary pl-5 pr-5 pt-3 pb-3" action="/secure?command=add_remedy" method="post">
+        <h5 class="text-center">Добавление нового медицинского препарата</h5>
+        <div class="form-row">
+            <div class="col-sm-6 mb-3">
+                <label for="remedyName">${remedyName}</label>
+                <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
+                       required>
+                <%--<div class="valid-feedback">--%>
+                <%--Looks good!--%>
+                <%--</div>--%>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label for="description">${description}</label>
+                <input type="text" class="form-control form-control-sm" id="description"
+                       name="description" required>
+                <%--<div class="valid-feedback">--%>
+                <%--Looks good!--%>
+                <%--</div>--%>
             </div>
         </div>
-    </div>
+        <div class="form-row">
+            <div class="col-sm-6 mb-3">
+                <label for="receipt">${receipt}</label>
+                <select id="receipt" class="form-control form-control-sm" name="receiptRequired">
+                    <option selected value="false">${no}</option>
+                    <option value="true">${yes}</option>
+                </select>
+                <%--<div class="valid-feedback">--%>
+                <%--Please provide a valid state.--%>
+                <%--</div>--%>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label for="price">${price}</label>
+                <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
+                       class="form-control form-control-sm"
+                       id="price" placeholder="0.00">
+                <%--<div class="invalid-feedback">--%>
+                <%--Please provide a valid zip.--%>
+                <%--</div>--%>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">${add}</button>
+    </form>
 </div>
-<div class="container-fluid fixed-bottom" id="footer">
+<div class="container-fluid" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>
 </div>

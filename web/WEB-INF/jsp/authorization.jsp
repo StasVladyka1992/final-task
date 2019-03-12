@@ -11,7 +11,7 @@
 <form action="/index?command=authorization" method="post">
     <div class="form-group w-25">
         <label for="email">${email}</label>
-        <input type="email" class="form-control" id="email" name="email" required maxlength="40">
+        <input type="text" class="form-control" id="email" name="email" required maxlength="40">
     </div>
     <div class="form-group w-25">
         <label for="pwd">${password}</label>
@@ -24,7 +24,7 @@
     </div>
     <input type="submit" class="btn btn-primary" value="${submit}">
 </form>
-    <c:if test="${commandStatus.equals('user not found')}">
+    <c:if test="${param.get('commandStatus').equals('user not found')}">
     <p class="text-danger">${error}</p>
     </c:if>
 </div>

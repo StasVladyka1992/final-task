@@ -1,59 +1,47 @@
 package by.vladyka.epam.dao;
 
+import by.vladyka.epam.dao.exception.ConnectionPoolException;
+import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import by.vladyka.epam.entity.AbstractEntity;
+import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
+
+import static by.vladyka.epam.dao.util.DBColumn.*;
+import static by.vladyka.epam.dao.util.SQLQuery.QUERY_DELETE_STORAGE_POSITION;
 
 /**
  * Created by Vladyka Stas
- * on 06.03.2019 at 23:41
+ * on 09.03.2019 at 20:13
  **/
-public abstract class AbstractDAO {
-    protected Logger logger = LogManager.getLogger(AbstractDAO.class);
+public interface AbstractDAO<T extends AbstractEntity> {
+    T findById(int id) throws DAOException;
 
-    public void closeConnection(Connection con, Statement st) {
-        try {
-            if (st != null) {
-                st.close();
-            }
-        } catch (SQLException ex) {
-            logger.error("Statement wasn't closed", ex);
-        }
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException ex) {
-            logger.error("Connection wasn't returned to the pool", ex);
-        }
-    }
+    boolean deleteById(int id) throws DAOException;
 
-    public void closeConnection(Connection con, Statement st, ResultSet resultSet) {
+    List<T> findAll() throws DAOException;
+
+    default boolean deleteHelper(int id, String query, ConnectionPool pool) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int deleteResult;
         try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
+            con = pool.takeConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            deleteResult = ps.executeUpdate();
         } catch (SQLException ex) {
-            logger.error("ResultSet wasn't closed", ex);
+            throw new DAOException(ex);
+        } catch (ConnectionPoolException ex) {
+            throw new DAOException(ex);
+        } finally {
+            pool.closeConnection(con, ps);
         }
-        try {
-            if (st != null) {
-                st.close();
-            }
-        } catch (SQLException ex) {
-            logger.error("Statement wasn't closed", ex);
-        }
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException ex) {
-            logger.error("Connection wasn't returned to the pool", ex);
-        }
+        return deleteResult == 1 || deleteResult == 0;
     }
 }

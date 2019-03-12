@@ -4,11 +4,10 @@ import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.UserDAO;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.entity.User;
+import by.vladyka.epam.entity.UserRole;
 import by.vladyka.epam.service.UserService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.CredentialsValidator;
-
-import java.util.Map;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.USER_EXIST;
 
@@ -19,25 +18,24 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.USER_E
  **/
 public class UserServiceImpl implements UserService {
     private CredentialsValidator credentialsValidator;
-    private StringBuilder incorrectDataMessages;
 
-    //Почему пишет ошибку, когда я пишу Map <String, String> userData?
-    @Override
-    public boolean registration(Map userData) throws ServiceException {
+    public boolean registration(String email, String firstName, String lastName, String password, String phone,
+                                UserRole role) throws ServiceException {
         //TODO может происходить одновременная регистрация 2 разных пользователей с одной и той же почтой
         credentialsValidator = new CredentialsValidator();
-        boolean isRegistrationDataCorrect = credentialsValidator.isRegistrationDataCorrect(userData);
+        boolean isRegistrationDataCorrect = credentialsValidator.isRegistrationDataCorrect(email, firstName, lastName,
+                password, phone, role);
         if (!isRegistrationDataCorrect) {
-            incorrectDataMessages = credentialsValidator.getIncorrectMessages();
+            credentialsValidator.getIncorrectDataMessages();
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isRegistrationPerfomed;
         try {
-            isRegistrationPerfomed = daoProvider.getSQLUserDAO().registration(userData);
+            isRegistrationPerfomed = daoProvider.getSQLUserDAO().registration(email, firstName, lastName,
+                    password, phone, role);
             if (!isRegistrationPerfomed) {
-                incorrectDataMessages = new StringBuilder();
-                incorrectDataMessages.append(USER_EXIST);
+                credentialsValidator.addIncorrectDataMessage(USER_EXIST);
             }
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -62,8 +60,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public String getIncorrectDataMessages() {
-        return incorrectDataMessages.toString();
+    public CredentialsValidator getCredentialsValidator() {
+        return credentialsValidator;
     }
 
+    public void setCredentialsValidator(CredentialsValidator credentialsValidator) {
+        this.credentialsValidator = credentialsValidator;
+    }
 }
