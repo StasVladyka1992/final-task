@@ -7,7 +7,7 @@ import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.UserService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.UserServiceImpl;
-import by.vladyka.epam.service.validator.impl.CredentialsValidator;
+import by.vladyka.epam.service.validator.impl.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,12 +25,12 @@ import static by.vladyka.epam.controller.util.ParameterName.*;
 public class UserRegistration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
-        String email = req.getParameter(EMAIL);
-        String password = req.getParameter(PASSWORD);
-        String firstName = req.getParameter(FIRST_NAME);
-        String lastName = req.getParameter(LAST_NAME);
-        String phone = req.getParameter(PHONE);
-        UserRole role = UserRole.valueOf(req.getParameter(ROLE));
+        String email = req.getParameter(PARAM_NAME_EMAIL);
+        String password = req.getParameter(PARAM_NAME_PASSWORD);
+        String firstName = req.getParameter(PARAM_NAME_FIRST_NAME);
+        String lastName = req.getParameter(PARAM_NAME_LAST_NAME);
+        String phone = req.getParameter(PARAM_NAME_PHONE);
+        UserRole role = UserRole.valueOf(req.getParameter(PARAM_NAME_ROLE));
 
         UserService<User> userService = ServiceProvider.getInstance().getUserService();
         boolean isRegistrationSuccessful = userService.registration(email, firstName, lastName, password, phone, role);
@@ -44,10 +44,10 @@ public class UserRegistration implements Command {
             user.setEmail(email);
             user.setRole(role);
             user.setPhone(phone);
-            session.setAttribute(USER, user);
+            session.setAttribute(PARAM_NAME_USER, user);
             resp.sendRedirect(GO_TO_REGISTRATION_RESULT);
         } else {
-            CredentialsValidator validator = ((UserServiceImpl) userService).getCredentialsValidator();
+            UserValidator validator = ((UserServiceImpl) userService).getUserValidator();
             String invalidDataMessages = validator.getIncorrectDataMessages().toString();
             resp.sendRedirect(GO_TO_REGISTRATION + invalidDataMessages);
         }

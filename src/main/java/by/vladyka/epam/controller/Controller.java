@@ -22,21 +22,15 @@ public class Controller extends HttpServlet {
     //TODO сделать валидацию add_remedy, registration, authorization и в остальных вводах при помощи js, чтоб сохран. введен. инфа
     //TODO Сделать rollback операции при покупке книги.При rollback ПОСЛЕ commit (или в connection pool) сбрасывать настройки Сonnection до default
     //TODO просмотреть классы, чтобы не исполнялись пустые команды, если в них не будет потребности в следующих строчках кода
-    //TODO если ParameterDataExtractor будет исполняться один раз, то подумать над тем, чтобы сделать его аннонимным
-    //TODO сделать так, чтобы метод findFromStartPosition работал на критериях, как в дз
     //TODO в случае возникновения exception должно каждый раз выводит разное сообщение, т.е. на каждую ошибку - свое сообщение.
     //TODO Пагинацию сделать через commit
     //TODO Listener сделан через аннотацию код для замены в web.xml
-    //TODO при создании User в UserRegistration было бы проще сразу же вернуть готовый объект, а не заниматься созданием в Сontroller, то же самое относится и к добавлению Remedy
-    //TODO придумать, как я могу не создавать в каждом классе один и тот же logger
-    //TODO FindRemedy - only one command for all users. So it's need to know, which remedy page show to user
-    //TODO вместо целой команды - создать просто метод внутри класса userNavigationManager\
+    //TODO FindRemedyAndStorageInfo - only one command for all users. So it's need to know, which remedy page show to user
     //TODO вытащить из entity RemedySearchingResult и сделать его внутренним классом, или просто создать HashMap
-    //TODO атрибуты для incorrectmessage можно сэтать в req attribute;
+    //TODO КОГДА ОПЕРАЦИЯ ОБНОВЛЕНИЯ В БД ВОЗВРАЩАЕТ false, ДОБАВЛЯТЬ в incorrectDataMessage СООБЩЕНИЕ О ПРИЧИНЕ ТАКОЙ ОПЕРАЦИИ
     //!!!ВАЖНО
     //TODO попросить посмотреть реализацию SQLRemedyDAO
     //TODO не видит других Remedy, а показывает только первое значениу
-
 
 
     @Override
@@ -51,12 +45,10 @@ public class Controller extends HttpServlet {
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String commandName = req.getParameter(COMMAND_PARAMETER);
-
         try {
             commandStorage.getCommand(commandName).execute(req, resp);
-        }
-        catch (ServiceException ex){
-            //TODO логгирование
+        } catch (ServiceException ex) {
+            //TODO логгирование нужно делать на странице с командой, т.к. надо бросать usera на опред. страницу с ошибкой
         }
     }
 }

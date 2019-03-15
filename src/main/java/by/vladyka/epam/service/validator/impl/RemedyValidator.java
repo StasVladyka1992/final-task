@@ -1,9 +1,7 @@
 package by.vladyka.epam.service.validator.impl;
 
-import by.vladyka.epam.controller.util.ParameterName;
 import by.vladyka.epam.service.validator.AbstractValidator;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.*;
@@ -13,11 +11,11 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
  * Created by Vladyka Stas
  * on 26.02.2019 at 2:00
  **/
-public final class RemedyInfoValidator extends AbstractValidator {
-    public boolean isRemedyAddingDataCorrect(String name, String decscription, double price,
+public final class RemedyValidator extends AbstractValidator {
+    public boolean isRemedyAddingDataCorrect(String name, String description, double price,
                                              boolean receiptRequired) {
         boolean isNameCorrect = checkNameAndSetMessage(name);
-        boolean isDescriptionCorrect = checkDescriptionAndSetMessage(decscription);
+        boolean isDescriptionCorrect = checkDescriptionAndSetMessage(description);
         boolean isPriceCorrect = checkPriceAndSetMessage(price);
         boolean isReceiptRequiredCorrect = checkReceiptRequiredAndSetMessage(receiptRequired);
         return isNameCorrect && isDescriptionCorrect && isPriceCorrect && isReceiptRequiredCorrect;
@@ -32,17 +30,7 @@ public final class RemedyInfoValidator extends AbstractValidator {
         return false;
     }
 
-
-    public boolean checkIdAndSetMessage(int id) {
-        Matcher matcher = ID_REMEDY.matcher(String.valueOf(id));
-        if (matcher.find()) {
-            return true;
-        }
-        addIncorrectDataMessage(INCORRECT_ID_REMEDY);
-        return false;
-    }
-
-    public boolean checkPriceAndSetMessage(double price) {
+    private boolean checkPriceAndSetMessage(double price) {
         Matcher matcher = PRICE.matcher(String.valueOf(price));
         if (matcher.find()) {
             return true;

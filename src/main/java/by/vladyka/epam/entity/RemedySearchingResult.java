@@ -12,7 +12,7 @@ import java.util.List;
 public class RemedySearchingResult implements Serializable {
     private static final long serialVersionUID = -2650708455747923267L;
     private int foundRemediesNumber;
-    private List<Remedy> remedies = new ArrayList<>();
+    private List<Storage> positions = new ArrayList<>();
 
     public int getFoundRemediesNumber() {
         return foundRemediesNumber;
@@ -22,37 +22,36 @@ public class RemedySearchingResult implements Serializable {
         this.foundRemediesNumber = foundRemediesNumber;
     }
 
-    public List<Remedy> getRemedies() {
-        return remedies;
+    public List<Storage> getPositions() {
+        return positions;
     }
 
-    public void setRemedies(List<Remedy> remedies) {
-        this.remedies = remedies;
+    public void setPositions(List<Storage> positions) {
+        this.positions = positions;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         RemedySearchingResult that = (RemedySearchingResult) o;
-
+        if (!positions.containsAll(that.positions)&&positions.size()==that.positions.size()) return false;
         if (foundRemediesNumber != that.foundRemediesNumber) return false;
-        return remedies.equals(that.remedies);
+        return positions.equals(that.positions);
     }
 
     @Override
     public int hashCode() {
         int result = foundRemediesNumber;
-        result = 31 * result + remedies.hashCode();
+        result = 31 * result + positions.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "RemedySearchingResult{" +
+        return "StorageSearchingResult{" +
                 "foundRemediesNumber=" + foundRemediesNumber +
-                ", remedies=" + remedies +
+                ", positions=" + positions +
                 '}';
     }
 }

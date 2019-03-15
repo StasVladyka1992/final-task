@@ -10,8 +10,6 @@ import java.util.Objects;
  * on 09.03.2019 at 19:58
  **/
 public class ClientOrder extends AbstractEntity implements Serializable {
-
-
     private static final long serialVersionUID = -4188154771635837479L;
     private Date createdOn;
     private Date finishedOn;
@@ -56,7 +54,7 @@ public class ClientOrder extends AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         ClientOrder that = (ClientOrder) o;
-        if (getId()!= that.getId()) return false;
+        if (getId() != that.getId()) return false;
         if (!createdOn.equals(that.createdOn)) return false;
         if (!Objects.equals(finishedOn, that.finishedOn)) return false;
         if (!client.equals(that.client)) return false;

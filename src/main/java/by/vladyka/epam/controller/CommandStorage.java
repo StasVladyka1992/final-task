@@ -1,7 +1,10 @@
 package by.vladyka.epam.controller;
 
+import by.vladyka.epam.controller.impl.client.AddToBasket;
 import by.vladyka.epam.controller.impl.lang.ChangeLanguage;
 import by.vladyka.epam.controller.impl.pharmacist.*;
+import by.vladyka.epam.controller.impl.user.FindRemedyAndStorageInfo;
+import by.vladyka.epam.controller.impl.pharmacist.SetStorageQuantity;
 import by.vladyka.epam.controller.impl.user.*;
 
 import java.util.HashMap;
@@ -25,7 +28,9 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_DELETE_REMEDY = "delete_remedy";
     private static final String COMMAND_VALUE_UPDATE_REMEDY = "update_remedy";
     private static final String COMMAND_VALUE_GO_TO_UPDATE_REMEDY = "go_to_update_remedy";
-    private static final String COMMAND_VALUE_GO_TO_UPDATE_REMEDY_QUANTITY = "go_to_update_remedy_quantity";
+    private static final String COMMAND_VALUE_SET_STORAGE_QUANTITY = "set_storage_quantity";
+    private static final String COMMAND_VALUE_ADD_TO_STORAGE = "add_to_storage";
+    private static final String COMMAND_VALUE_ADD_TO_BASKET = "add_to_basket";
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -40,13 +45,15 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_GO_TO_AUTHORIZED_USER_MAIN_PAGE, new GoToAuthorizedMain());
         commands.put(COMMAND_VALUE_SIGN_OUT, new UserSignOut());
         commands.put(COMMAND_VALUE_GO_TO_REMEDY, new GoToRemedy());
-        commands.put(COMMAND_VALUE_FIND_REMEDY, new FindRemedy());
+        commands.put(COMMAND_VALUE_FIND_REMEDY, new FindRemedyAndStorageInfo());
         commands.put(COMMAND_VALUE_GO_TO_REMEDY_ADMINISTRATION, new GoToRemedyAdministration());
         commands.put(COMMAND_VALUE_ADD_REMEDY, new AddRemedy());
         commands.put(COMMAND_VALUE_DELETE_REMEDY, new DeleteRemedy());
         commands.put(COMMAND_VALUE_UPDATE_REMEDY, new UpdateRemedy());
         commands.put(COMMAND_VALUE_GO_TO_UPDATE_REMEDY, new GoToUpdateRemedy());
-        commands.put(COMMAND_VALUE_GO_TO_UPDATE_REMEDY_QUANTITY, new GoToUpdateRemedyQuantity());
+        commands.put(COMMAND_VALUE_SET_STORAGE_QUANTITY, new SetStorageQuantity());
+        commands.put(COMMAND_VALUE_ADD_TO_STORAGE, new AddToStorage());
+        commands.put(COMMAND_VALUE_ADD_TO_BASKET, new AddToBasket());
     }
 
     public Command getCommand(String command) {

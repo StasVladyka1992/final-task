@@ -12,7 +12,7 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
  * Created by Vladyka Stas
  * on 18.02.2019 at 13:12
  **/
-public final class CredentialsValidator extends AbstractValidator {
+public final class UserValidator extends AbstractValidator {
 
     public boolean isAuthorizationDataCorrect(String email, String password) {
         boolean isEmailCorrect = checkEmailAndSetMessage(email);
@@ -36,20 +36,18 @@ public final class CredentialsValidator extends AbstractValidator {
         Matcher matcher = PASSWORD.matcher(password);
         if (matcher.find()) {
             return true;
-        } else {
-            addIncorrectDataMessage(INCORRECT_PASSWORD);
-            return false;
         }
+        addIncorrectDataMessage(INCORRECT_PASSWORD);
+        return false;
     }
 
     private boolean checkEmailAndSetMessage(String email) {
         Matcher matcher = EMAIL_REGEX.matcher(email);
         if (matcher.find()) {
             return true;
-        } else {
-            addIncorrectDataMessage(INCORRECT_EMAIL);
-            return false;
         }
+        addIncorrectDataMessage(INCORRECT_EMAIL);
+        return false;
     }
 
     private boolean checkNameAndSetMessage(String firstName) {
@@ -60,8 +58,8 @@ public final class CredentialsValidator extends AbstractValidator {
             if (!getIncorrectDataMessages().toString().contains(INCORRECT_USER_NAME)) {
                 addIncorrectDataMessage(INCORRECT_USER_NAME);
             }
-            return false;
         }
+        return false;
     }
 
     private boolean checkRoleAndSetMessage(UserRole role) {

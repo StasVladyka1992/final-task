@@ -3,10 +3,9 @@ package by.vladyka.epam.service.impl;
 import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.entity.Remedy;
-import by.vladyka.epam.entity.RemedySearchingResult;
 import by.vladyka.epam.service.RemedyService;
 import by.vladyka.epam.service.exception.ServiceException;
-import by.vladyka.epam.service.validator.impl.RemedyInfoValidator;
+import by.vladyka.epam.service.validator.impl.RemedyValidator;
 
 import java.util.List;
 
@@ -15,13 +14,13 @@ import java.util.List;
  * on 26.02.2019 at 1:54
  **/
 public class RemedyServiceImpl implements RemedyService {
-    private RemedyInfoValidator remedyInfoValidator = new RemedyInfoValidator();
+    private RemedyValidator remedyValidator = new RemedyValidator();
 
     @Override
     public Remedy findById(int id) throws ServiceException {
-        boolean validationResult = remedyInfoValidator.checkIdAndSetMessage(id);
+        boolean validationResult = remedyValidator.isIdCorrect(id);
         Remedy remedy = null;
-        if (validationResult){
+        if (validationResult) {
             DAOProvider provider = DAOProvider.getInstance();
             try {
                 remedy = provider.getSQLRemedyDAO().findById(id);
@@ -37,42 +36,26 @@ public class RemedyServiceImpl implements RemedyService {
         return null;
     }
 
-    @Override
-    public RemedySearchingResult findFromStartPosition(String name, int start, int offset) throws ServiceException {
-        boolean validationResult = remedyInfoValidator.checkNameAndSetMessage(name);
-        if (!validationResult) {
-            return null;
-        }
-        RemedySearchingResult remedySearchingResult;
-        DAOProvider daoProvider = DAOProvider.getInstance();
-        try {
-            remedySearchingResult = daoProvider.getSQLRemedyDAO().findFromStartPosition(name, start, offset);
-        } catch (DAOException ex) {
-            throw new ServiceException(ex);
-        }
-        return remedySearchingResult;
-    }
 
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws ServiceException {
-        boolean validationResult = remedyInfoValidator.isRemedyAddingDataCorrect(name, description, price, receiptRequired);
-        if(!validationResult){
+        boolean validationResult = remedyValidator.isRemedyAddingDataCorrect(name, description, price, receiptRequired);
+        if (!validationResult) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isUpdatigSuccessfull;
         try {
             isUpdatigSuccessfull = daoProvider.getSQLRemedyDAO().update(id, name, description, price, receiptRequired);
-        }
-        catch (DAOException ex){
+        } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
         return isUpdatigSuccessfull;
     }
 
     @Override
-    public boolean add(String name, String decscription, double price, boolean receiptRequired) throws ServiceException {
-        boolean validationResult = remedyInfoValidator.isRemedyAddingDataCorrect(name, decscription, price,
+    public boolean create(String name, String decscription, double price, boolean receiptRequired) throws ServiceException {
+        boolean validationResult = remedyValidator.isRemedyAddingDataCorrect(name, decscription, price,
                 receiptRequired);
         if (!validationResult) {
             return false;
@@ -90,7 +73,7 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public boolean delete(int id) throws ServiceException {
         boolean isDeletingSuccessfull = false;
-        if (remedyInfoValidator.checkIdAndSetMessage(id)) {
+        if (remedyValidator.isIdCorrect(id)) {
             DAOProvider daoProvider = DAOProvider.getInstance();
             try {
                 isDeletingSuccessfull = daoProvider.getSQLRemedyDAO().deleteById(id);
@@ -101,11 +84,11 @@ public class RemedyServiceImpl implements RemedyService {
         return isDeletingSuccessfull;
     }
 
-    public RemedyInfoValidator getRemedyInfoValidator() {
-        return remedyInfoValidator;
+    public RemedyValidator getRemedyValidator() {
+        return remedyValidator;
     }
 
-    public void setRemedyInfoValidator(RemedyInfoValidator remedyInfoValidator) {
-        this.remedyInfoValidator = remedyInfoValidator;
+    public void setRemedyValidator(RemedyValidator remedyValidator) {
+        this.remedyValidator = remedyValidator;
     }
 }

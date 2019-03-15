@@ -8,9 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
-<fmt:message bundle="${loc}" key="packing" var="packing"/>
-<fmt:message bundle="${loc}" key="maker" var="maker"/>
+<fmt:message bundle="${loc}" key="idRemedy" var="idRemedy"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
+<fmt:message bundle="${loc}" key="description" var="description"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
@@ -22,7 +22,7 @@
 <fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
 <fmt:message bundle="${loc}" key="buy" var="buy"/>
 <fmt:message bundle="${loc}" key="addToBasket" var="addToBasket"/>
-<fmt:message bundle="${loc}" key="appealForReceipt" var="appealForReceipt"/>
+<fmt:message bundle="${loc}" key="askForReceipt" var="askForReceipt"/>
 <fmt:message bundle="${loc}" key="showOnlyInStock" var="showOnlyInStock"/>
 
 <div class="container-fluid">
@@ -30,7 +30,7 @@
     <form action="/secure?command=find_remedy" method="post">
         <div class="form-row align-items-center">
             <div class="col-sm-5 my-1">
-                <input type="text" class="form-control" name="remedyName" placeholder="${searchingRemedyPlaceholder}"
+                <input type="text" class="form-control" name="name" placeholder="${searchingRemedyPlaceholder}"
                        required>
             </div>
             <div class="col-auto my-1">
@@ -41,7 +41,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="isExist" value="true" id="existence">
                 <label class="form-check-label" for="existence">
-                ${showOnlyInStock}
+                    ${showOnlyInStock}
                 </label>
             </div>
             <input type="hidden" name="currentPage" value="1"/>
@@ -51,27 +51,44 @@
 <div class="table-responsive-md">
     <table class="table table-bordered">
         <thead>
+        <th class="align-middle"><c:out value="${idRemedy}"/></th>
         <th class="align-middle"><c:out value="${remedyName}"/></th>
-        <th class="align-middle"><c:out value="${packing}"/></th>
-        <th class="align-middle"><c:out value="${maker}"/></th>
-        <th class="align-middle"><c:out value="${quantity}"/></th>
+        <th class="align-middle"><c:out value="${description}"/></th>
         <th class="align-middle"><c:out value="${price}"/></th>
         <th class="align-middle"><c:out value="${receipt}"/></th>
+        <th class="align-middle"><c:out value="${quantity}"/></th>
         </thead>
-        <c:if test="${remedyList.size()!=0 || remedyList !=null}">
-            <c:forEach var="remedy" items="${remedyList}">
+        <c:if test="${storageList.size()!=0 || storageList !=null}">
+            <c:forEach var="storage" items="${storageList}">
                 <tr>
-                    <td><c:out value="${remedy.name}"/></td>
-                    <td><c:out value="${remedy.packing}"/></td>
-                    <td><c:out value="${remedy.maker}"/></td>
-                    <td><c:out value="${remedy.quantity}"/></td>
-                    <td><c:out value="${remedy.price}"/></td>
-                    <td><c:out value="${remedy.receipt}"/></td>
-                    <td><a href="#">${buy}</a>
-                        <a href="" value="Купить">${addToBasket}</a>
-                        <c:if test="${remedy.receipt == 'y'.charAt(0)}">
-                            <a href="#">${appealForReceipt}</a>
+                    <td><c:out value="${storage.remedy.id}"/></td>
+                    <td><c:out value="${storage.remedy.name}"/></td>
+                    <td><c:out value="${storage.remedy.description}"/></td>
+                    <td><c:out value="${storage.remedy.price}"/></td>
+                    <td><c:out value="${storage.remedy.receiptRequired}"/></td>
+                    <td>
+                        <c:if test="${storage.remedyLeft==-1}">
+                            ${absenceInStorage}
                         </c:if>
+                        <c:if test="${storage.remedyLeft!=-1}">
+                            <c:out value="${storage.remedyLeft}"></c:out>
+                        </c:if>
+                    </td>
+                    <td>
+                        <div class="row justify-content-center">
+                            <form class="form-inline mr-1 ml-1" action="/secure?command=add_to_basket"
+                                  method="post">
+                                <button type="submit" class="btn btn-sm btn-primary">${addToBasket}</button>
+                                <input type="hidden" value="${storage.remedy.id}" name="id">
+                            </form>
+                            <c:if test="${storage.remedy.receiptRequired.equals(true)}">
+                                <form class="form-inline mr-1 ml-1" action="#"
+                                      method="post">
+                                    <button type="submit" class="btn btn-sm btn-primary">${askForReceipt}</button>
+                                    <input type="hidden" value="${storage.remedy.id}" name="id">
+                                </form>
+                            </c:if>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>
@@ -82,9 +99,6 @@
             </tr>
         </c:if>
     </table>
-    <c:if test="${remedyList.size()!=0&& remedyList !=null}">
-        <p><span id='star'>*</span>${yDefenition}</p>
-    </c:if>
 </div>
 <c:if test="${sessionScope.pagesNumber>1}">
     <ul class="pagination justify-content-center">

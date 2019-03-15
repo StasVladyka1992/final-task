@@ -8,12 +8,8 @@ import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-import static by.vladyka.epam.dao.util.DBColumn.*;
-import static by.vladyka.epam.dao.util.SQLQuery.QUERY_DELETE_STORAGE_POSITION;
 
 /**
  * Created by Vladyka Stas

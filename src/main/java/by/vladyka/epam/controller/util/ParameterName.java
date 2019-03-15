@@ -1,43 +1,42 @@
 package by.vladyka.epam.controller.util;
-
 /**
  * Created by Vladyka Stas
  * on 06.03.2019 at 1:01
  **/
 public class ParameterName {
     //common
-    public static final String USER = "user";
-    public static final String PREVIOUS_URL = "previous_url";
-    public static final String CURRENT_PAGE = "currentPage";
-    public static final String REMEDY_LIST = "remedyList";
-    public static final String PAGES_NUMBER = "pagesNumber";
-    public static final String LANGUAGE = "language";
-    public static final String ADMIN_MAIL = "adminMail";
-
-    public static final String REMEDY_DELETING_RESULT = "remedyDeleteResult";
-    public static final String REMEDY_ADDING_RESULT = "remedyAddResult";
-    public static final String REMEDY_UPDATE_RESULT = "remedyUpdateResult";
-    public static final String COMMAND_STATUS = "commandStatus";
-
-
-    public static final String ID = "id";
+    public static final String PARAM_NAME_PREVIOUS_URL = "previous_url";
+    public static final String PARAM_NAME_CURRENT_PAGE = "currentPage";
+    public static final String PARAM_NAME_PAGES_NUMBER = "pagesNumber";
+    public static final String PARAM_NAME_LANGUAGE = "language";
+    public static final String PARAM_NAME_ADMIN_MAIL = "adminMail";
+    public static final String PARAM_NAME_ID = "id";
+    public static final String PARAM_NAME_OPERATION_RESULT = "operationResult";
+//    public static final String REMEDY_ADDING_RESULT = "remedyAddResult";
+//    public static final String REMEDY_UPDATE_RESULT = "remedyUpdateResult";
+    public static final String PARAM_NAME_COMMAND_STATUS = "commandStatus";
 
     //user's parameters
-    public static final String EMAIL = "email";
-    public static final String PASSWORD = "password";
-    public static final String FIRST_NAME = "firstName";
-    public static final String LAST_NAME = "lastName";
-    public static final String ROLE = "role";
-    public static final String PHONE = "phone";
+    public static final String PARAM_NAME_USER = "user";
+    public static final String PARAM_NAME_EMAIL = "email";
+    public static final String PARAM_NAME_PASSWORD = "password";
+    public static final String PARAM_NAME_FIRST_NAME = "firstName";
+    public static final String PARAM_NAME_LAST_NAME = "lastName";
+    public static final String PARAM_NAME_ROLE = "role";
+    public static final String PARAM_NAME_PHONE = "phone";
 
     //remedy's parameters
-    public static final String REMEDY = "remedy";
-    public static final String REMEDY_NAME = "name";
-    public static final String PRICE = "price";
-    public static final String RECEIPT_REQUIRED = "receiptRequired";
-    public static final String DESCRIPTION = "description";
-    public static final String REMEDY_QUANTITY = "quantity";
+    public static final String PARAM_NAME_REMEDY = "remedy";
+    public static final String PARAM_NAME_REMEDY_NAME = "name";
+    public static final String PARAM_NAME_PRICE = "price";
+    public static final String PARAM_NAME_RECEIPT_REQUIRED = "receiptRequired";
+    public static final String PARAM_NAME_DESCRIPTION = "description";
 
+    //storage's parameters
+    public static final String PARAM_NAME_STORAGE = "storage";
+    public static final String PARAM_NAME_STORAGE_LIST = "storageList";
+    public static final String PARAM_NAME_STORAGE_REMEDY_LEFT = "remedyLeft";
+    public static final String PARAM_NAME_STORAGE_REMEDY_ID = "remedyId";
 
 
 }

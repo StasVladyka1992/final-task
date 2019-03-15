@@ -33,7 +33,7 @@ public class SQLUserDAO implements UserDAO {
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                if (BCrypt.checkpw(password, resultSet.getString(ParameterName.PASSWORD))) {
+                if (BCrypt.checkpw(password, resultSet.getString(ParameterName.PARAM_NAME_PASSWORD))) {
                     user = createUser(resultSet);
                 }
             }

@@ -13,6 +13,7 @@
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
 <fmt:message bundle="${loc}" key="description" var="description"/>
+<fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
 <fmt:message bundle="${loc}" key="previous" var="previous"/>
 <fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
@@ -30,14 +31,17 @@
 <fmt:message bundle="${loc}" key="standard" var="standard"/>
 <fmt:message bundle="${loc}" key="tube" var="tube"/>
 <fmt:message bundle="${loc}" key="deletingUnsuccessfull" var="deletingUnsuccessfull"/>
-<fmt:message bundle="${loc}" key="deletingSuccessfull" var="deletingSuccessfull"/>
-<fmt:message bundle="${loc}" key="addingSuccessfull" var="addingSuccessfull"/>
+<fmt:message bundle="${loc}" key="operationResultSuccess" var="oprerationResultSuccess"/>
 <fmt:message bundle="${loc}" key="delete" var="delete"/>
 <fmt:message bundle="${loc}" key="alter" var="alter"/>
 <fmt:message bundle="${loc}" key="confirm" var="confirm"/>
 <fmt:message bundle="${loc}" key="incorrectId" var="incorrectId"/>
 <fmt:message bundle="${loc}" key="yes" var="yes"/>
 <fmt:message bundle="${loc}" key="no" var="no"/>
+<fmt:message bundle="${loc}" key="changeQuantity" var="changeQuantity"/>
+<fmt:message bundle="${loc}" key="newRemedyAdding" var="newRemedyAdding"/>
+<fmt:message bundle="${loc}" key="absenceInStorage" var="absenceInStorage"/>
+<fmt:message bundle="${loc}" key="remedyNotExist" var="remedyNotExist"/>
 
 
 <div class="container-fluid mb-2">
@@ -59,38 +63,40 @@
     <div class="table-responsive-md">
         <table class="table table-bordered">
             <thead>
-            <th class="aligh-miide"><c:out value="${idRemedy}"/></th>
+            <th class="align-middle"><c:out value="${idRemedy}"/></th>
             <th class="align-middle"><c:out value="${remedyName}"/></th>
             <th class="align-middle"><c:out value="${description}"/></th>
             <th class="align-middle"><c:out value="${price}"/></th>
             <th class="align-middle"><c:out value="${receipt}"/></th>
-            <%--<th class="align-middle"><c:out value="${quantity}"/></th>--%>
+            <th class="align-middle"><c:out value="${quantity}"/></th>
             </thead>
-            <c:if test="${remedyList.size()!=0 || remedyList !=null}">
-                <c:forEach var="remedy" items="${remedyList}">
+            <c:if test="${storageList.size()!=0 || storageList !=null}">
+                <c:forEach var="storage" items="${storageList}">
                     <tr>
-                        <td><c:out value="${remedy.id}"/></td>
-                        <td><c:out value="${remedy.name}"/></td>
-                        <td><c:out value="${remedy.description}"/></td>
-                        <td><c:out value="${remedy.price}"/></td>
-                        <td><c:out value="${remedy.receiptRequired}"/></td>
-                            <%--<td><c:out value="${remedy.quantity}"/></td>--%>
+                        <td><c:out value="${storage.remedy.id}"/></td>
+                        <td><c:out value="${storage.remedy.name}"/></td>
+                        <td><c:out value="${storage.remedy.description}"/></td>
+                        <td><c:out value="${storage.remedy.price}"/></td>
+                        <td><c:out value="${storage.remedy.receiptRequired}"/></td>
+                        <td>
+                            <c:if test="${storage.remedyLeft==-1}">
+                                ${absenceInStorage}
+                            </c:if>
+                            <c:if test="${storage.remedyLeft!=-1}">
+                                <c:out value="${storage.remedyLeft}"></c:out>
+                            </c:if>
+                        </td>
                         <td>
                             <div class="row justify-content-center">
-                                <form class="form-inline mr-2 ml-2" action="/secure?command=delete_remedy"
+                                <form class="form-inline mr-1 ml-1" action="/secure?command=delete_remedy"
                                       method="post">
                                     <button type="submit" class="btn btn-sm btn-primary">${delete}</button>
-                                    <input type="hidden" value="${remedy.id}" name="id">
+                                    <input type="hidden" value="${storage.remedy.id}" name="id">
                                 </form>
-                                <form class="form-inline mr-2 ml-2" action="/secure?command=go_to_update_remedy_quantity"
+                                <form class="form-inline mr-1 ml-1" action="/secure?command=go_to_update_remedy"
                                       method="post">
                                     <button type="submit" class="btn btn-sm btn-primary">${alter}</button>
-                                    <input type="hidden" value="${remedy.id}" name="id">
-                                </form>
-                                <form class="form-inline mr-2 ml-2" action="/secure?command=go_to_update_quantity"
-                                      method="post">
-                                    <button type="submit" class="btn btn-sm btn-primary">Изменить количество</button>
-                                    <input type="hidden" value="${remedy.id}" name="id">
+                                    <input type="hidden" value="${storage.remedy.id}" name="id">
                                 </form>
                             </div>
                         </td>
@@ -104,28 +110,23 @@
             </c:if>
         </table>
     </div>
+    <%--TODO вставить другие информаторы по валидации данных--%>
     <c:if test="${param.incorrectId.equals('true')}">
         <p class="text-danger">
             <c:out value="${deletingUnsuccessfull}"/>
             <c:out value="${incorrectId}"/>
         </p>
     </c:if>
-    <c:if test="${param.remedyDeleteResult.equals('remedyDeleteSuccessfull')}">
+    <c:if test="${param.operationResult.equals('success')}">
         <p class="text-success">
-            <c:out value="${deletingSuccessfull}"/>
+            <c:out value="${oprerationResultSuccess}"/>
         </p>
     </c:if>
-    <c:if test="${param.remedyAddResult.equals('remedyAddSuccessfull')}">
+    <c:if test="${param.operationResult.equals('remedy not exist')}">
         <p class="text-success">
-            <c:out value="${addingSuccessfull}"/>
+            <c:out value="${remedyNotExist}"/>
         </p>
     </c:if>
-    <c:if test="${param.remedyUpdateResult.equals('remedyUpdateSuccessfull')}">
-        <p class="text-success">
-            <c:out value="${addingSuccessfull}"/>
-        </p>
-    </c:if>
-
 </div>
 <c:if test="${sessionScope.pagesNumber>1}">
     <ul class="pagination justify-content-center">
@@ -177,7 +178,7 @@
 </c:if>
 <div class="container-fluid col-sm-8 mb-3 mt-5">
     <form class="border border-secondary pl-5 pr-5 pt-3 pb-3" action="/secure?command=add_remedy" method="post">
-        <h5 class="text-center">Добавление нового медицинского препарата</h5>
+        <h5 class="text-center">${newRemedyAdding}</h5>
         <div class="form-row">
             <div class="col-sm-6 mb-3">
                 <label for="remedyName">${remedyName}</label>
@@ -217,7 +218,7 @@
                 <%--</div>--%>
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">${add}</button>
+        <button class="btn btn-primary btn-sm" type="submit">${add}</button>
     </form>
 </div>
 <div class="container-fluid" id="footer">

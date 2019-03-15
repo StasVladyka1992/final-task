@@ -13,7 +13,7 @@ import java.io.IOException;
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_AUTHORIZATION;
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_AUTHORIZED_MAIN;
 import static by.vladyka.epam.controller.util.ParameterName.*;
-import static by.vladyka.epam.controller.util.ParameterValue.USER_NOT_FOUND;
+import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_USER_NOT_FOUND;
 
 /**
  * Created by Vladyka Stas
@@ -26,14 +26,14 @@ public class UserAuthorization implements Command {
         HttpSession session = req.getSession(true);
         rememberLastPage(req);
         User user;
-        String email = req.getParameter(EMAIL);
-        String password = req.getParameter(PASSWORD);
+        String email = req.getParameter(PARAM_NAME_EMAIL);
+        String password = req.getParameter(PARAM_NAME_PASSWORD);
 
         user = ServiceProvider.getInstance().getUserService().authorization(email, password);
         if (user == null) {
-            resp.sendRedirect(GO_TO_AUTHORIZATION + COMMAND_STATUS + "=" + USER_NOT_FOUND);
+            resp.sendRedirect(GO_TO_AUTHORIZATION + PARAM_NAME_COMMAND_STATUS + "=" + PARAM_VALUE_USER_NOT_FOUND);
         } else {
-            session.setAttribute(USER, user);
+            session.setAttribute(PARAM_NAME_USER, user);
             resp.sendRedirect(GO_TO_AUTHORIZED_MAIN);
         }
     }

@@ -1,5 +1,6 @@
 package by.vladyka.epam.service;
 
+import by.vladyka.epam.entity.RemedySearchingResult;
 import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.exception.ServiceException;
 
@@ -8,7 +9,7 @@ import by.vladyka.epam.service.exception.ServiceException;
  * on 11.03.2019 at 13:52
  **/
 public interface StorageService extends AbstractService<Storage> {
-    boolean update(int id, int remedyId, int remedyLeft) throws ServiceException;
-    boolean add(int remedyId, int remedyLeft) throws ServiceException;
-
+    boolean update(int remedyId, int remedyLeft) throws ServiceException;
+    boolean create (int remedyId, int remedyLeft) throws ServiceException;
+    RemedySearchingResult findFromStartPosition(String name, int start, int offset) throws ServiceException;
 }

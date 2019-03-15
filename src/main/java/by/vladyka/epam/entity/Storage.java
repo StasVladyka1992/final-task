@@ -8,7 +8,7 @@ import java.io.Serializable;
  **/
 public class Storage extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = -7270999481005115012L;
-    private Integer remedyLeft;
+    private int remedyLeft;
     private Remedy remedy;
 
     public int getRemedyLeft() {
@@ -34,7 +34,7 @@ public class Storage extends AbstractEntity implements Serializable {
 
         Storage storage = (Storage) o;
         if (getId() != storage.getId()) return false;
-        if (remedyLeft.intValue() == storage.remedyLeft.intValue()) return false;
+        if (remedyLeft == storage.remedyLeft) return false;
         return remedy.equals(storage.remedy);
     }
 

@@ -12,8 +12,8 @@
 <fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
 <fmt:message bundle="${loc}" key="remedySearchingMessage" var="remedySearchingMessage"/>
 <fmt:message bundle="${loc}" key="further" var="further"/>
-<fmt:message bundle="${loc}" key="appealForReceipt" var="appealForReceipt"/>
-<fmt:message bundle="${loc}" key="appealForReceiptMessage" var="appealForReceiptMessage"/>
+<fmt:message bundle="${loc}" key="askForReceipt" var="askForReceipt"/>
+<fmt:message bundle="${loc}" key="askForReceiptMessage" var="askForReceiptMessage"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfo" var="updatePersonalInfo"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfoMessage" var="updatePersonalInfoMessage"/>
 <div class="container">
@@ -31,8 +31,8 @@
         <div class="card mt-1 mb-1">
             <img class="card-img-top" src="../../../../images/doctor_receipt.jpg">
             <div class="card-body">
-                <h5 class="card-title text-center">${appealForReceipt}</h5>
-                <p class="card-text">${appealForReceiptMessage}</p>
+                <h5 class="card-title text-center">${askForReceipt}</h5>
+                <p class="card-text">${askForReceiptMessage}</p>
                 <div class="d-flex justify-content-around">
                     <a href="#" type="button" class="btn btn-success">${further}</a>
                 </div>

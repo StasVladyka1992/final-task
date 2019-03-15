@@ -9,8 +9,7 @@ import java.util.List;
  **/
 public final class IncorrectDataMessage {
     //common
-    public static final String INCORRECT_ID_REMEDY = "incorrectId=true&";
-
+    public static final String INCORRECT_ID = "incorrectId=true&";
 
     //users's incorrect messages
     public static final String INCORRECT_EMAIL = "incorrectEmail=true&";

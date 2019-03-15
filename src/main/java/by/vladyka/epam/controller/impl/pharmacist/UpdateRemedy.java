@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REMEDY_ADMINISTRATION;
-import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_UPDATE_REMEDY;
 import static by.vladyka.epam.controller.util.ParameterName.*;
-import static by.vladyka.epam.controller.util.ParameterName.DESCRIPTION;
-import static by.vladyka.epam.controller.util.ParameterValue.REMEDY_UPDATE_RESULT_SUCCESS;
+import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_OPERATION_RESULT_SUCCESS;
 
 /**
  * Created by Vladyka Stas
@@ -23,21 +21,20 @@ import static by.vladyka.epam.controller.util.ParameterValue.REMEDY_UPDATE_RESUL
 public class UpdateRemedy implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        int id = Integer.parseInt(req.getParameter(ID));
-        String name = req.getParameter(REMEDY_NAME);
-        double price = Double.parseDouble(req.getParameter(PRICE));
-        boolean receiptRequired = Boolean.parseBoolean(req.getParameter(RECEIPT_REQUIRED));
-        String description = req.getParameter(DESCRIPTION);
-
+        int id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
+        String name = req.getParameter(PARAM_NAME_REMEDY_NAME);
+        double price = Double.parseDouble(req.getParameter(PARAM_NAME_PRICE));
+        boolean receiptRequired = Boolean.parseBoolean(req.getParameter(PARAM_NAME_RECEIPT_REQUIRED));
+        String description = req.getParameter(PARAM_NAME_DESCRIPTION);
         ServiceProvider provider = ServiceProvider.getInstance();
         RemedyServiceImpl service = provider.getRemedyService();
         boolean isUpdateSuccessfull = service.update(id, name, description, price, receiptRequired);
+        rememberLastPage(req);
         if (!isUpdateSuccessfull) {
-            String incorrectDataMessages= service.getRemedyInfoValidator().getIncorrectDataMessages().toString();
+            String incorrectDataMessages = service.getRemedyValidator().getIncorrectDataMessages().toString();
             resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + incorrectDataMessages);
         } else {
-            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION +REMEDY_ADDING_RESULT+"="+REMEDY_UPDATE_RESULT_SUCCESS);
+            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + PARAM_NAME_OPERATION_RESULT + "=" + PARAM_VALUE_OPERATION_RESULT_SUCCESS);
         }
-
     }
 }
