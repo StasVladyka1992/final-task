@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
 
-<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
-<fmt:message bundle="${loc}" key="idRemedy" var="idRemedy"/>
+<fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
+<fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
-<fmt:message bundle="${loc}" key="description" var="description"/>
+<fmt:message bundle="${loc}" key="description" var="phone"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
 <fmt:message bundle="${loc}" key="previous" var="previous"/>
@@ -44,9 +44,10 @@
 <fmt:message bundle="${loc}" key="remedyNotExist" var="remedyNotExist"/>
 
 
+
 <div class="container-fluid mb-2">
     <h5>${remedyAdministration}</h5>
-    <form action="/secure?command=find_remedy" method="post">
+    <form action="/secure?command=find_storage_position" method="post">
         <div class="form-row align-items-center">
             <div class="col-sm-5 my-1">
                 <input type="text" class="form-control" name="name" placeholder="${searchingRemedyPlaceholder}"
@@ -63,9 +64,9 @@
     <div class="table-responsive-md">
         <table class="table table-bordered">
             <thead>
-            <th class="align-middle"><c:out value="${idRemedy}"/></th>
-            <th class="align-middle"><c:out value="${remedyName}"/></th>
-            <th class="align-middle"><c:out value="${description}"/></th>
+            <th class="align-middle"><c:out value="${id}"/></th>
+            <th class="align-middle"><c:out value="${firstName}"/></th>
+            <th class="align-middle"><c:out value="${phone}"/></th>
             <th class="align-middle"><c:out value="${price}"/></th>
             <th class="align-middle"><c:out value="${receipt}"/></th>
             <th class="align-middle"><c:out value="${quantity}"/></th>
@@ -103,7 +104,7 @@
                     </tr>
                 </c:forEach>
             </c:if>
-            <c:if test="${remedyList.size()==0}">
+            <c:if test="${storageList.size()==0}">
                 <tr>
                     <td colspan="6"><c:out value="${nothingFound}"/></td>
                 </tr>
@@ -127,99 +128,99 @@
             <c:out value="${remedyNotExist}"/>
         </p>
     </c:if>
-</div>
-<c:if test="${sessionScope.pagesNumber>1}">
-    <ul class="pagination justify-content-center">
-        <!--available "Previous" link-->
-        <c:if test="${currentPage>1}">
-            <li class="page-item"><a class="page-link"
-                                     href="/secure?command=find_remedy&currentPage=${currentPage-1}"><c:out
-                    value="${previous}"/></a>
-            </li>
-        </c:if>
-        <!--disabled "Previous" link-->
-        <c:if test="${currentPage==1}">
-            <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${previous}"/></a></li>
-        </c:if>
-        <!--setting  query's parameters depending on clicked page-->
-        <c:forEach begin="${1}" end="${pagesNumber}" var="i">
-            <c:choose>
-                <c:when test="${currentPage==i}">
-                    <li class="page-item active"><a class="page-link"
-                                                    href="/secure?command=find_remedy&currentPage=${i}">${i}</a>
-                    </li>
-                </c:when>
-                <c:when test="${i!=currentPage}">
-                    <c:if test="${i>currentPage}">
-                        <li class="page-item"><a class="page-link"
-                                                 href="/secure?command=find_remedy&currentPage=${i}">${i}</a>
+    <c:if test="${sessionScope.pagesNumber>1}">
+        <ul class="pagination justify-content-center">
+            <!--available "Previous" link-->
+            <c:if test="${currentPage>1}">
+                <li class="page-item"><a class="page-link"
+                                         href="/secure?command=find_storage_position&currentPage=${currentPage-1}"><c:out
+                        value="${previous}"/></a>
+                </li>
+            </c:if>
+            <!--disabled "Previous" link-->
+            <c:if test="${currentPage==1}">
+                <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${previous}"/></a></li>
+            </c:if>
+            <!--setting  query's parameters depending on clicked page-->
+            <c:forEach begin="${1}" end="${pagesNumber}" var="i">
+                <c:choose>
+                    <c:when test="${currentPage==i}">
+                        <li class="page-item active"><a class="page-link"
+                                                        href="/secure?command=find_storage_position&currentPage=${i}">${i}</a>
                         </li>
-                    </c:if>
-                    <c:if test="${i<currentPage}">
-                        <li class="page-item"><a class="page-link"
-                                                 href="/secure?command=find_remedy&currentPage=${i}">${i}</a>
-                        </li>
-                    </c:if>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-        <!--available "Next" link-->
-        <c:if test="${currentPage+1<=pagesNumber}">
-            <li class="page-item"><a class="page-link"
-                                     href="/secure?command=find_remedy&currentPage=${currentPage+1}"><c:out
-                    value="${next}"/></a>
-            </li>
-        </c:if>
-        <!--disabled "Next" link-->
-        <c:if test="${currentPage==pagesNumber}">
-            <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${next}"/></a></li>
-        </c:if>
-    </ul>
-</c:if>
-<div class="container-fluid col-sm-8 mb-3 mt-5">
-    <form class="border border-secondary pl-5 pr-5 pt-3 pb-3" action="/secure?command=add_remedy" method="post">
-        <h5 class="text-center">${newRemedyAdding}</h5>
-        <div class="form-row">
-            <div class="col-sm-6 mb-3">
-                <label for="remedyName">${remedyName}</label>
-                <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
-                       required>
-                <%--<div class="valid-feedback">--%>
-                <%--Looks good!--%>
-                <%--</div>--%>
+                    </c:when>
+                    <c:when test="${i!=currentPage}">
+                        <c:if test="${i>currentPage}">
+                            <li class="page-item"><a class="page-link"
+                                                     href="/secure?command=find_storage_position&currentPage=${i}">${i}</a>
+                            </li>
+                        </c:if>
+                        <c:if test="${i<currentPage}">
+                            <li class="page-item"><a class="page-link"
+                                                     href="/secure?command=find_storage_position&currentPage=${i}">${i}</a>
+                            </li>
+                        </c:if>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+            <!--available "Next" link-->
+            <c:if test="${currentPage+1<=pagesNumber}">
+                <li class="page-item"><a class="page-link"
+                                         href="/secure?command=find_storage_position&currentPage=${currentPage+1}"><c:out
+                        value="${next}"/></a>
+                </li>
+            </c:if>
+            <!--disabled "Next" link-->
+            <c:if test="${currentPage==pagesNumber}">
+                <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${next}"/></a></li>
+            </c:if>
+        </ul>
+    </c:if>
+    <div class="container-fluid col-sm-8 mb-3 mt-5">
+        <form class="border border-secondary pl-5 pr-5 pt-3 pb-3" action="/secure?command=add_remedy" method="post">
+            <h5 class="text-center">${newRemedyAdding}</h5>
+            <div class="form-row">
+                <div class="col-sm-6 mb-3">
+                    <label for="remedyName">${firstName}</label>
+                    <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
+                           required>
+                    <%--<div class="valid-feedback">--%>
+                    <%--Looks good!--%>
+                    <%--</div>--%>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label for="description">${phone}</label>
+                    <input type="text" class="form-control form-control-sm" id="description"
+                           name="description" required>
+                    <%--<div class="valid-feedback">--%>
+                    <%--Looks good!--%>
+                    <%--</div>--%>
+                </div>
             </div>
-            <div class="col-sm-6 mb-3">
-                <label for="description">${description}</label>
-                <input type="text" class="form-control form-control-sm" id="description"
-                       name="description" required>
-                <%--<div class="valid-feedback">--%>
-                <%--Looks good!--%>
-                <%--</div>--%>
+            <div class="form-row">
+                <div class="col-sm-6 mb-3">
+                    <label for="receipt">${receipt}</label>
+                    <select id="receipt" class="form-control form-control-sm" name="receiptRequired">
+                        <option selected value="false">${no}</option>
+                        <option value="true">${yes}</option>
+                    </select>
+                    <%--<div class="valid-feedback">--%>
+                    <%--Please provide a valid state.--%>
+                    <%--</div>--%>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label for="price">${price}</label>
+                    <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
+                           class="form-control form-control-sm"
+                           id="price" placeholder="0.00">
+                    <%--<div class="invalid-feedback">--%>
+                    <%--Please provide a valid zip.--%>
+                    <%--</div>--%>
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="col-sm-6 mb-3">
-                <label for="receipt">${receipt}</label>
-                <select id="receipt" class="form-control form-control-sm" name="receiptRequired">
-                    <option selected value="false">${no}</option>
-                    <option value="true">${yes}</option>
-                </select>
-                <%--<div class="valid-feedback">--%>
-                <%--Please provide a valid state.--%>
-                <%--</div>--%>
-            </div>
-            <div class="col-sm-6 mb-3">
-                <label for="price">${price}</label>
-                <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
-                       class="form-control form-control-sm"
-                       id="price" placeholder="0.00">
-                <%--<div class="invalid-feedback">--%>
-                <%--Please provide a valid zip.--%>
-                <%--</div>--%>
-            </div>
-        </div>
-        <button class="btn btn-primary btn-sm" type="submit">${add}</button>
-    </form>
+            <button class="btn btn-primary btn-sm" type="submit">${add}</button>
+        </form>
+    </div>
 </div>
 <div class="container-fluid" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>

@@ -1,6 +1,6 @@
 package by.vladyka.epam.service;
 
-import by.vladyka.epam.entity.RemedySearchingResult;
+import by.vladyka.epam.tdo.EntitySearchingResult;
 import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.exception.ServiceException;
 
@@ -10,6 +10,8 @@ import by.vladyka.epam.service.exception.ServiceException;
  **/
 public interface StorageService extends AbstractService<Storage> {
     boolean update(int remedyId, int remedyLeft) throws ServiceException;
-    boolean create (int remedyId, int remedyLeft) throws ServiceException;
-    RemedySearchingResult findFromStartPosition(String name, int start, int offset) throws ServiceException;
+
+    boolean create(int remedyId, int remedyLeft) throws ServiceException;
+
+    EntitySearchingResult findFromStartPosition(String name, int start, int offset) throws ServiceException;
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REMEDY_ADMINISTRATION;
+import static by.vladyka.epam.controller.util.JSPNavigation.formNextUrl;
 import static by.vladyka.epam.controller.util.ParameterName.*;
 import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_OPERATION_RESULT_SUCCESS;
 
@@ -25,15 +26,10 @@ public class DeleteRemedy implements Command {
         int idToDelete = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         RemedyService remedyService = serviceProvider.getRemedyService();
-        boolean isDeletingSuccessfull = remedyService.delete(idToDelete);
-        rememberLastPage(req);
-        if (!isDeletingSuccessfull) {
-            RemedyValidator validator = ((RemedyServiceImpl) remedyService).getRemedyValidator();
-            String incorrectMessages = validator.getIncorrectDataMessages().toString();
-            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + incorrectMessages);
-        } else {
-            req.getSession().removeAttribute(PARAM_NAME_STORAGE_LIST);
-            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + PARAM_NAME_OPERATION_RESULT + '=' + PARAM_VALUE_OPERATION_RESULT_SUCCESS);
-        }
+        boolean result = remedyService.delete(idToDelete);
+        RemedyValidator validator = ((RemedyServiceImpl) remedyService).getValidator();
+        String url = formNextUrl(result, validator,PARAM_NAME_OPERATION_RESULT, PARAM_VALUE_OPERATION_RESULT_SUCCESS,
+                GO_TO_REMEDY_ADMINISTRATION);
+        resp.sendRedirect(url);
     }
 }

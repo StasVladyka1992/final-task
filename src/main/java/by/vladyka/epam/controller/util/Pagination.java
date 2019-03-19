@@ -1,8 +1,12 @@
 package by.vladyka.epam.controller.util;
 
-import by.vladyka.epam.entity.RemedySearchingResult;
+import by.vladyka.epam.tdo.EntitySearchingResult;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_CURRENT_PAGE;
+import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_PAGES_NUMBER;
 
 /**
  * Created by Vladyka Stas
@@ -11,39 +15,43 @@ import javax.servlet.http.HttpServletRequest;
 public class Pagination {
     public static final int OFFSET = 2;
 
-    public static int calculatePagesNumber(RemedySearchingResult remedySearchingResult) {
-        int remediesNumber = remedySearchingResult.getFoundRemediesNumber();
+    public static int calculatePagesNumber(EntitySearchingResult entitySearchingResult) {
+        int remediesNumber = entitySearchingResult.getFoundEntitiesNumber();
         int fullPages = remediesNumber / OFFSET;
         int notFullPages = remediesNumber % OFFSET;
-        int result;
-        if (notFullPages == 0) {
-            if (fullPages > 1) {
-                result = fullPages;
-            } else {
-                result = 1;
-            }
-        } else {
-            if (fullPages >= 1) {
-                result = fullPages + 1;
-            } else {
-                result = 1;
+        int result = 1;
+
+        if (fullPages >= 1) {
+            result = fullPages;
+            if (notFullPages != 0) {
+                result += 1;
             }
         }
         return result;
     }
 
-    public static int calculateStartPosition(int currrentPage) {
-        if (currrentPage == 1) {
-            return 0;
-        } else {
-            return (currrentPage - 1) * OFFSET;
-        }
+    public static int calculateStartPosition(int currentPage) {
+        return (currentPage - 1) * OFFSET;
     }
 
     public static String saveSearchingName(HttpServletRequest req, String parameterName) {
         String reqSearchingName = req.getParameter(parameterName);
         String sessionSearchingName = (String) req.getSession(true).getAttribute(parameterName);
-        return  reqSearchingName==null? sessionSearchingName:reqSearchingName;
+        return reqSearchingName == null ? sessionSearchingName : reqSearchingName;
     }
 
+    public static void setSessionPaginationParams (HttpSession session, int currentPage, EntitySearchingResult searchingResult,
+                                            String paramListName) {
+        session.setAttribute(PARAM_NAME_CURRENT_PAGE, currentPage);
+        session.setAttribute(paramListName, searchingResult.getFoundEntities());
+        session.setAttribute(PARAM_NAME_PAGES_NUMBER, calculatePagesNumber(searchingResult));
+    }
+    public static int getCurrentPage (HttpServletRequest req) {
+        int currentPage = 1;
+        String currentPageText = req.getParameter(PARAM_NAME_CURRENT_PAGE);
+        if (currentPageText != null) {
+            currentPage = Integer.parseInt(currentPageText);
+        }
+        return currentPage;
+    }
 }

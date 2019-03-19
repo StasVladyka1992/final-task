@@ -4,7 +4,6 @@ import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.entity.AbstractEntity;
-import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

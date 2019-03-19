@@ -1,5 +1,6 @@
 package by.vladyka.epam.dao;
 
+import by.vladyka.epam.dao.impl.SQLReceiptDAO;
 import by.vladyka.epam.dao.impl.SQLRemedyDAO;
 import by.vladyka.epam.dao.impl.SQLStorageDAO;
 import by.vladyka.epam.dao.impl.SQLUserDAO;
@@ -11,8 +12,9 @@ public class DAOProvider {
     private final UserDAO sqlUserDao = new SQLUserDAO();
     private final RemedyDAO sqlRemedyDao = new SQLRemedyDAO();
     private final StorageDAO sqlStorageDao = new SQLStorageDAO();
+    private final ReceiptDAO sqlReceiptDao = new SQLReceiptDAO();
 //    private final ClientOrderDAO sqlClientOrderDao = new SQLClientOrderDAO();
-//    private final ReceiptDAO sqlReceiptDao = new SQLReceiptDAO();
+
 //    private final RemedyOrderDAO sqlRemedyOrderDao = new SQLRemedyOrderDAO();
 
 
@@ -32,11 +34,11 @@ public class DAOProvider {
         return sqlStorageDao;
     }
 
-//    public ReceiptDAO getSQLReceiptDAO() {return sqlReceiptDao;}
+    public ReceiptDAO getSQLReceiptDAO() {
+        return sqlReceiptDao;
+    }
 //    public ClientOrderDAO getSQLClientOrderDAO() {return sqlClientOrderDao;}
 //    public RemedyOrderDAO getSQLRemedyOrderDAO() {return sqlRemedyOrderDao;}
-
-
 
 
 }

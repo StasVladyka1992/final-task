@@ -12,13 +12,21 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
  * on 26.02.2019 at 2:00
  **/
 public final class RemedyValidator extends AbstractValidator {
-    public boolean isRemedyAddingDataCorrect(String name, String description, double price,
-                                             boolean receiptRequired) {
+    public boolean checkRemedyAddingDataAndSetMessage(String name, String description, double price,
+                                                      boolean receiptRequired) {
         boolean isNameCorrect = checkNameAndSetMessage(name);
         boolean isDescriptionCorrect = checkDescriptionAndSetMessage(description);
         boolean isPriceCorrect = checkPriceAndSetMessage(price);
         boolean isReceiptRequiredCorrect = checkReceiptRequiredAndSetMessage(receiptRequired);
         return isNameCorrect && isDescriptionCorrect && isPriceCorrect && isReceiptRequiredCorrect;
+    }
+
+    public boolean checkIdAndSetMessage (int id){
+        boolean result = checkId(id);
+        if (!result) {
+            addIncorrectDataMessage(INCORRECT_ID);
+        }
+        return result;
     }
 
     public boolean checkNameAndSetMessage(String name) {
@@ -30,7 +38,7 @@ public final class RemedyValidator extends AbstractValidator {
         return false;
     }
 
-    private boolean checkPriceAndSetMessage(double price) {
+    public boolean checkPriceAndSetMessage(double price) {
         Matcher matcher = PRICE.matcher(String.valueOf(price));
         if (matcher.find()) {
             return true;
@@ -55,13 +63,5 @@ public final class RemedyValidator extends AbstractValidator {
         }
         addIncorrectDataMessage(INCORRECT_DESCRIPTION);
         return false;
-    }
-
-    public StringBuilder getIncorrectDataMessages() {
-        return super.getIncorrectDataMessages();
-    }
-
-    public void addIncorrectDataMessage(String incorrectMessage) {
-        super.addIncorrectDataMessage(incorrectMessage);
     }
 }

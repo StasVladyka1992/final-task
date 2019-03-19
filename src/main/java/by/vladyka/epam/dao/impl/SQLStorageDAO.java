@@ -1,12 +1,12 @@
 package by.vladyka.epam.dao.impl;
 
-import by.vladyka.epam.dao.RemedyUtil;
+import by.vladyka.epam.dao.util.RemedyUtil;
 import by.vladyka.epam.dao.StorageDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.entity.Remedy;
-import by.vladyka.epam.entity.RemedySearchingResult;
+import by.vladyka.epam.tdo.EntitySearchingResult;
 import by.vladyka.epam.entity.Storage;
 
 import java.sql.Connection;
@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import static by.vladyka.epam.dao.util.DBColumn.ID;
 import static by.vladyka.epam.dao.util.DBColumn.REMEDY_LEFT;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
@@ -59,8 +60,8 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
     }
 
     @Override
-    public RemedySearchingResult findFromStartPosition(String name, int start, int offset) throws DAOException {
-        RemedySearchingResult result = new RemedySearchingResult();
+    public EntitySearchingResult findFromStartPosition(String name, int start, int offset) throws DAOException {
+        EntitySearchingResult result = new EntitySearchingResult();
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -74,6 +75,7 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
             while (rs.next()) {
                 Remedy remedy = createRemedy(rs);
                 String remedyLeftText = rs.getString(REMEDY_LEFT);
+                int id =  rs.getInt(ID);
                 int remedyLeft = -1;
                 Storage st = new Storage();
                 if (remedyLeftText != null) {
@@ -83,12 +85,10 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
                     st.setRemedyLeft(remedyLeft);
                 }
                 st.setRemedy(remedy);
-                result.getPositions().add(st);
+                result.getFoundEntities().add(st);
             }
-            result.setFoundRemediesNumber(getFoundRemediesNumber(name));
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } catch (ConnectionPoolException e) {
+            result.setFoundEntitiesNumber(getFoundRemediesNumber(name));
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
         } finally {
             pool.closeConnection(con, ps, rs);

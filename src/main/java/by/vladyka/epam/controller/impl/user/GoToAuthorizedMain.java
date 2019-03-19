@@ -2,7 +2,6 @@ package by.vladyka.epam.controller.impl.user;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.entity.User;
-import by.vladyka.epam.entity.UserRole;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class GoToAuthorizedMain implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
         User user = (User) session.getAttribute(PARAM_NAME_USER);
-        UserRole role = user.getRole();
+        User.UserRole role = user.getRole();
         String navigationCommand = authorization_scenarios.get(role);
         rememberLastPage(req);
         req.getRequestDispatcher(navigationCommand).forward(req,resp);

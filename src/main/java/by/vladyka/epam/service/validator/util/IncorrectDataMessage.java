@@ -1,8 +1,5 @@
 package by.vladyka.epam.service.validator.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Vladyka Stas
  * on 28.02.2019 at 20:12
@@ -27,4 +24,14 @@ public final class IncorrectDataMessage {
 
     //storage incorrect messages
     public static final String INCORRECT_QUANTITY = "incorrectQuantity=true&";
+
+    //receipt's incorrect message
+    public static final String INCORRECT_STATUS = "incorrectStatus=true&";
+    public static final String INCORRECT_DATE = "incorrectDate=true&";
+    public static final String INCORRECT_CLIENT_ID = "incorrectClientId=true&";
+    public static final String INCORRECT_DOCTOR_ID = "incorrectDoctorId=true&";
+    public static final String INCORRECT_REMEDY_ID = "incorrectRemedyId=true&";
+    public static final String INCORRECT_RESIDENCE_BETWEEN_DATES = "incorrectResidenceBetweenDates=true&";
+    public static final String INCORRECT_MESSAGE = "incorrectMessage=true&";
+    public static final String RECEIPT_EXIST = "receiptExist=true&";
 }

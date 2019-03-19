@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REMEDY_ADMINISTRATION;
+import static by.vladyka.epam.controller.util.JSPNavigation.formNextUrl;
 import static by.vladyka.epam.controller.util.ParameterName.*;
 import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_OPERATION_RESULT_SUCCESS;
 
@@ -33,20 +34,16 @@ public class AddRemedy implements Command {
 
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         RemedyService remedyService = serviceProvider.getRemedyService();
-        boolean isAddingSuccessful = false;
+        boolean result = false;
         try {
-            isAddingSuccessful = remedyService.create(name, description, price, receiptRequired);
+            result = remedyService.create(name, description, price, receiptRequired);
         } catch (ServiceException e) {
             //TODO перебросить на страницу с ошибкой
             logger.error(e);
         }
-        rememberLastPage(req);
-        if (!isAddingSuccessful) {
-            RemedyValidator validator = ((RemedyServiceImpl) remedyService).getRemedyValidator();
-            String incorrectDataMessages = validator.getIncorrectDataMessages().toString();
-            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + incorrectDataMessages);
-        } else {
-            resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION + PARAM_NAME_OPERATION_RESULT + "=" + PARAM_VALUE_OPERATION_RESULT_SUCCESS);
-        }
+        RemedyValidator validator = ((RemedyServiceImpl) remedyService).getValidator();
+        String url = formNextUrl(result, validator, PARAM_NAME_OPERATION_RESULT, PARAM_VALUE_OPERATION_RESULT_SUCCESS,
+                GO_TO_REMEDY_ADMINISTRATION);
+        resp.sendRedirect(url);
     }
 }

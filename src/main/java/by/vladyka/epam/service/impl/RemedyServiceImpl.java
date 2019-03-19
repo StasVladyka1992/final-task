@@ -14,11 +14,11 @@ import java.util.List;
  * on 26.02.2019 at 1:54
  **/
 public class RemedyServiceImpl implements RemedyService {
-    private RemedyValidator remedyValidator = new RemedyValidator();
+    private RemedyValidator validator = new RemedyValidator();
 
     @Override
     public Remedy findById(int id) throws ServiceException {
-        boolean validationResult = remedyValidator.isIdCorrect(id);
+        boolean validationResult = validator.checkIdAndSetMessage(id);
         Remedy remedy = null;
         if (validationResult) {
             DAOProvider provider = DAOProvider.getInstance();
@@ -39,7 +39,8 @@ public class RemedyServiceImpl implements RemedyService {
 
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws ServiceException {
-        boolean validationResult = remedyValidator.isRemedyAddingDataCorrect(name, description, price, receiptRequired);
+        boolean validationResult = validateCreateData(name, description, price, receiptRequired) &&
+                validator.checkIdAndSetMessage(id);
         if (!validationResult) {
             return false;
         }
@@ -54,16 +55,14 @@ public class RemedyServiceImpl implements RemedyService {
     }
 
     @Override
-    public boolean create(String name, String decscription, double price, boolean receiptRequired) throws ServiceException {
-        boolean validationResult = remedyValidator.isRemedyAddingDataCorrect(name, decscription, price,
-                receiptRequired);
-        if (!validationResult) {
+    public boolean create(String name, String description, double price, boolean receiptRequired) throws ServiceException {
+        if (!validateCreateData(name, description, price, receiptRequired)) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isAddingSuccessfull;
         try {
-            isAddingSuccessfull = daoProvider.getSQLRemedyDAO().create(name, decscription, price, receiptRequired);
+            isAddingSuccessfull = daoProvider.getSQLRemedyDAO().create(name, description, price, receiptRequired);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
@@ -73,7 +72,7 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public boolean delete(int id) throws ServiceException {
         boolean isDeletingSuccessfull = false;
-        if (remedyValidator.isIdCorrect(id)) {
+        if (validator.checkIdAndSetMessage(id)) {
             DAOProvider daoProvider = DAOProvider.getInstance();
             try {
                 isDeletingSuccessfull = daoProvider.getSQLRemedyDAO().deleteById(id);
@@ -84,11 +83,19 @@ public class RemedyServiceImpl implements RemedyService {
         return isDeletingSuccessfull;
     }
 
-    public RemedyValidator getRemedyValidator() {
-        return remedyValidator;
+    private boolean validateCreateData(String name, String description, double price, boolean receiptRequired) {
+        boolean validationResult = validator.checkRemedyAddingDataAndSetMessage(name, description, price, receiptRequired);
+        if (!validationResult) {
+            return false;
+        }
+        return true;
     }
 
-    public void setRemedyValidator(RemedyValidator remedyValidator) {
-        this.remedyValidator = remedyValidator;
+    public RemedyValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(RemedyValidator validator) {
+        this.validator = validator;
     }
 }

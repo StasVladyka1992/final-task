@@ -4,7 +4,6 @@ import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.UserDAO;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.entity.User;
-import by.vladyka.epam.entity.UserRole;
 import by.vladyka.epam.service.UserService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.UserValidator;
@@ -17,16 +16,14 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.USER_E
  * on 17.02.2019 at 14:46
  **/
 public class UserServiceImpl implements UserService {
-    private UserValidator userValidator;
+    private UserValidator validator = new UserValidator();
 
     public boolean registration(String email, String firstName, String lastName, String password, String phone,
-                                UserRole role) throws ServiceException {
+                                User.UserRole role) throws ServiceException {
         //TODO может происходить одновременная регистрация 2 разных пользователей с одной и той же почтой
-        userValidator = new UserValidator();
-        boolean isRegistrationDataCorrect = userValidator.isRegistrationDataCorrect(email, firstName, lastName,
+        boolean isRegistrationDataCorrect = validator.checkRegistrationDataAndSetMessage(email, firstName, lastName,
                 password, phone, role);
         if (!isRegistrationDataCorrect) {
-            userValidator.getIncorrectDataMessages();
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
@@ -35,7 +32,7 @@ public class UserServiceImpl implements UserService {
             isRegistrationPerfomed = daoProvider.getSQLUserDAO().registration(email, firstName, lastName,
                     password, phone, role);
             if (!isRegistrationPerfomed) {
-                userValidator.addIncorrectDataMessage(USER_EXIST);
+                validator.addIncorrectDataMessage(USER_EXIST);
             }
         } catch (DAOException e) {
             throw new ServiceException(e);
@@ -45,8 +42,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User authorization(String email, String password) throws ServiceException {
-        userValidator = new UserValidator();
-        if (!userValidator.isAuthorizationDataCorrect(email, password)) {
+        validator = new UserValidator();
+        if (!validator.checkAuthorizationDataAndSetMessage(email, password)) {
             return null;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
@@ -60,11 +57,27 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public UserValidator getUserValidator() {
-        return userValidator;
+    public boolean update(String email, String firstName, String lastName,  String phone)
+            throws ServiceException {
+        boolean isRegistrationDataCorrect = validator.checkUpdateDataAndSetMessage(email, firstName, lastName, phone);
+        if (!isRegistrationDataCorrect) {
+            return false;
+        }
+        DAOProvider daoProvider = DAOProvider.getInstance();
+        boolean isUpdatePerformed;
+        try {
+            isUpdatePerformed = daoProvider.getSQLUserDAO().update(email, firstName, lastName, phone);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return isUpdatePerformed;
     }
 
-    public void setUserValidator(UserValidator userValidator) {
-        this.userValidator = userValidator;
+    public UserValidator getValidator() {
+        return validator;
+    }
+
+    public void setValidator(UserValidator validator) {
+        this.validator = validator;
     }
 }

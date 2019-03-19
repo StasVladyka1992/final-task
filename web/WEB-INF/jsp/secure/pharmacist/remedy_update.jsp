@@ -7,11 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
-<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
+<fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
-<fmt:message bundle="${loc}" key="description" var="description"/>
+<fmt:message bundle="${loc}" key="description" var="phone"/>
 <fmt:message bundle="${loc}" key="alter" var="alter"/>
 <fmt:message bundle="${loc}" key="yes" var="yes"/>
 <fmt:message bundle="${loc}" key="no" var="no"/>
@@ -28,13 +28,13 @@
             <h3 class="text-center">${editRemedyInformation}</h3>
             <div class="form-row">
                 <div class="col-sm-6 mb-3">
-                    <label for="remedyName">${remedyName}</label>
+                    <label for="remedyName">${firstName}</label>
                     <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
                            value="${storage.remedy.name}"
                            required>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="description">${description}</label>
+                    <label for="description">${phone}</label>
                     <input type="text" class="form-control form-control-sm" id="description"
                            name="description" value="${storage.remedy.description}" required>
                 </div>
@@ -119,7 +119,7 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form action="/secure?command=add_to_storage" method="post">
-                            <div class="col-sm-6 mb-3  pl-0">
+                            <div class="col-sm-6 mb-3 pl-0">
                                 <label for="newQuantity">${quantity}</label>
                                 <input type="number" name="remedyLeft" min="0" step="1"
                                        class="form-control form-control-sm"

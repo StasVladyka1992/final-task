@@ -92,7 +92,9 @@ public class ConnectionPool {
         Connection connection;
         try {
             connection = connectionQueue.take();
+            System.out.println("ConnectionQueue size: " +connectionQueue.size());
             givenAwayConnections.add(connection);
+            System.out.println("GivenAwayConnections size: " +givenAwayConnections.size());
         } catch (InterruptedException ex) {
             throw new ConnectionPoolException("Error connecting to the data source", ex);
         }

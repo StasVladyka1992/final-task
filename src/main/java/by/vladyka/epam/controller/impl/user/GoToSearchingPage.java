@@ -16,7 +16,7 @@ import static by.vladyka.epam.controller.util.UserNavigationManager.remedy_searc
  * Created by Vladyka Stas
  * on 26.02.2019 at 1:44
  **/
-public class GoToRemedy implements Command {
+public class GoToSearchingPage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);

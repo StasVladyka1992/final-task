@@ -12,8 +12,8 @@
 <fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
 <fmt:message bundle="${loc}" key="remedySearchingMessage" var="remedySearchingMessage"/>
 <fmt:message bundle="${loc}" key="further" var="further"/>
-<fmt:message bundle="${loc}" key="askForReceipt" var="askForReceipt"/>
-<fmt:message bundle="${loc}" key="askForReceiptMessage" var="askForReceiptMessage"/>
+<fmt:message bundle="${loc}" key="prescriptionApplications" var="prescriptionApplications"/>
+<fmt:message bundle="${loc}" key="prescriptionApplicationsMessage" var="prescriptionApplicationsMessage"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfo" var="updatePersonalInfo"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfoMessage" var="updatePersonalInfoMessage"/>
 <div class="container">
@@ -24,15 +24,15 @@
                 <h5 class="card-title text-center">${remedySearching}</h5>
                 <p class="card-text">${remedySearchingMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="/secure?command=go_to_remedy" type="button" class="btn btn-success">${further}</a>
+                    <a href="/secure?command=go_to_client_searching_page" type="button" class="btn btn-success">${further}</a>
                 </div>
             </div>
         </div>
         <div class="card mt-1 mb-1">
             <img class="card-img-top" src="../../../../images/doctor_receipt.jpg">
             <div class="card-body">
-                <h5 class="card-title text-center">${askForReceipt}</h5>
-                <p class="card-text">${askForReceiptMessage}</p>
+                <h5 class="card-title text-center">${prescriptionApplications}</h5>
+                <p class="card-text">${prescriptionApplicationsMessage}</p>
                 <div class="d-flex justify-content-around">
                     <a href="#" type="button" class="btn btn-success">${further}</a>
                 </div>
@@ -44,7 +44,7 @@
                 <h5 class="card-title text-center">${updatePersonalInfo}</h5>
                 <p class="card-text">${updatePersonalInfoMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="#" type="button" class="btn btn-success ">${further}</a>
+                    <a href="/secure?command=go_to_personal_info" type="button" class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

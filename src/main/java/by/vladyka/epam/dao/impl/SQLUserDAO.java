@@ -6,7 +6,6 @@ import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.entity.User;
-import by.vladyka.epam.entity.UserRole;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -47,7 +46,7 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public boolean registration(String email, String firstName, String lastName, String password, String phone,
-                                UserRole role) throws DAOException {
+                                User.UserRole role) throws DAOException {
         if (isMailOccupied(email)) {
             return false;
         }
@@ -72,13 +71,52 @@ public class SQLUserDAO implements UserDAO {
         return insertionResult == 1;
     }
 
+    @Override
+    public boolean update(String email, String firstName, String lastName, String phone)
+            throws DAOException {
+//        int insertionResult;
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        try {
+//            connection = pool.takeConnection();
+//            preparedStatement = connection.prepareStatement(QUERY_UPDATE_USER);
+//            preparedStatement.setString(1, email);
+//            preparedStatement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
+//            preparedStatement.setString(3, firstName);
+//            preparedStatement.setString(4, lastName);
+//            preparedStatement.setString(5, phone);
+//            insertionResult = preparedStatement.executeUpdate();
+//        } catch (SQLException | ConnectionPoolException e) {
+//            throw new DAOException(e);
+//        } finally {
+//            pool.closeConnection(connection, preparedStatement);
+//        }
+//        return insertionResult == 1;
+    return false;}
+
+    @Override
+    public User findById(int id) throws DAOException {
+        return null;
+    }
+
+    @Override
+    public boolean deleteById(int id) throws DAOException {
+        //заюзать deleteHelper
+        return false;
+    }
+
+    @Override
+    public List findAll() {
+        return null;
+    }
+
     private User createUser(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt(ID));
         user.setEmail(resultSet.getString(EMAIL));
         user.setFirstName(resultSet.getString(FIRST_NAME));
         user.setLastName(resultSet.getString(LAST_NAME));
-        user.setRole(UserRole.valueOf(resultSet.getString(ROLE)));
+        user.setRole(User.UserRole.valueOf(resultSet.getString(ROLE)));
         user.setPhone(resultSet.getString(PHONE));
         return user;
     }
@@ -107,28 +145,5 @@ public class SQLUserDAO implements UserDAO {
         }
         return false;
     }
-
-    @Override
-    public boolean update(String email, String firstName, String lastName, String password, String phone,
-                          UserRole role) throws DAOException {
-        return false;
-    }
-
-    @Override
-    public User findById(int id) throws DAOException {
-        return null;
-    }
-
-    @Override
-    public boolean deleteById(int id) throws DAOException {
-        //заюзать deleteHelper
-        return false;
-    }
-
-    @Override
-    public List findAll() {
-        return null;
-    }
-
 }
 

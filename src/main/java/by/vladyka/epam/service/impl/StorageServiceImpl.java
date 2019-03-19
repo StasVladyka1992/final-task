@@ -3,11 +3,11 @@ package by.vladyka.epam.service.impl;
 import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.StorageDAO;
 import by.vladyka.epam.dao.exception.DAOException;
-import by.vladyka.epam.entity.RemedySearchingResult;
 import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.StorageService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.StorageValidator;
+import by.vladyka.epam.tdo.EntitySearchingResult;
 
 import java.util.List;
 
@@ -20,8 +20,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public boolean update(int remedyId, int remedyLeft) throws ServiceException {
-        boolean validationResult = validator.isAddingDataCorrect(remedyId, remedyLeft);
-        if (!validationResult) {
+        if (!validateUpdateAndCreateData(remedyId, remedyLeft)) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
@@ -36,8 +35,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public boolean create(int remedyId, int remedyLeft) throws ServiceException {
-        boolean validationResult = validator.isAddingDataCorrect(remedyId, remedyLeft);
-        if (!validationResult) {
+        if (!validateUpdateAndCreateData(remedyId, remedyLeft)) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
@@ -58,7 +56,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public Storage findById(int id) throws ServiceException {
         boolean validationResult;
-        validationResult = validator.isIdCorrect(id);
+        validationResult = validator.checkIdAndSetMessage(id);
         Storage storage;
         if (!validationResult) {
             return null;
@@ -74,24 +72,32 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public RemedySearchingResult findFromStartPosition(String name, int start, int offset) throws ServiceException {
+    public EntitySearchingResult<Storage> findFromStartPosition(String name, int start, int offset) throws ServiceException {
         boolean validationResult = validator.checkNameAndSetMessage(name);
         if (!validationResult) {
             return null;
         }
-        RemedySearchingResult remedySearchingResult;
+        EntitySearchingResult entitySearchingResult;
         DAOProvider daoProvider = DAOProvider.getInstance();
         try {
-            remedySearchingResult = daoProvider.getSQLStorageDAO().findFromStartPosition(name, start, offset);
+            entitySearchingResult = daoProvider.getSQLStorageDAO().findFromStartPosition(name, start, offset);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        return remedySearchingResult;
+        return entitySearchingResult;
     }
 
     @Override
     public List<Storage> findAll() throws ServiceException {
         return null;
+    }
+
+    private boolean validateUpdateAndCreateData(int remedyId, int remedyLeft) {
+        boolean validationResult = validator.checkAddingDataAndSetMessage(remedyId, remedyLeft);
+        if (!validationResult) {
+            return false;
+        }
+        return true;
     }
 
     public StorageValidator getValidator() {

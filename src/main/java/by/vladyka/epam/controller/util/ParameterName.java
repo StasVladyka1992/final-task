@@ -12,11 +12,9 @@ public class ParameterName {
     public static final String PARAM_NAME_ADMIN_MAIL = "adminMail";
     public static final String PARAM_NAME_ID = "id";
     public static final String PARAM_NAME_OPERATION_RESULT = "operationResult";
-//    public static final String REMEDY_ADDING_RESULT = "remedyAddResult";
-//    public static final String REMEDY_UPDATE_RESULT = "remedyUpdateResult";
     public static final String PARAM_NAME_COMMAND_STATUS = "commandStatus";
 
-    //user's parameters
+    //user's params
     public static final String PARAM_NAME_USER = "user";
     public static final String PARAM_NAME_EMAIL = "email";
     public static final String PARAM_NAME_PASSWORD = "password";
@@ -25,18 +23,25 @@ public class ParameterName {
     public static final String PARAM_NAME_ROLE = "role";
     public static final String PARAM_NAME_PHONE = "phone";
 
-    //remedy's parameters
+    //remedy's params
     public static final String PARAM_NAME_REMEDY = "remedy";
     public static final String PARAM_NAME_REMEDY_NAME = "name";
     public static final String PARAM_NAME_PRICE = "price";
     public static final String PARAM_NAME_RECEIPT_REQUIRED = "receiptRequired";
     public static final String PARAM_NAME_DESCRIPTION = "description";
 
-    //storage's parameters
+    //storage's params
     public static final String PARAM_NAME_STORAGE = "storage";
     public static final String PARAM_NAME_STORAGE_LIST = "storageList";
     public static final String PARAM_NAME_STORAGE_REMEDY_LEFT = "remedyLeft";
     public static final String PARAM_NAME_STORAGE_REMEDY_ID = "remedyId";
 
+    //receipt's params
+    public static final String PARAM_NAME_RECEIPT_LIST = "receiptList";
+    public static final String PARAM_NAME_MESSAGE = "message";
+    public static final String PARAM_NAME_EXPIRE_DATE = "expireDate";
+    public static final String PARAM_NAME_DOCTOR_ID = "doctorId";
 
+    //remedy order's params
+    public static final String PARAM_NAME_QUANTITY = "quantity";
 }

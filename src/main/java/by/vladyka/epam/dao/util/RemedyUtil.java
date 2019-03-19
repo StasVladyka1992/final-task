@@ -1,4 +1,4 @@
-package by.vladyka.epam.dao;
+package by.vladyka.epam.dao.util;
 
 import by.vladyka.epam.entity.Remedy;
 

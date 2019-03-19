@@ -1,6 +1,6 @@
 package by.vladyka.epam.service.validator.impl;
 
-import by.vladyka.epam.entity.UserRole;
+import by.vladyka.epam.entity.User;
 import by.vladyka.epam.service.validator.AbstractValidator;
 
 import java.util.regex.Matcher;
@@ -14,25 +14,31 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
  **/
 public final class UserValidator extends AbstractValidator {
 
-    public boolean isAuthorizationDataCorrect(String email, String password) {
+    public boolean checkAuthorizationDataAndSetMessage(String email, String password) {
         boolean isEmailCorrect = checkEmailAndSetMessage(email);
         boolean isPasswordCorrect = checkPasswordAndSetMessage(password);
         return isEmailCorrect && isPasswordCorrect;
     }
 
-    public boolean isRegistrationDataCorrect(String email, String firstName, String lastName, String password, String phone,
-                                             UserRole role) {
-        boolean isEmailCorrect = checkEmailAndSetMessage(email);
+    public boolean checkRegistrationDataAndSetMessage(String email, String firstName, String lastName, String password, String phone,
+                                                      User.UserRole role) {
+        boolean isCommonUpdateAndRegistrationDataCorrect = checkUpdateDataAndSetMessage(email,
+                firstName, lastName, phone);
+        boolean isRoleCorrect = checkRoleAndSetMessage(role);
         boolean isPasswordCorrect = checkPasswordAndSetMessage(password);
+        return isCommonUpdateAndRegistrationDataCorrect && isRoleCorrect && isPasswordCorrect;
+    }
+
+    public boolean checkUpdateDataAndSetMessage(String email, String firstName, String lastName, String phone) {
+        boolean isEmailCorrect = checkEmailAndSetMessage(email);
         boolean isFirstNameCorrect = checkNameAndSetMessage(firstName);
         boolean isLastNameCorrect = checkNameAndSetMessage(lastName);
         boolean isPhoneCorrect = checkPhoneAndSetMessage(phone);
-        boolean isRoleCorrect = checkRoleAndSetMessage(role);
-        return isEmailCorrect && isPasswordCorrect && isFirstNameCorrect &&
-                isLastNameCorrect && isPhoneCorrect && isRoleCorrect;
+        return isEmailCorrect && isFirstNameCorrect &&
+                isLastNameCorrect && isPhoneCorrect;
     }
 
-    private boolean checkPasswordAndSetMessage(String password) {
+    public boolean checkPasswordAndSetMessage(String password) {
         Matcher matcher = PASSWORD.matcher(password);
         if (matcher.find()) {
             return true;
@@ -41,8 +47,8 @@ public final class UserValidator extends AbstractValidator {
         return false;
     }
 
-    private boolean checkEmailAndSetMessage(String email) {
-        Matcher matcher = EMAIL_REGEX.matcher(email);
+    public boolean checkEmailAndSetMessage(String email) {
+        Matcher matcher = EMAIL.matcher(email);
         if (matcher.find()) {
             return true;
         }
@@ -50,7 +56,7 @@ public final class UserValidator extends AbstractValidator {
         return false;
     }
 
-    private boolean checkNameAndSetMessage(String firstName) {
+    public boolean checkNameAndSetMessage(String firstName) {
         Matcher matcher = USER_NAME.matcher(firstName);
         if (matcher.find()) {
             return true;
@@ -62,7 +68,7 @@ public final class UserValidator extends AbstractValidator {
         return false;
     }
 
-    private boolean checkRoleAndSetMessage(UserRole role) {
+    public boolean checkRoleAndSetMessage(User.UserRole role) {
         Matcher matcher = ROLE.matcher(role.toString());
         if (matcher.find()) {
             return true;
@@ -71,7 +77,7 @@ public final class UserValidator extends AbstractValidator {
         return false;
     }
 
-    private boolean checkPhoneAndSetMessage(String phone) {
+    public boolean checkPhoneAndSetMessage(String phone) {
         Matcher matcher = PHONE.matcher(phone);
         if (matcher.find()) {
             return true;
@@ -79,15 +85,6 @@ public final class UserValidator extends AbstractValidator {
         addIncorrectDataMessage(INCORRECT_PHONE);
         return false;
     }
-
-    public StringBuilder getIncorrectDataMessages() {
-        return super.getIncorrectDataMessages();
-    }
-
-    public void addIncorrectDataMessage(String incorrectMessage) {
-        super.addIncorrectDataMessage(incorrectMessage);
-    }
-
 }
 
 

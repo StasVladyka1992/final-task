@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
  **/
 public final class RegexValidationPattern {
     //common
-    public static final Pattern ID = Pattern.compile("^[1-9][0-9]*$");
+    public static final Pattern ID = Pattern.compile("(^[1-9]?$)|(^[1-9][0-9]+$)");
 
     //user's pattern
-    public static final Pattern EMAIL_REGEX = Pattern.compile("^[A-Z0-9._]+?@[A-Z0-9_]+?\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern EMAIL = Pattern.compile("^[A-Z0-9._]+?@[A-Z0-9_]+?\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public static final Pattern PASSWORD = Pattern.compile("^[А-яA-Z0-9_.]+$", Pattern.CASE_INSENSITIVE);
     public static final Pattern USER_NAME = Pattern.compile("^[A-ZА-я]+$", Pattern.CASE_INSENSITIVE);
     public static final Pattern ROLE = Pattern.compile("^(DOCTOR)|(CLIENT)|(PHARMACIST)$", Pattern.CASE_INSENSITIVE);
@@ -26,4 +26,10 @@ public final class RegexValidationPattern {
 
     //storage's pattern
     public static final Pattern QUANTITY = Pattern.compile("^[0-9]++$");
+
+    //receipt's pattern
+    public static final Pattern DATE = Pattern.compile("^([2-9]\\d{3})-(0[1-9]|([1][0-2]))-(([1-2]\\d)|(3[0-1])|(\\d))$");
+    public static final Pattern STATUS = Pattern.compile("^(REJECTED)|(APPROVED)|(NONE)|(USED)$");
+    public static final Pattern MESSAGE = Pattern.compile("^[A-ZА-я _()\",.]++", Pattern.CASE_INSENSITIVE);
+
 }

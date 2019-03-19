@@ -1,10 +1,10 @@
 package by.vladyka.epam.dao.impl;
 
 import by.vladyka.epam.dao.RemedyDAO;
-import by.vladyka.epam.dao.RemedyUtil;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
+import by.vladyka.epam.dao.util.RemedyUtil;
 import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
@@ -96,7 +96,6 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
         return deleteHelper(id, QUERY_DELETE_REMEDY, pool);
     }
 
-
     private PreparedStatement createAndSetRemedyParamToPreparedStatement(Connection con, String query, String name,
                                                                          String description, double price, boolean
                                                                                  receiptRequired) throws SQLException, ConnectionPoolException {
@@ -108,4 +107,5 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
         ps.setBoolean(4, receiptRequired);
         return ps;
     }
+
 }

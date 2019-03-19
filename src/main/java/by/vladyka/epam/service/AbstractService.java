@@ -2,6 +2,7 @@ package by.vladyka.epam.service;
 
 import by.vladyka.epam.entity.AbstractEntity;
 import by.vladyka.epam.service.exception.ServiceException;
+import by.vladyka.epam.service.validator.AbstractValidator;
 
 import java.util.List;
 

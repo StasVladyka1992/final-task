@@ -8,21 +8,20 @@ import java.util.Date;
  * on 09.03.2019 at 19:47
  **/
 public class Receipt extends AbstractEntity implements Serializable {
-    private static final long serialVersionUID = 4709220852385824038L;
     private Date expireDate;
     private Date prescriptionDate;
     private User client;
     private User doctor;
     private Remedy remedy;
     private String message;
-    private boolean used;
+    private Status status;
 
-    public boolean isUsed() {
-        return used;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setUsed(boolean used) {
-        this.used = used;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Date getExpireDate() {
@@ -85,7 +84,7 @@ public class Receipt extends AbstractEntity implements Serializable {
         if (!prescriptionDate.equals(receipt.prescriptionDate)) return false;
         if (!client.equals(receipt.client)) return false;
         if (!doctor.equals(receipt.doctor)) return false;
-        if (used != receipt.used) return false;
+        if (status != receipt.status) return false;
         return remedy.equals(receipt.remedy);
     }
 
@@ -98,7 +97,7 @@ public class Receipt extends AbstractEntity implements Serializable {
         result = 31 * result + doctor.hashCode();
         result = 31 * result + remedy.hashCode();
         result = 31 * result + getId();
-        result = 31 * result + (used ? 1 : 0);
+        result = 31 * result + status.hashCode();
         return result;
     }
 
@@ -112,7 +111,11 @@ public class Receipt extends AbstractEntity implements Serializable {
                 ", doctor=" + doctor +
                 ", remedy=" + remedy +
                 ", message=" + message +
-                ", used=" + used +
+                ", status=" + status +
                 '}';
+    }
+
+    public enum Status {
+        REJECTED, APPROVED, NONE, USED
     }
 }

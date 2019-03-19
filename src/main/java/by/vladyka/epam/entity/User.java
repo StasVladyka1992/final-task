@@ -102,4 +102,7 @@ public class User extends AbstractEntity implements Serializable {
                 ", role=" + role +
                 '}';
     }
+    public enum  UserRole {
+        CLIENT, PHARMACIST, DOCTOR
+    }
 }
