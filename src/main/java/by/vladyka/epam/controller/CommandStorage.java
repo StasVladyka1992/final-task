@@ -1,9 +1,6 @@
 package by.vladyka.epam.controller;
 
-import by.vladyka.epam.controller.impl.client.AddToBasket;
-import by.vladyka.epam.controller.impl.client.AskForReceipt;
-import by.vladyka.epam.controller.impl.client.GoToBasket;
-import by.vladyka.epam.controller.impl.client.GoToClientSearchingPage;
+import by.vladyka.epam.controller.impl.client.*;
 import by.vladyka.epam.controller.impl.doctor.*;
 import by.vladyka.epam.controller.impl.lang.ChangeLanguage;
 import by.vladyka.epam.controller.impl.pharmacist.*;
@@ -46,6 +43,12 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_GO_TO_BASKET = "go_to_basket";
     private static final String COMMAND_VALUE_UPDATE_PERSONAL_INFO = "update_personal_info";
     private static final String COMMAND_VALUE_GO_TO_PERSONAL_INFO = "go_to_personal_info";
+    private static final String COMMAND_VALUE_SHOW_REMEDY_INFO = "show_remedy_info";
+    private static final String COMMAND_VALUE_DELETE_FROM_BASKET = "delete_from_basket";
+    private static final String COMMAND_VALUE_CHANGE_PURCHASING_QUANTITY = "change_purchasing_quantity";
+    private static final String COMMAND_VALUE_CLEAN_BASKET = "clean_basket";
+    private static final String COMMAND_VALUE_BUY = "buy";
+    private static final String COMMAND_VALUE_GO_TO_ORDER_STATUS = "go_to_order_status";
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -82,6 +85,12 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_GO_TO_BASKET, new GoToBasket());
         commands.put(COMMAND_VALUE_UPDATE_PERSONAL_INFO, new UpdatePersonalInfo());
         commands.put(COMMAND_VALUE_GO_TO_PERSONAL_INFO, new GoToPersonalInfo());
+        commands.put(COMMAND_VALUE_SHOW_REMEDY_INFO, new ShowRemedyInfo());
+        commands.put(COMMAND_VALUE_DELETE_FROM_BASKET, new DeleteFromBasket());
+        commands.put(COMMAND_VALUE_CHANGE_PURCHASING_QUANTITY, new ChangeQuantity());
+        commands.put(COMMAND_VALUE_CLEAN_BASKET, new CleanBasket());
+        commands.put(COMMAND_VALUE_BUY, new Buy());
+        commands.put(COMMAND_VALUE_GO_TO_ORDER_STATUS, new GoToOrderStatus());
     }
 
     public Command getCommand(String command) {

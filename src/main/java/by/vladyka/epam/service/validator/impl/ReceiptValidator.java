@@ -3,7 +3,6 @@ package by.vladyka.epam.service.validator.impl;
 import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.service.validator.AbstractValidator;
 
-import java.util.Date;
 import java.util.regex.Matcher;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.*;
@@ -23,7 +22,7 @@ public final class ReceiptValidator extends AbstractValidator {
     public boolean checkDoctorAddingDataAndSetMessage(int id, int doctorId, java.sql.Date expireDate,
                                                       java.sql.Date prescriptionDate, String message,
                                                       Receipt.Status status) {
-        boolean isIdCorrect = checkId(id);
+        boolean isIdCorrect = checkIdAndSetMessage(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isExpireDateCorrect = checkDateAndSetMessage(expireDate);
         boolean isPrescriptionDateCorrect = checkDateAndSetMessage(prescriptionDate);
@@ -37,7 +36,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkRejectionDataAndSetMessage(int id, int doctorId, String message){
-        boolean isIdCorrect = checkId(id);
+        boolean isIdCorrect = checkIdAndSetMessage(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isMessageCorrect = checkMessageAndSetMessage(message);
         return isIdCorrect && isMessageCorrect && isDoctorIdCorrect;
@@ -62,7 +61,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkDoctorIdAndSetMessage(int doctorId) {
-        boolean result = checkId(doctorId);
+        boolean result = checkIdAndSetMessage(doctorId);
         if (!result) {
             addIncorrectDataMessage(INCORRECT_DOCTOR_ID);
         }
@@ -70,7 +69,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkClientIdAndSetMessage(int clientId) {
-        boolean result = checkId(clientId);
+        boolean result = checkIdAndSetMessage(clientId);
         if (!result) {
             addIncorrectDataMessage(INCORRECT_CLIENT_ID);
         }
@@ -78,7 +77,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkRemedyIdAndSetMessage(int remedyId) {
-        boolean result = checkId(remedyId);
+        boolean result = checkIdAndSetMessage(remedyId);
         if (!result) {
             addIncorrectDataMessage(INCORRECT_REMEDY_ID);
         }

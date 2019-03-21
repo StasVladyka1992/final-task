@@ -57,6 +57,7 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
         PreparedStatement ps = null;
         int insertionResult;
         try {
+            con = pool.takeConnection();
             ps = createAndSetRemedyParamToPreparedStatement(con, QUERY_UPDATE_REMEDY, name, description, price,
                     receiptRequired);
             ps.setInt(5, id);
@@ -78,6 +79,7 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
         PreparedStatement ps = null;
         int insertionResult;
         try {
+            con = pool.takeConnection();
             ps = createAndSetRemedyParamToPreparedStatement(con, QUERY_ADD_REMEDY, name, description, price,
                     receiptRequired);
             insertionResult = ps.executeUpdate();
@@ -99,7 +101,6 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
     private PreparedStatement createAndSetRemedyParamToPreparedStatement(Connection con, String query, String name,
                                                                          String description, double price, boolean
                                                                                  receiptRequired) throws SQLException, ConnectionPoolException {
-        con = pool.takeConnection();
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, name);
         ps.setString(2, description);

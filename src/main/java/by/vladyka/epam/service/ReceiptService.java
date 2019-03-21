@@ -2,7 +2,7 @@ package by.vladyka.epam.service;
 
 import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.service.exception.ServiceException;
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 
 /**
  * Created by Vladyka Stas

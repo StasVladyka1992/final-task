@@ -19,17 +19,14 @@ public final class StorageValidator extends AbstractValidator {
         return isQuantityCorrect && isIdCorrect;
     }
 
-//    public boolean isSearchingNameCorrect(String name) {
-//        return checkNameAndSetMessage(name);
-//    }
 
-    public boolean checkIdAndSetMessage(int id) {
-        boolean result = checkId(id);
-        if (!result) {
-            addIncorrectDataMessage(INCORRECT_ID);
-        }
-        return result;
-    }
+//    public boolean checkIdAndSetMessage(int id) {
+//        boolean result = checkIdAndSetMessage(id);
+//        if (!result) {
+//            addIncorrectDataMessage(INCORRECT_ID);
+//        }
+//        return result;
+//    }
 
     public boolean checkQuantityAndSetMessage(int quantity) {
         Matcher matcher = QUANTITY.matcher(String.valueOf(quantity));

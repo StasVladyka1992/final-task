@@ -4,7 +4,7 @@ import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.ReceiptServiceImpl;
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

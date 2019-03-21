@@ -1,6 +1,6 @@
 package by.vladyka.epam.service;
 
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.exception.ServiceException;
 

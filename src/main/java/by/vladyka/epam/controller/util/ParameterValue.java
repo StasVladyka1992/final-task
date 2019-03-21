@@ -12,5 +12,10 @@ public class ParameterValue {
     public static final String PARAM_VALUE_APPLICATION_ACCEPTED = "applicationAccepted";
     public static final String PARAM_VALUE_PRESCRIPTION_WROTE = "prescriptionWritten";
     public static final String PARAM_VALUE_APPLICATION_REJECTED = "applicationRejected";
-    public static final String PARAM_VALUE_GOOD_ADDED = "goodAdded";
+    public static final String PARAM_VALUE_GOOD_ALREADY_IN_BASKET = "goodAlreadyInBasket";
+    public static final String PARAM_VALUE_REMEDY_DELETED = "remedy_deleted";
+    public static final String PARAM_VALUE_QUANTITY_CHANGED = "quantity_changed";
+    public static final String PARAM_VALUE_BASKET_CLEANED = "basket_cleaned";
+
+
 }

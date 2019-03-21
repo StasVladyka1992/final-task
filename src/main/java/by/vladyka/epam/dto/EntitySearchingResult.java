@@ -1,4 +1,4 @@
-package by.vladyka.epam.tdo;
+package by.vladyka.epam.dto;
 
 import by.vladyka.epam.entity.AbstractEntity;
 

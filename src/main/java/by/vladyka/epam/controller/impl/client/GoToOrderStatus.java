@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.vladyka.epam.controller.util.JSPNavigation.BASKET;
+import static by.vladyka.epam.controller.util.JSPNavigation.ORDER_STATUS;
 
 /**
  * Created by Vladyka Stas
- * on 19.03.2019 at 11:27
+ * on 21.03.2019 at 15:34
  **/
-public class GoToBasket implements Command {
+public class GoToOrderStatus implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
         rememberLastPage(req);
-        req.getRequestDispatcher(BASKET).forward(req, resp);
+        req.getRequestDispatcher(ORDER_STATUS).forward(req, resp);
     }
 }

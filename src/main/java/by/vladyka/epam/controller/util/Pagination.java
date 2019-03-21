@@ -1,6 +1,6 @@
 package by.vladyka.epam.controller.util;
 
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

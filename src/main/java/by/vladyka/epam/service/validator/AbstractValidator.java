@@ -1,5 +1,6 @@
 package by.vladyka.epam.service.validator;
 
+import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.INCORRECT_ID;
 import static by.vladyka.epam.service.validator.util.RegexValidationPattern.ID;
 
 /**
@@ -17,8 +18,11 @@ public abstract class AbstractValidator {
         incorrectDataMessages.append(incorrectMessage);
     }
 
-    public boolean checkId(int id) {
+    public boolean checkIdAndSetMessage(int id) {
         boolean result = ID.matcher(String.valueOf(id)).find() ? true : false;
+        if (!result) {
+            addIncorrectDataMessage(INCORRECT_ID);
+        }
         return result;
     }
 }

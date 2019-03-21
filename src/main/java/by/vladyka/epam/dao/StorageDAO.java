@@ -1,7 +1,7 @@
 package by.vladyka.epam.dao;
 
 import by.vladyka.epam.dao.exception.DAOException;
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Storage;
 
 /**

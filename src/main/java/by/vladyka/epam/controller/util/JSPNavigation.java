@@ -19,12 +19,17 @@ public final class JSPNavigation {
     public static final String GO_TO_REGISTRATION_RESULT = "/secure?command=user_info_after_registration";
     public static final String GO_TO_PERSONAL_INFO = "/secure?command=go_to_personal_info&";
 
-
     //client
     public static final String CLIENT_MAIN = "/WEB-INF/jsp/secure/client/client_main.jsp";
     public static final String REMEDY_CLIENT = "/WEB-INF/jsp/secure/client/remedy_searching.jsp";
+    public static final String BASKET = "/WEB-INF/jsp/secure/client/basket.jsp";
+    public static final String REMEDY_INFO = "/WEB-INF/jsp/secure/client/remedy_info.jsp";
+    public static final String ORDER_STATUS = "/WEB-INF/jsp/secure/client/order_status.jsp";
     public static final String GO_TO_REMEDY = "/secure?command=go_to_remedy";
+    public static final String SHOW_REMEDY_INFO = "/secure?command=show_remedy_info&";
     public static final String GO_TO_CLIENT_SEARCHING_PAGE = "/secure?command=go_to_client_searching_page&";
+    public static final String GO_TO_BASKET = "/secure?command=go_to_basket&";
+    public static final String GO_TO_ORDER_STATUS = "/secure?command=go_to_order_status&";
 
     //doctor
     public static final String DOCTOR_MAIN = "/WEB-INF/jsp/secure/doctor/doctor_main.jsp";
@@ -32,7 +37,6 @@ public final class JSPNavigation {
     public static final String REJECTION_LIST = "/WEB-INF/jsp/secure/doctor/rejection_list.jsp";
     public static final String PRESCRIPTION_LIST = "/WEB-INF/jsp/secure/doctor/prescription_list.jsp";
     public static final String GO_TO_PRESCRIPTION_APPLICATION = "/secure?command=go_to_prescription_application&";
-    public static final String SHOW_REJECTED_APPLICATIONS = "/secure?command=show_rejected_applications&";
     public static final String GO_TO_REJECTION_LIST = "/secure?command=go_to_rejection_list&";
     public static final String GO_TO_PRESCRIPTION_LIST = "/secure?command=go_to_prescription_list&";
 

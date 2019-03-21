@@ -5,7 +5,7 @@ import by.vladyka.epam.entity.User;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.ReceiptServiceImpl;
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_PRESCRIPTION_LIST;
-import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REJECTION_LIST;
 import static by.vladyka.epam.controller.util.Pagination.*;
 import static by.vladyka.epam.controller.util.Pagination.setSessionPaginationParams;
 import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_RECEIPT_LIST;

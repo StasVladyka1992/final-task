@@ -4,10 +4,10 @@ import by.vladyka.epam.dao.ReceiptDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.entity.Remedy;
 import by.vladyka.epam.entity.User;
-import by.vladyka.epam.tdo.EntitySearchingResult;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,8 +34,8 @@ public class SQLReceiptDAO implements ReceiptDAO {
         int unhandledReceiptsNumber;
         List<Receipt> receipts;
         try {
-            con = pool.takeConnection();
             unhandledReceiptsNumber = getFoundReceiptsNumber(QUERY_COUNT_UNHANDLED_RECEIPTS);
+            con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_UNHANDLED_RECEIPTS);
             ps.setInt(1, start);
             ps.setInt(2, offset);
@@ -77,6 +77,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         PreparedStatement ps = null;
         int insertionResult;
         try {
+            con = pool.takeConnection();
             ps = createAndSetClientReceiptParamToPreparedStatement(con, clientId, remedyId, QUERY_CREATE_RECEIPT);
             insertionResult = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -96,6 +97,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         PreparedStatement ps = null;
         int insertionResult;
         try {
+            con = pool.takeConnection();
             ps = createAndSetDoctorReceiptParamToPreparedStatement(con, id, doctorId, expireDate, prescriptionDate,
                     message, status, QUERY_WRITE_PRESCRIPTION);
             insertionResult = ps.executeUpdate();
@@ -114,6 +116,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         PreparedStatement ps;
         ResultSet rs;
         try {
+            con = pool.takeConnection();
             ps = createAndSetClientReceiptParamToPreparedStatement(con, clientId, remedyId,
                     QUERY_FIND_RECEIPT_BY_CLIENT_ID_AND_REMEDY_ID);
             rs = ps.executeQuery();
@@ -194,8 +197,8 @@ public class SQLReceiptDAO implements ReceiptDAO {
         int writtenPrescriptionsNumber;
         List<Receipt> writtenPrescriptions;
         try {
-            con = pool.takeConnection();
             writtenPrescriptionsNumber = getFoundSpecialReceiptsNumber(queryCountApplications, doctorId);
+            con = pool.takeConnection();
             ps = con.prepareStatement(queryFindApplications);
             ps.setInt(1, doctorId);
             setStartPositionAndOffset(ps, start, offset);
@@ -233,10 +236,13 @@ public class SQLReceiptDAO implements ReceiptDAO {
     }
 
     private PreparedStatement createAndSetClientReceiptParamToPreparedStatement(Connection con, int clientId, int remedyId, String query) throws SQLException, ConnectionPoolException {
-        con = pool.takeConnection();
+
+
+
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, clientId);
         ps.setInt(2, remedyId);
+
         return ps;
     }
 
@@ -244,9 +250,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
                                                                                 java.sql.Date expireDate,
                                                                                 java.sql.Date prescriptionDate,
                                                                                 String message, Receipt.Status status,
-                                                                                String query) throws SQLException,
-            ConnectionPoolException {
-        con = pool.takeConnection();
+                                                                                String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, doctorId);
         ps.setDate(2, expireDate);

@@ -92,9 +92,9 @@ public class ConnectionPool {
         Connection connection;
         try {
             connection = connectionQueue.take();
-            System.out.println("ConnectionQueue size: " +connectionQueue.size());
+            System.out.println("ConnectionQueue size: " + connectionQueue.size());
             givenAwayConnections.add(connection);
-            System.out.println("GivenAwayConnections size: " +givenAwayConnections.size());
+            System.out.println("GivenAwayConnections size: " + givenAwayConnections.size());
         } catch (InterruptedException ex) {
             throw new ConnectionPoolException("Error connecting to the data source", ex);
         }
@@ -133,7 +133,7 @@ public class ConnectionPool {
         }
     }
 
-    private class PooledConnection implements Connection {
+    protected class PooledConnection implements Connection {
         private Connection connection;
 
         public PooledConnection(Connection connection) throws SQLException {
@@ -157,7 +157,6 @@ public class ConnectionPool {
             if (connection.isClosed()) {
                 throw new SQLException("Attempting to close closed connection");
             }
-            //если поменяли настройки, то сбрасываем их default. из настроек тут только setReadOnly()
             if (connection.isReadOnly()) {
                 connection.setReadOnly(false);
             }

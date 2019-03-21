@@ -6,7 +6,7 @@ import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.entity.Remedy;
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Storage;
 
 import java.sql.Connection;
@@ -48,6 +48,7 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
                     storage.setRemedyLeft(remedyLeft);
                 }
                 storage.setRemedy(createRemedy(rs));
+                storage.setId(rs.getInt(7));
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -75,7 +76,6 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
             while (rs.next()) {
                 Remedy remedy = createRemedy(rs);
                 String remedyLeftText = rs.getString(REMEDY_LEFT);
-                int id =  rs.getInt(ID);
                 int remedyLeft = -1;
                 Storage st = new Storage();
                 if (remedyLeftText != null) {
@@ -108,15 +108,13 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
 
     @Override
     public boolean create(int remedyId, int remedyLeft) throws DAOException {
-        Connection con = null;
-        int insertionResult = createAndExecutePreparedStatement(con, QUERY_ADD_REMEDY_TO_STORAGE, remedyId, remedyLeft);
+        int insertionResult = createAndExecutePreparedStatement(QUERY_ADD_REMEDY_TO_STORAGE, remedyId, remedyLeft);
         return insertionResult == 1;
     }
 
     @Override
     public boolean update(int remedyId, int remedyLeft) throws DAOException {
-        Connection con = null;
-        int updateResult = createAndExecutePreparedStatement(con, QUERY_UPDATE_STORAGE_POSITION, remedyId, remedyLeft);
+        int updateResult = createAndExecutePreparedStatement(QUERY_UPDATE_STORAGE_POSITION, remedyId, remedyLeft);
         return updateResult == 1;
     }
 
@@ -141,8 +139,9 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
         return foundRemediesNumber;
     }
 
-    private int createAndExecutePreparedStatement(Connection con, String query, int remedyId,
+    private int createAndExecutePreparedStatement(String query, int remedyId,
                                                   int remedyLeft) throws DAOException {
+        Connection con = null;
         PreparedStatement ps = null;
         int operationResult;
         try {

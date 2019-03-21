@@ -3,11 +3,11 @@ package by.vladyka.epam.service.impl;
 import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.impl.SQLReceiptDAO;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.service.ReceiptService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.ReceiptValidator;
-import by.vladyka.epam.tdo.EntitySearchingResult;
 
 import java.util.List;
 
@@ -35,6 +35,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset)
             throws ServiceException {
+        boolean validationResult = validator.checkDoctorIdAndSetMessage(doctorId);
+        if (!validationResult) {
+            return null;
+        }
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         EntitySearchingResult<Receipt> applications;
         try {
@@ -48,8 +52,13 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset)
             throws ServiceException {
-        SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
+        boolean validationResult = validator.checkDoctorIdAndSetMessage(doctorId);
+        if (!validationResult) {
+            return null;
+        }
         EntitySearchingResult<Receipt> applications;
+        SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
+
         try {
             applications = sqlReceiptDAO.findWrittenPrescriptions(doctorId, start, offset);
         } catch (DAOException e) {

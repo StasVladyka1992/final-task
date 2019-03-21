@@ -33,8 +33,8 @@ public class Storage extends AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         Storage storage = (Storage) o;
-        if (getId() != storage.getId()) return false;
-        if (remedyLeft == storage.remedyLeft) return false;
+        if (this.getId() != storage.getId()) return false;
+        if (this.remedyLeft != storage.remedyLeft) return false;
         return remedy.equals(storage.remedy);
     }
 

@@ -39,11 +39,11 @@ public class AbstractValidatorTest {
         UserValidator validator = new UserValidator();
         for (Integer value :
                 correctValues) {
-            assertEquals(true, validator.checkId(value));
+            assertEquals(true, validator.checkIdAndSetMessage(value));
         }
         for (Integer value :
                 incorrectValues) {
-            assertEquals(false, validator.checkId(value));
+            assertEquals(false, validator.checkIdAndSetMessage(value));
         }
     }
 }

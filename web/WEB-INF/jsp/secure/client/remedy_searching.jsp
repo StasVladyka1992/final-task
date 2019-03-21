@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
-<fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
+<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="description" var="phone"/>
@@ -21,8 +21,8 @@
 <fmt:message bundle="${loc}" key="searchingRemedyPlaceholder" var="searchingRemedyPlaceholder"/>
 <fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
 <fmt:message bundle="${loc}" key="buy" var="buy"/>
-<fmt:message bundle="${loc}" key="addToBasket" var="addToBasket"/>
-<fmt:message bundle="${loc}" key="prescriptionApplications" var="prescriptionApplications"/>
+<fmt:message bundle="${loc}" key="goToAdding" var="goToAdding"/>
+<fmt:message bundle="${loc}" key="askForReceipt" var="askForReceipt"/>
 <fmt:message bundle="${loc}" key="showOnlyInStock" var="showOnlyInStock"/>
 <fmt:message bundle="${loc}" key="applicationSent" var="applicationSent"/>
 <fmt:message bundle="${loc}" key="receiptExist" var="receiptExist"/>
@@ -31,6 +31,9 @@
 <fmt:message bundle="${loc}" key="add" var="add"/>
 <fmt:message bundle="${loc}" key="goodAdded" var="goodAdded"/>
 <fmt:message bundle="${loc}" key="goToBasket" var="goToBasket"/>
+<fmt:message bundle="${loc}" key="goodAlreadyInBasket" var="goodAlreadyInBasket"/>
+<fmt:message bundle="${loc}" key="incorrectQuantity" var="incorrectQuantity"/>
+
 
 <div class="container-fluid">
     <h4>${remedySearching}</h4>
@@ -58,8 +61,7 @@
         <table class="table table-bordered">
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
-            <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${phone}"/></th>
+            <th class="align-middle"><c:out value="${remedyName}"/></th>
             <th class="align-middle"><c:out value="${price}"/></th>
             <th class="align-middle"><c:out value="${receipt}"/></th>
             <th class="align-middle"><c:out value="${quantity}"/></th>
@@ -69,7 +71,6 @@
                     <tr>
                         <td><c:out value="${storage.remedy.id}"/></td>
                         <td><c:out value="${storage.remedy.name}"/></td>
-                        <td><c:out value="${storage.remedy.description}"/></td>
                         <td><c:out value="${storage.remedy.price}"/></td>
                         <td><c:out value="${storage.remedy.receiptRequired}"/></td>
                         <td>
@@ -82,52 +83,16 @@
                         </td>
                         <td>
                             <div class="row justify-content-center">
-                                <!--Кнопка просто на модальное окно, форма за списком-->
                                 <c:if test="${storage.remedyLeft !=-1 && storage.remedyLeft!=0}">
-                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                            data-target="#addToBasket">${addToBasket}</button>
-                                    <div class="modal fade" id="addToBasket">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">${quantity}</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;
-                                                    </button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <div class="modal-body">
-                                                    <form action="/secure?command=add_to_basket" method="post">
-                                                        <div class="col-sm-6 mb-3 pl-0">
-                                                            <label for="alterQuantity">${quantity}</label>
-                                                            <input type="number" name="quantity" min="0" step="1"
-                                                                   max="${storage.remedyLeft}"
-                                                                   class="form-control form-control-sm"
-                                                                   id="alterQuantity"
-                                                                   placeholder="0">
-                                                        </div>
-                                                        <button class="btn btn-sm btn-primary"
-                                                                type="submit">${add}</button>
-                                                        <input type="hidden" name="storage"
-                                                               value="${storage.id}">
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <form action="/secure?command=show_remedy_info" method="post">
+                                        <button type="submit" class="btn btn-sm btn-primary">${goToAdding}</button>
+                                        <input type="hidden" value="${storage.remedy.id}" name="id">
+                                    </form>
                                 </c:if>
                                 <c:if test="${storage.remedyLeft ==-1 || storage.remedyLeft==0}">
                                     <button type="submit" class="btn btn-sm btn-primary"
-                                            disabled>${addToBasket}</button>
+                                            disabled>${goToAdding}</button>
                                 </c:if>
-                                <form class="form-inline mr-1 ml-1" action="/secure?command=ask_for_receipt"
-                                      method="post">
-                                    <c:if test="${storage.remedy.receiptRequired}">
-                                        <button type="submit"
-                                                class="btn btn-sm btn-primary">${prescriptionApplications}</button>
-                                    </c:if>
-                                    <input type="hidden" value="${storage.remedy.id}" name="id">
-                                </form>
                             </div>
                         </td>
                     </tr>
@@ -140,7 +105,6 @@
             </c:if>
         </table>
     </div>
-    <!-- The Modal of change quantity-->
     <c:if test="${param.operationResult.equals('applicationAccepted')}">
         <p class="text-success">
             <c:out value="${applicationSent}"/>
@@ -151,13 +115,22 @@
             <c:out value="${receiptExist}"/>
         </p>
     </c:if>
-    <c:if test="${param.operationResult.equals('goodAdded')}">
+    <c:if test="${param.operationResult.equals('success')}">
         <p class="text-success">
             <c:out value="${goodAdded}"/>
-            <c:out value="${sessionScope.get('basket').size()}"/>
+            <c:out value="${sessionScope.get('orderDto').goods.size()}"/>
         </p>
     </c:if>
-
+    <c:if test="${param.incorrectQuantity.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${incorrectQuantity}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.operationResult.equals('goodAlreadyInBasket')}">
+        <p class="text-danger">
+            <c:out value="${goodAlreadyInBasket}"/>
+        </p>
+    </c:if>
     <c:if test="${sessionScope.pagesNumber>1}">
         <ul class="pagination justify-content-center">
             <!--available "Previous" link-->
@@ -206,7 +179,7 @@
             </c:if>
         </ul>
     </c:if>
-    <c:if test="${sessionScope.get('basket').size()!=0 && not empty sessionScope.get('basket') }">
+    <c:if test="${sessionScope.get('orderDto').goods.size()!=0 && not empty sessionScope.get('orderDto').goods}">
         <div class="d-flex justify-content-end">
             <a href="/secure?command=go_to_basket">${goToBasket}</a>
         </div>

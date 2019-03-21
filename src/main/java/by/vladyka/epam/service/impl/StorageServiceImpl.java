@@ -7,7 +7,7 @@ import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.StorageService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.StorageValidator;
-import by.vladyka.epam.tdo.EntitySearchingResult;
+import by.vladyka.epam.dto.EntitySearchingResult;
 
 import java.util.List;
 
