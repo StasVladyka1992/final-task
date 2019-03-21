@@ -16,6 +16,7 @@ import java.util.List;
  **/
 public class ClientOrderServiceImpl implements ClientOrderService {
     private ClientOrderValidator validator = new ClientOrderValidator();
+
     @Override
     public boolean delete(int id) throws ServiceException {
         return false;
@@ -32,16 +33,19 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     }
 
     @Override
-    public int create(int clientId) throws ServiceException {
-        boolean validationResult = validator.checkIdAndSetMessage(clientId);
+    public int buy(int clientId) throws ServiceException {
+        int clientOrderId = -1;
+        boolean validationResult = validator.checkId(clientId);
         if (!validationResult) {
-            return -1;
+            return clientOrderId;
         }
         DAOProvider provider = DAOProvider.getInstance();
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) provider.getSQLClientOrderDAO();
-        int clientOrderId;
         try {
-             clientOrderId= clientOrderDAO.create(clientId);
+            int result = clientOrderDAO.create(clientId);
+            if (result == 1) {
+                clientOrderId = clientOrderDAO.getLastInsertedId();
+            }
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

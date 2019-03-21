@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_ORDER_STATUS;
 import static by.vladyka.epam.controller.util.ParameterName.*;
+import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_OPERATION_RESULT_FAIL;
 import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_OPERATION_RESULT_SUCCESS;
 
 /**
@@ -31,10 +32,9 @@ public class Buy implements Command {
         User user = (User)session.getAttribute(PARAM_NAME_USER);
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientOrderService clientOrderService = provider.getClientOrderService();
-        ClientOrderValidator clientOrderValidator = ((ClientOrderServiceImpl) clientOrderService).getValidator();
-        int clientOrderId = clientOrderService.create(user.getId());
+        int clientOrderId = clientOrderService.buy(user.getId());
         if (clientOrderId==-1){
-            resp.sendRedirect(GO_TO_ORDER_STATUS +clientOrderValidator.getIncorrectDataMessages());
+            resp.sendRedirect(GO_TO_ORDER_STATUS +PARAM_NAME_OPERATION_RESULT+'='+PARAM_VALUE_OPERATION_RESULT_FAIL);
         }
         OrderDto orderDto = (OrderDto)session.getAttribute(PARAM_NAME_ORDER_DTO);
         RemedyOrderService remedyOrderService = provider.getRemedyOrderService();

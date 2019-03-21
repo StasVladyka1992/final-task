@@ -88,10 +88,10 @@
                 <form action="/secure?command=add_to_basket" method="post">
                     <div class="col-sm-6 pl-0">
                         <label for="alterQuantity">${quantity}</label>
-                        <input type="number" name="quantity" min="0" step="1"
+                        <input type="number" name="quantity" min="1" step="1"
                                max="${storage.remedyLeft}"
                                class="form-control form-control-sm"
-                               id="alterQuantity"
+                               id="alterQuantity" value="1"
                                placeholder="0">
                     </div>
                     <button class="btn btn-sm btn-primary mt-2"

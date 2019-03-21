@@ -43,33 +43,40 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        int clientOrderId = -1;
+        int result;
         try {
             con = pool.takeConnection();
-            con.setAutoCommit(false);
+            //TODO как выполнить эти операции одну за другой, как одну?
             ps = con.prepareStatement(QUERY_CREATE_CLIENT_ORDER);
             ps.setDate(1, new java.sql.Date(new Date().getTime()));
             ps.setInt(2, clientId);
-            ps.executeUpdate();
+            result = ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException ex) {
+            throw new DAOException(ex);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        return result;
+    }
 
-            ps = con.prepareStatement(QUERY_LAST_INSERT_ID);
+    @Override
+    public int getLastInsertedId() throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int clientOrderId = -1;
+        try {
+            con = pool.takeConnection();
+            ps=con.prepareStatement(QUERY_LAST_INSERT_ID);
             rs = ps.executeQuery();
             if (rs.next()) {
                 clientOrderId = rs.getInt(1);
             }
-            con.commit();
         } catch (SQLException | ConnectionPoolException ex) {
-            try {
-                con.rollback();
-            } catch (SQLException e) {
-                throw new DAOException(e);
-            }
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps, rs);
         }
         return clientOrderId;
     }
-
-//    private int ()
 }

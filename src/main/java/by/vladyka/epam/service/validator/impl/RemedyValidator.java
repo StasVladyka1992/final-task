@@ -57,4 +57,12 @@ public final class RemedyValidator extends AbstractValidator {
         addIncorrectDataMessage(INCORRECT_DESCRIPTION);
         return false;
     }
+
+    public boolean checkRemedyIdAndSetMessage(int id) {
+        boolean result = checkId(id);
+        if (!result) {
+            addIncorrectDataMessage(INCORRECT_ID);
+        }
+        return result;
+    }
 }

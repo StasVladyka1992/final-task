@@ -15,18 +15,17 @@ public final class StorageValidator extends AbstractValidator {
 
     public boolean checkAddingDataAndSetMessage(int remedyId, int remedyLeft) {
         boolean isQuantityCorrect = checkQuantityAndSetMessage(remedyLeft);
-        boolean isIdCorrect = checkIdAndSetMessage(remedyId);
+        boolean isIdCorrect = checkId(remedyId);
         return isQuantityCorrect && isIdCorrect;
     }
 
-
-//    public boolean checkIdAndSetMessage(int id) {
-//        boolean result = checkIdAndSetMessage(id);
-//        if (!result) {
-//            addIncorrectDataMessage(INCORRECT_ID);
-//        }
-//        return result;
-//    }
+    public boolean checkStorageIdAndSetMessage(int id) {
+        boolean result = checkId(id);
+        if (!result) {
+            addIncorrectDataMessage(INCORRECT_ID);
+        }
+        return result;
+    }
 
     public boolean checkQuantityAndSetMessage(int quantity) {
         Matcher matcher = QUANTITY.matcher(String.valueOf(quantity));

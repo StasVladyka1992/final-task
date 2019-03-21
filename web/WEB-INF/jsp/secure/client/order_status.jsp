@@ -13,7 +13,7 @@
 <c:if test="${param.operationResult.equals('true')}">
     <c:out value="${orderCreated}"/>
 </c:if>
-<c:if test="incorrectId=true">
+<c:if test="${param.operationResult.equals('fail')}">
     <c:out value="${orderError}"/>
 </c:if>
 

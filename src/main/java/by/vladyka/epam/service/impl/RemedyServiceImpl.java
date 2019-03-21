@@ -18,7 +18,7 @@ public class RemedyServiceImpl implements RemedyService {
 
     @Override
     public Remedy findById(int id) throws ServiceException {
-        boolean validationResult = validator.checkIdAndSetMessage(id);
+        boolean validationResult = validator.checkId(id);
         Remedy remedy = null;
         if (validationResult) {
             DAOProvider provider = DAOProvider.getInstance();
@@ -40,7 +40,7 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws ServiceException {
         boolean validationResult = validateCreateData(name, description, price, receiptRequired) &&
-                validator.checkIdAndSetMessage(id);
+                validator.checkId(id);
         if (!validationResult) {
             return false;
         }
@@ -72,7 +72,7 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public boolean delete(int id) throws ServiceException {
         boolean isDeletingSuccessfull = false;
-        if (validator.checkIdAndSetMessage(id)) {
+        if (validator.checkId(id)) {
             DAOProvider daoProvider = DAOProvider.getInstance();
             try {
                 isDeletingSuccessfull = daoProvider.getSQLRemedyDAO().deleteById(id);

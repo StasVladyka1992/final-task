@@ -56,7 +56,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public Storage findById(int id) throws ServiceException {
         boolean validationResult;
-        validationResult = validator.checkIdAndSetMessage(id);
+        validationResult = validator.checkId(id);
         Storage storage;
         if (!validationResult) {
             return null;

@@ -1,12 +1,12 @@
 package by.vladyka.epam.dao.impl;
 
-import by.vladyka.epam.dao.util.RemedyUtil;
 import by.vladyka.epam.dao.StorageDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
-import by.vladyka.epam.entity.Remedy;
+import by.vladyka.epam.dao.util.RemedyUtil;
 import by.vladyka.epam.dto.EntitySearchingResult;
+import by.vladyka.epam.entity.Remedy;
 import by.vladyka.epam.entity.Storage;
 
 import java.sql.Connection;
@@ -15,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static by.vladyka.epam.dao.util.DBColumn.ID;
 import static by.vladyka.epam.dao.util.DBColumn.REMEDY_LEFT;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 

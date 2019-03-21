@@ -53,44 +53,18 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
 
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        int insertionResult;
-        try {
-            con = pool.takeConnection();
-            ps = createAndSetRemedyParamToPreparedStatement(con, QUERY_UPDATE_REMEDY, name, description, price,
-                    receiptRequired);
-            ps.setInt(5, id);
-            insertionResult = ps.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } catch (ConnectionPoolException ex) {
-            throw new DAOException(ex);
-        } finally {
-            pool.closeConnection(con, ps);
-        }
-        return insertionResult == 1;
+        String query = QUERY_UPDATE_REMEDY + id;
+        boolean result = queryExecutor(QUERY_UPDATE_REMEDY, name, description, price,
+                receiptRequired);
+        return result;
     }
 
 
     @Override
     public boolean create(String name, String description, double price, boolean receiptRequired) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        int insertionResult;
-        try {
-            con = pool.takeConnection();
-            ps = createAndSetRemedyParamToPreparedStatement(con, QUERY_ADD_REMEDY, name, description, price,
-                    receiptRequired);
-            insertionResult = ps.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } catch (ConnectionPoolException ex) {
-            throw new DAOException(ex);
-        } finally {
-            pool.closeConnection(con, ps);
-        }
-        return insertionResult == 1;
+        boolean result = queryExecutor(QUERY_ADD_REMEDY, name, description, price,
+                receiptRequired);
+        return result;
     }
 
     @Override
@@ -98,15 +72,41 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
         return deleteHelper(id, QUERY_DELETE_REMEDY, pool);
     }
 
-    private PreparedStatement createAndSetRemedyParamToPreparedStatement(Connection con, String query, String name,
-                                                                         String description, double price, boolean
-                                                                                 receiptRequired) throws SQLException, ConnectionPoolException {
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, name);
-        ps.setString(2, description);
-        ps.setDouble(3, price);
-        ps.setBoolean(4, receiptRequired);
-        return ps;
+//    private PreparedStatement queryExecutor(Connection con, String query, String name,
+//                                                                         String description, double price, boolean
+//                                                                                 receiptRequired) throws SQLException, ConnectionPoolException {
+//
+//
+//        PreparedStatement ps = con.prepareStatement(query);
+//        ps.setString(1, name);
+//        ps.setString(2, description);
+//        ps.setDouble(3, price);
+//        ps.setBoolean(4, receiptRequired);
+//        return ps;
+//    }
+
+    private boolean queryExecutor(String query, String name,
+                                  String description, double price, boolean
+                                                                       receiptRequired) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int insertionResult;
+        try {
+            con = pool.takeConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, description);
+            ps.setDouble(3, price);
+            ps.setBoolean(4, receiptRequired);
+            insertionResult = ps.executeUpdate();
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } catch (ConnectionPoolException ex) {
+            throw new DAOException(ex);
+        } finally {
+            pool.closeConnection(con, ps);
+        }
+        return insertionResult == 1;
     }
 
 }

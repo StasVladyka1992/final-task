@@ -18,11 +18,11 @@ public abstract class AbstractValidator {
         incorrectDataMessages.append(incorrectMessage);
     }
 
-    public boolean checkIdAndSetMessage(int id) {
-        boolean result = ID.matcher(String.valueOf(id)).find() ? true : false;
-        if (!result) {
-            addIncorrectDataMessage(INCORRECT_ID);
-        }
-        return result;
+    public boolean checkId(int id) {
+        return ID.matcher(String.valueOf(id)).find() ? true : false;
+//        if (!result) {
+//            addIncorrectDataMessage(INCORRECT_ID);
+//        }
+
     }
 }

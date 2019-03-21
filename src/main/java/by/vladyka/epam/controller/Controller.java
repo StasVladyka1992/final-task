@@ -42,6 +42,7 @@ public class Controller extends HttpServlet {
     //        sun.misc.Unsafe.park(Native Method)
     //TODO на jsp сделать switch вместо кучи if
     //TODO показать операции с бд Сане
+    //TODO при повторном обращение за заявкой она появляется в url
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

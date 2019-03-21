@@ -22,7 +22,7 @@ public final class ReceiptValidator extends AbstractValidator {
     public boolean checkDoctorAddingDataAndSetMessage(int id, int doctorId, java.sql.Date expireDate,
                                                       java.sql.Date prescriptionDate, String message,
                                                       Receipt.Status status) {
-        boolean isIdCorrect = checkIdAndSetMessage(id);
+        boolean isIdCorrect = checkId(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isExpireDateCorrect = checkDateAndSetMessage(expireDate);
         boolean isPrescriptionDateCorrect = checkDateAndSetMessage(prescriptionDate);
@@ -36,7 +36,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkRejectionDataAndSetMessage(int id, int doctorId, String message){
-        boolean isIdCorrect = checkIdAndSetMessage(id);
+        boolean isIdCorrect = checkId(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isMessageCorrect = checkMessageAndSetMessage(message);
         return isIdCorrect && isMessageCorrect && isDoctorIdCorrect;
@@ -61,7 +61,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkDoctorIdAndSetMessage(int doctorId) {
-        boolean result = checkIdAndSetMessage(doctorId);
+        boolean result = checkId(doctorId);
         if (!result) {
             addIncorrectDataMessage(INCORRECT_DOCTOR_ID);
         }
@@ -69,7 +69,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkClientIdAndSetMessage(int clientId) {
-        boolean result = checkIdAndSetMessage(clientId);
+        boolean result = checkId(clientId);
         if (!result) {
             addIncorrectDataMessage(INCORRECT_CLIENT_ID);
         }
@@ -77,7 +77,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkRemedyIdAndSetMessage(int remedyId) {
-        boolean result = checkIdAndSetMessage(remedyId);
+        boolean result = checkId(remedyId);
         if (!result) {
             addIncorrectDataMessage(INCORRECT_REMEDY_ID);
         }
@@ -87,6 +87,13 @@ public final class ReceiptValidator extends AbstractValidator {
         boolean result = DATE.matcher(date.toString()).find() ? true : false;
         if (!result) {
             addIncorrectDataMessage(INCORRECT_DATE);
+        }
+        return result;
+    }
+    public boolean checkReceiptIdAndSetMessage(int id) {
+        boolean result = checkId(id);
+        if (!result) {
+            addIncorrectDataMessage(INCORRECT_ID);
         }
         return result;
     }

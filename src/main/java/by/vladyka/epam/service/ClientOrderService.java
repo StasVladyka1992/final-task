@@ -8,5 +8,5 @@ import by.vladyka.epam.service.exception.ServiceException;
  * on 21.03.2019 at 2:04
  **/
 public interface ClientOrderService extends AbstractService <ClientOrder> {
-    int create(int clientId) throws ServiceException;
+    int buy(int clientId) throws ServiceException;
 }

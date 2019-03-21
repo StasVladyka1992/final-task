@@ -101,7 +101,6 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public boolean deleteById(int id) throws DAOException {
-        //заюзать deleteHelper
         return false;
     }
 
