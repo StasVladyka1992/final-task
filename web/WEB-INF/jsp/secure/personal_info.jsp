@@ -15,7 +15,7 @@
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
 <fmt:message bundle="${loc}" key="lastName" var="lastName"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
-<fmt:message bundle="${loc}" key="phone" var="phone"/>
+<fmt:message bundle="${loc}" key="phone" var="lastName"/>
 <fmt:message bundle="${loc}" key="password" var="password"/>
 <fmt:message bundle="${loc}" key="incorrectPassword" var="incorrectPassword"/>
 <fmt:message bundle="${loc}" key="incorrectEmail" var="incorrectEmail"/>
@@ -50,7 +50,7 @@
                            required>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="phone">${phone}</label>
+                    <label for="phone">${lastName}</label>
                     <input type="text" class="form-control form-control-sm" id="phone"
                            name="phone" value="${sessionScope.get('user').phone}" required>
                 </div>

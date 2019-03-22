@@ -3,7 +3,7 @@
 
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="phone"/>
+<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
 <fmt:message bundle="${loc}" key="phone" var="phone"/>
 <fmt:message bundle="${loc}" key="password" var="password"/>
 <fmt:message bundle="${loc}" key="submit" var="submit"/>
@@ -57,15 +57,15 @@
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for="lastName">${phone}</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" aria-describedby="lastNameHelpBlock" placeholder="${phone}"
+                    <label for="lastName">${lastName}</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" aria-describedby="lastNameHelpBlock" placeholder="${lastName}"
                            required maxlength="30">
                     <small id="lastNameHelpBlock" class="form-text text-muted">
                         Your last name must be 1-30 characters long and contain only letters.
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for="phone">${phone}</label>
+                    <label for="phone">${lastName}</label>
                     <input type="text" id="phone" name="phone" class="form-control" placeholder="+375-29-111-11-11"
                            required maxlength="17">
                 </div>

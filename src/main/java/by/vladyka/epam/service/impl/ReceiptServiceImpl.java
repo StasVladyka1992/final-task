@@ -25,7 +25,31 @@ public class ReceiptServiceImpl implements ReceiptService {
         SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         EntitySearchingResult<Receipt> receipts;
         try {
-            receipts = receiptDAO.findUnhandledReceipts(start, offset);
+            receipts = receiptDAO.findUnhandledApplications(start, offset);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return receipts;
+    }
+
+    @Override
+    public EntitySearchingResult<Receipt> findClientUnhandledReceipts(int userId, int start, int offset) throws ServiceException {
+        SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
+        EntitySearchingResult<Receipt> receipts;
+        try {
+            receipts = receiptDAO.findClientUnhandledApplications(userId, start, offset);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return receipts;
+    }
+
+    @Override
+    public EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int userId, int start, int offset) throws ServiceException {
+        SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
+        EntitySearchingResult<Receipt> receipts;
+        try {
+            receipts = receiptDAO.findClientWrittenPrescriptions(userId, start, offset);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -95,7 +119,9 @@ public class ReceiptServiceImpl implements ReceiptService {
         boolean isAddingSuccessfull;
         try {
             if (sqlReceiptDAO.isValidReceiptExist(clientId, remedyId)) {
-                validator.addIncorrectDataMessage(RECEIPT_EXIST);
+                if(!validator.getIncorrectDataMessages().toString().contains(RECEIPT_EXIST)){
+                    validator.addIncorrectDataMessage(RECEIPT_EXIST);
+                }
                 return false;
             }
             isAddingSuccessfull = provider.getSQLReceiptDAO().createAppliance(clientId, remedyId);

@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="../../../../styles/user_main.css">
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
-<fmt:message bundle="${loc}" key="status" var="receiptStatus"/>
+<fmt:message bundle="${loc}" key="status" var="status"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="phone"/>
+<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
 <fmt:message bundle="${loc}" key="writePrescription" var="writePrescription"/>
@@ -41,9 +41,9 @@
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
             <th class="align-middle"><c:out value="${remedy}"/></th>
-            <th class="align-middle"><c:out value="${receiptStatus}"/></th>
+            <th class="align-middle"><c:out value="${status}"/></th>
             <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${phone}"/></th>
+            <th class="align-middle"><c:out value="${lastName}"/></th>
             <th class="align-middle"><c:out value="${email}"/></th>
             </thead>
             <c:if test="${receiptList.size()!=0 || receiptList !=null}">
@@ -141,7 +141,7 @@
             </c:if>
         </table>
     </div>
-    <%--Pagination--%>
+
     <c:if test="${param.operationResult.equals('prescriptionWritten')}">
         <p class="text-success">
                 ${prescriptionWrote}
@@ -152,6 +152,7 @@
                 ${applicationRejected}
         </p>
     </c:if>
+    <%--Pagination--%>
     <c:if test="${sessionScope.pagesNumber>1}">
         <ul class="pagination justify-content-center">
             <!--available "Previous" link-->

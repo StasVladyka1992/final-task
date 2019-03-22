@@ -10,7 +10,7 @@
 <fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
-<fmt:message bundle="${loc}" key="description" var="phone"/>
+<fmt:message bundle="${loc}" key="description" var="lastName"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
@@ -172,15 +172,20 @@
             </c:if>
         </ul>
     </c:if>
-    <c:if test="${sessionScope.get('orderDto').goods.size()!=0 && not empty sessionScope.get('orderDto').goods}">
-        <div class="d-flex justify-content-end">
-            <a href="/secure?command=go_to_basket">${goToBasket}</a>
+</div
+<div class="container-fluid">
+    <div class="d-flex justify-content-between">
+        <div class="col">
+            <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
         </div>
-    </c:if>
-</div>
-
-<div class="d-flex container-fluid justify-content-start">
-    <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
+        <div class="col">
+            <div class="d-flex justify-content-end">
+                <c:if test="${sessionScope.get('orderDto').goods.size()!=0 && not empty sessionScope.get('orderDto').goods}">
+                    <a href="/secure?command=go_to_basket">${goToBasket}</a>
+                </c:if>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>

@@ -29,8 +29,16 @@ public final class SQLQuery {
     //receipt's queries
     public static final String QUERY_CREATE_RECEIPT = "INSERT INTO RECEIPTS (clientId, remedyId) VALUES (?,?)";
     public static final String QUERY_FIND_RECEIPT_BY_CLIENT_ID_AND_REMEDY_ID = "SELECT expireDate FROM receipts WHERE clientId=? and remedyId=?";
-    public static final String QUERY_COUNT_UNHANDLED_RECEIPTS = "SELECT COUNT(id) FROM RECEIPTS WHERE expireDate IS NULL and status='NONE'";
-    public static final String QUERY_FIND_UNHANDLED_RECEIPTS = "SELECT rec.id, rec.status, u.firstName, u.lastName, u.id, u.email, rem.name, rem.description FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.prescriptionDate IS NULL AND rec.status='NONE' LIMIT ?,?";
+    public static final String QUERY_COUNT_UNHANDLED_APPLICATIONS = "SELECT COUNT(id) FROM RECEIPTS WHERE status='NONE'";
+//    public static final String QUERY_COUNT_UNHANDLED_APPLICATIONS = "SELECT COUNT(id) FROM RECEIPTS WHERE expireDate IS NULL and status='NONE'";
+    public static final String QUERY_FIND_UNHANDLED_APPLICATIONS = "SELECT rec.id, rec.status, u.firstName, u.lastName, u.id, u.email, rem.name, rem.description FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.prescriptionDate IS NULL AND rec.status='NONE' LIMIT ?,?";
+    public static final String QUERY_COUNT_CLIENT_UNHANDLED_APPLICATIONS = "SELECT COUNT(id) FROM receipts WHERE status='NONE' and clientId=";
+    public static final String QUERY_FIND_CLIENT_UNHANDLED_APPLICATIONS = "SELECT rec.id, rec.status, rem.name FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.status='NONE' AND u.id=? LIMIT ?,?";
+    public static final String QUERY_COUNT_CLIENT_WRITTEN_PRESCRIPTIONS= "SELECT COUNT(id) FROM receipts WHERE status='APPROVED' and clientId=";
+    public static final String QUERY_FIND_CLIENT_WRITTEN_PRESCRIPTIONS = "SELECT rec.id, rec.status, rem.name, rec.expireDate FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.status='APPROVED' AND u.id=? LIMIT ?,?";
+
+
+
     public static final String QUERY_WRITE_PRESCRIPTION = "UPDATE receipts SET doctorId=?, expireDate=?, prescriptionDate=?, message=?, status=? WHERE id=?";
     public static final String QUERY_REJECT = "UPDATE receipts SET doctorId=?, message=?, status=?, prescriptionDate=? WHERE id=?";
     public static final String QUERY_COUNT_REJECTED_APPLICATIONS = "SELECT COUNT(id) FROM receipts WHERE doctorId=? and status='REJECTED'";

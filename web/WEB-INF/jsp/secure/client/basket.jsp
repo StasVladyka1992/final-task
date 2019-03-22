@@ -71,14 +71,8 @@
                             <input type="hidden" value="${storage.id}" name="id">
                         </form>
                         <button form="changeQuantity" type="submit" class="btn btn-sm btn-primary mr-2 mb-1 mt-1">
-                                ${changeQuantity}</button>
-                        <c:if test="${storage.remedy.receiptRequired}">
-                            <form class="pl-1 d-inline-block" action="/secure?command=ask_for_receipt" method="post">
-                                <button type="submit"
-                                        class="btn btn-sm btn-primary mr-2 mb-1 mt-1">${askForReceipt}</button>
-                                <input type="hidden" value="${storage.id}" name="id">
-                            </form>
-                        </c:if>
+                                ${changeQuantity}
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -87,10 +81,10 @@
 </div>
 <!--Кнопки-->
 <div class="container-fluid mb-2">
-    <c:if test="${sessionScope.get('orderDto').goods.size()!=0 || empty sessionScope.get('orderDto')}">
+    <a href="/secure?command=go_to_client_searching_page" type="button"
+       class="btn btn-sm btn-success mr-2">${addToBasket}</a>
+    <c:if test="${sessionScope.get('orderDto').goods.size()!=0 && not empty sessionScope.get('orderDto')}">
         <a href="/secure?command=buy" type="button" class="btn btn-sm btn-success mr-2">${placeOrder}</a>
-        <a href="/secure?command=go_to_client_searching_page" type="button"
-           class="btn btn-sm btn-success mr-2">${addToBasket}</a>
         <a href="/secure?command=clean_basket" type="button" class="btn btn-sm btn-danger">${cleanBasket}</a>
     </c:if>
     <c:if test="${param.operationResult.equals('remedy_deleted')}">

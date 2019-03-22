@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="../../../../styles/user_main.css">
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
-<fmt:message bundle="${loc}" key="status" var="receiptStatus"/>
+<fmt:message bundle="${loc}" key="status" var="status"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="phone"/>
+<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
 <fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
@@ -21,6 +21,7 @@
 <fmt:message bundle="${loc}" key="back" var="back"/>
 <fmt:message bundle="${loc}" key="writtenPrescriptions" var="writtenPrescriptions"/>
 <fmt:message bundle="${loc}" key="prescriptionDate" var="prescriptionDate"/>
+<fmt:message bundle="${loc}" key="expireDate" var="expireDate"/>
 
 <div class="container-fluid ">
     <h4 class="mb-2">${writtenPrescriptions}</h4>
@@ -29,10 +30,11 @@
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
             <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${receiptStatus}"/></th>
+            <th class="align-middle"><c:out value="${status}"/></th>
             <th class="align-middle"><c:out value="${prescriptionDate}"/></th>
+            <th class="align-middle"><c:out value="${expireDate}"/></th>
             <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${phone}"/></th>
+            <th class="align-middle"><c:out value="${lastName}"/></th>
             <th class="align-middle"><c:out value="${email}"/></th>
             <th class="align-middle"><c:out value="${receiptComment}"/></th>
             </thead>
@@ -43,7 +45,10 @@
                         <td><c:out value="${receipt.remedy.name}"/></td>
                         <td><c:out value="${receipt.status}"/></td>
                         <td>
-                            <fmt:formatDate value="${receipt.prescriptionDate}" pattern="yyyy-MM-dd"/>
+                            <fmt:formatDate value="${receipt.prescriptionDate}" pattern="yyyy-MM-dd hh:mm:ss"/>
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${receipt.expireDate}" pattern="yyyy-MM-dd hh:mm:ss"/>
                         </td>
                         <td><c:out value="${receipt.client.firstName}"/></td>
                         <td><c:out value="${receipt.client.lastName}"/></td>

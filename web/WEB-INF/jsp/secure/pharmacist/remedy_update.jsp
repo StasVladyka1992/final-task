@@ -11,7 +11,7 @@
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
-<fmt:message bundle="${loc}" key="description" var="phone"/>
+<fmt:message bundle="${loc}" key="description" var="lastName"/>
 <fmt:message bundle="${loc}" key="alter" var="alter"/>
 <fmt:message bundle="${loc}" key="yes" var="yes"/>
 <fmt:message bundle="${loc}" key="no" var="no"/>
@@ -34,7 +34,7 @@
                            required>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="description">${phone}</label>
+                    <label for="description">${lastName}</label>
                     <input type="text" class="form-control form-control-sm" id="description"
                            name="description" value="${storage.remedy.description}" required>
                 </div>

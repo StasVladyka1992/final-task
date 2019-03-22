@@ -12,7 +12,7 @@
 <fmt:message bundle="${loc}" key="userMessageBeforeTable" var="userMessageBeforeTable"/>
 <fmt:message bundle="${loc}" key="userMessageAfterTable" var="userMessageAfterTable"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="phone"/>
+<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="startWork" var="startWork"/>
 
@@ -26,7 +26,7 @@
         <thead>
         <tr>
             <th>${firstName}</th>
-            <th>${phone}</th>
+            <th>${lastName}</th>
             <th>${email}</th>
         </tr>
         </thead>

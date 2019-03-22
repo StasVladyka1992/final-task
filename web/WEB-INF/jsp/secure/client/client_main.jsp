@@ -24,7 +24,8 @@
                 <h5 class="card-title text-center">${remedySearching}</h5>
                 <p class="card-text">${remedySearchingMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="/secure?command=go_to_client_searching_page" type="button" class="btn btn-success">${further}</a>
+                    <a href="/secure?command=go_to_client_searching_page" type="button"
+                       class="btn btn-success">${further}</a>
                 </div>
             </div>
         </div>
@@ -34,7 +35,8 @@
                 <h5 class="card-title text-center">${prescriptionApplications}</h5>
                 <p class="card-text">${prescriptionApplicationsMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="#" type="button" class="btn btn-success">${further}</a>
+                    <a href="/secure?command=show_prescription_application_list" type="button"
+                       class="btn btn-success">${further}</a>
                 </div>
             </div>
         </div>

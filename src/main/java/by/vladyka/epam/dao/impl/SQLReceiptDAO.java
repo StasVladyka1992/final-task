@@ -29,16 +29,93 @@ public class SQLReceiptDAO implements ReceiptDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
-    public EntitySearchingResult<Receipt> findUnhandledReceipts(int start, int offset) throws DAOException {
+    public EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int clientId, int start, int offset) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int unhandledReceiptsNumber;
         List<Receipt> receipts;
         try {
-            unhandledReceiptsNumber = getFoundEntitiesNumber(QUERY_COUNT_UNHANDLED_RECEIPTS, pool);
+            String countCommand = QUERY_COUNT_CLIENT_WRITTEN_PRESCRIPTIONS + clientId;
+            unhandledReceiptsNumber = getFoundEntitiesNumber(countCommand, pool);
             con = pool.takeConnection();
-            ps = con.prepareStatement(QUERY_FIND_UNHANDLED_RECEIPTS);
+            ps = con.prepareStatement(QUERY_FIND_CLIENT_WRITTEN_PRESCRIPTIONS);
+            setClientIdStartOffsetToStatement(ps, clientId, start, offset);
+            receipts = new ArrayList<>();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Receipt receipt = new Receipt();
+                receipt.setId(rs.getInt(1));
+                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
+                receipt.setExpireDate(rs.getDate(4));
+
+                Remedy remedy = new Remedy();
+                remedy.setName(rs.getString(3));
+
+                receipt.setRemedy(remedy);
+                receipts.add(receipt);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        EntitySearchingResult<Receipt> unhandledReceipts = new EntitySearchingResult<>();
+        unhandledReceipts.setFoundEntities(receipts);
+        unhandledReceipts.setFoundEntitiesNumber(unhandledReceiptsNumber);
+        return unhandledReceipts;
+    }
+
+    @Override
+    public EntitySearchingResult<Receipt> findClientUnhandledApplications(int clientId, int start, int offset)
+            throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int unhandledReceiptsNumber;
+        List<Receipt> receipts;
+        try {
+            String countCommand = QUERY_COUNT_CLIENT_UNHANDLED_APPLICATIONS + clientId;
+            unhandledReceiptsNumber = getFoundEntitiesNumber(countCommand, pool);
+            con = pool.takeConnection();
+            ps = con.prepareStatement(QUERY_FIND_CLIENT_UNHANDLED_APPLICATIONS);
+            setClientIdStartOffsetToStatement(ps, clientId, start, offset);
+            receipts = new ArrayList<>();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Receipt receipt = new Receipt();
+                receipt.setId(rs.getInt(1));
+                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
+
+                Remedy remedy = new Remedy();
+                remedy.setName(rs.getString(3));
+
+                receipt.setRemedy(remedy);
+                receipts.add(receipt);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        EntitySearchingResult<Receipt> unhandledReceipts = new EntitySearchingResult<>();
+        unhandledReceipts.setFoundEntities(receipts);
+        unhandledReceipts.setFoundEntitiesNumber(unhandledReceiptsNumber);
+        return unhandledReceipts;
+
+    }
+
+    @Override
+    public EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int unhandledReceiptsNumber;
+        List<Receipt> receipts;
+        try {
+            unhandledReceiptsNumber = getFoundEntitiesNumber(QUERY_COUNT_UNHANDLED_APPLICATIONS, pool);
+            con = pool.takeConnection();
+            ps = con.prepareStatement(QUERY_FIND_UNHANDLED_APPLICATIONS);
             setStartPositionAndOffset(ps, start, offset);
             receipts = new ArrayList<>();
             rs = ps.executeQuery();
@@ -185,7 +262,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
                 application.setId(rs.getInt(1));
                 application.setStatus(Receipt.Status.valueOf(rs.getString(2)));
                 application.setPrescriptionDate(rs.getDate(3));
-                application.setPrescriptionDate(rs.getDate(3));
+//                application.setPrescriptionDate(rs.getDate(3));
                 application.setMessage(rs.getString(4));
 
                 User client = new User();
@@ -215,6 +292,12 @@ public class SQLReceiptDAO implements ReceiptDAO {
             SQLException {
         ps.setInt(1, clientId);
         ps.setInt(2, remedyId);
+    }
+
+    private void setClientIdStartOffsetToStatement(PreparedStatement ps, int clientId, int start, int offset) throws SQLException {
+        ps.setInt(1, clientId);
+        ps.setInt(2, start);
+        ps.setInt(3, offset);
     }
 
     private boolean createAndSetClientReceiptParamToPreparedStatement(int clientId, int remedyId, String query)

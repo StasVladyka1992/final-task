@@ -21,7 +21,7 @@ import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_APPLICA
  * Created by Vladyka Stas
  * on 15.03.2019 at 11:28
  **/
-public class AskForReceipt implements Command {
+public class AskForPrescription implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
         int remedyId = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
@@ -31,7 +31,6 @@ public class AskForReceipt implements Command {
         ReceiptServiceImpl service = provider.getReceiptService();
         boolean result = provider.getReceiptService().createAppliance(clientId, remedyId);
         ReceiptValidator validator = service.getValidator();
-
         String url = formNextUrl(result, validator, PARAM_NAME_OPERATION_RESULT, PARAM_VALUE_APPLICATION_ACCEPTED,
                 GO_TO_CLIENT_SEARCHING_PAGE);
         resp.sendRedirect(url);

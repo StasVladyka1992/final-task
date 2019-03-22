@@ -21,7 +21,7 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_GO_TO_AUTHORIZED_USER_MAIN = "go_to_authorized_user_main_page";
     private static final String COMMAND_VALUE_SIGN_OUT = "sign_out";
     private static final String COMMAND_VALUE_GO_TO_SEARCHING = "go_to_remedy";
-    private static final String FIND_STORAGE_POSITION = "find_storage_position";
+    private static final String COMMAND_VALUE_FIND_STORAGE_POSITION = "find_storage_position";
     private static final String COMMAND_VALUE_GO_TO_REMEDY_ADMINISTRATION = "go_to_remedy_administration";
     private static final String COMMAND_VALUE_ADD_REMEDY = "add_remedy";
     private static final String COMMAND_VALUE_DELETE_REMEDY = "delete_remedy";
@@ -50,6 +50,10 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_BUY = "buy";
     private static final String COMMAND_VALUE_GO_TO_ORDER_STATUS = "go_to_order_status";
     private static final String COMMAND_VALUE_GO_TO_PURCHASE_ADMINISTRATION = "go_to_purchase_administration";
+    private static final String COMMAND_VALUE_SHOW_PRESCRIPTION_APPLICATION_LIST = "show_prescription_application_list";
+    private static final String COMMAND_VALUE_GO_TO_PRESCRIPTION_APPLICATION_LIST = "go_to_prescription_application_list";
+    private static final String COMMAND_VALUE_SHOW_CLIENT_WRITTEN_PRESCRIPTION_LIST = "show_client_written_prescription_list";
+    private static final String COMMAND_VALUE_GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST = "go_to_client_written_prescription_list";
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -64,7 +68,7 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_GO_TO_AUTHORIZED_USER_MAIN, new GoToAuthorizedMain());
         commands.put(COMMAND_VALUE_SIGN_OUT, new UserSignOut());
         commands.put(COMMAND_VALUE_GO_TO_SEARCHING, new GoToSearchingPage());
-        commands.put(FIND_STORAGE_POSITION, new FindStoragePosition());
+        commands.put(COMMAND_VALUE_FIND_STORAGE_POSITION, new FindStoragePosition());
         commands.put(COMMAND_VALUE_GO_TO_REMEDY_ADMINISTRATION, new GoToRemedyAdministration());
         commands.put(COMMAND_VALUE_ADD_REMEDY, new AddRemedy());
         commands.put(COMMAND_VALUE_DELETE_REMEDY, new DeleteRemedy());
@@ -72,7 +76,7 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_GO_TO_UPDATE_REMEDY, new GoToUpdateRemedy());
         commands.put(COMMAND_VALUE_SET_STORAGE_QUANTITY, new SetStorageQuantity());
         commands.put(COMMAND_VALUE_ADD_TO_STORAGE, new AddToStorage());
-        commands.put(COMMAND_VALUE_ASK_FOR_RECEIPT, new AskForReceipt());
+        commands.put(COMMAND_VALUE_ASK_FOR_RECEIPT, new AskForPrescription());
         commands.put(COMMAND_VALUE_ADD_TO_BASKET, new AddToBasket());
         commands.put(COMMAND_VALUE_GO_TO_CLIENT_SEARCHING_PAGE, new GoToClientSearchingPage());
         commands.put(COMMAND_VALUE_GO_TO_PRESCRIPTION_APPLICATION_PAGE, new GoToPrescriptionApplication());
@@ -93,6 +97,10 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_BUY, new Buy());
         commands.put(COMMAND_VALUE_GO_TO_ORDER_STATUS, new GoToOrderStatus());
         commands.put(COMMAND_VALUE_GO_TO_PURCHASE_ADMINISTRATION, new GoToPurchaseAdministration());
+        commands.put(COMMAND_VALUE_SHOW_PRESCRIPTION_APPLICATION_LIST, new ShowPrescriptionApplicationList());
+        commands.put(COMMAND_VALUE_GO_TO_PRESCRIPTION_APPLICATION_LIST, new GoToPrescriptionApplicationList());
+        commands.put(COMMAND_VALUE_SHOW_CLIENT_WRITTEN_PRESCRIPTION_LIST, new ShowClientWrittenPrescriptionList());
+        commands.put(COMMAND_VALUE_GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST, new GoToClientWrittenPrescriptionList());
     }
 
     public Command getCommand(String command) {

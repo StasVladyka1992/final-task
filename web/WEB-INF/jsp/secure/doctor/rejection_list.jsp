@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="../../../../styles/user_main.css">
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
-<fmt:message bundle="${loc}" key="status" var="receiptStatus"/>
+<fmt:message bundle="${loc}" key="status" var="status"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="phone"/>
+<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
 <fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
@@ -30,10 +30,10 @@
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
             <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${receiptStatus}"/></th>
+            <th class="align-middle"><c:out value="${status}"/></th>
             <th class="align-middle"><c:out value="${rejectionDate}"/></th>
             <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${phone}"/></th>
+            <th class="align-middle"><c:out value="${lastName}"/></th>
             <th class="align-middle"><c:out value="${email}"/></th>
             <th class="align-middle"><c:out value="${receiptComment}"/></th>
             </thead>

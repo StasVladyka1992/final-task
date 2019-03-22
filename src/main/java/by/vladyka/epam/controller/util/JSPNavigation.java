@@ -11,6 +11,7 @@ public final class JSPNavigation {
     public static final String DEFAULT = "/WEB-INF/jsp/default.jsp";
     public static final String REGISTRATION_RESULT = "/WEB-INF/jsp/secure/registration_result.jsp";
     public static final String REGISTRATION = "/WEB-INF/jsp/user_registration.jsp";
+    public static final String ERROR_PAGE = "error.jsp";
     public static final String AUTHORIZATION = "/WEB-INF/jsp/authorization.jsp";
     public static final String PERSONAL_INFO = "/WEB-INF/jsp/secure/personal_info.jsp";
     public static final String GO_TO_AUTHORIZED_MAIN = "/secure?command=go_to_authorized_user_main_page";
@@ -25,11 +26,15 @@ public final class JSPNavigation {
     public static final String BASKET = "/WEB-INF/jsp/secure/client/basket.jsp";
     public static final String REMEDY_INFO = "/WEB-INF/jsp/secure/client/remedy_info.jsp";
     public static final String ORDER_STATUS = "/WEB-INF/jsp/secure/client/order_status.jsp";
+    public static final String PRESCRIPTION_APPLICATION_LIST = "/WEB-INF/jsp/secure/client/prescription_application_list.jsp";
+    public static final String CLIENT_WRITTEN_PRESCRIPTION_LIST = "/WEB-INF/jsp/secure/client/client_written_prescription_list.jsp";
     public static final String GO_TO_REMEDY = "/secure?command=go_to_remedy";
     public static final String SHOW_REMEDY_INFO = "/secure?command=show_remedy_info&";
     public static final String GO_TO_CLIENT_SEARCHING_PAGE = "/secure?command=go_to_client_searching_page&";
     public static final String GO_TO_BASKET = "/secure?command=go_to_basket&";
     public static final String GO_TO_ORDER_STATUS = "/secure?command=go_to_order_status&";
+    public static final String GO_TO_PRESCRIPTION_APPLICATION_LIST = "/secure?command=go_to_prescription_application_list&";
+    public static final String GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST = "/secure?command=go_to_client_written_prescription_list&";
 
     //doctor
     public static final String DOCTOR_MAIN = "/WEB-INF/jsp/secure/doctor/doctor_main.jsp";
@@ -53,8 +58,7 @@ public final class JSPNavigation {
                                      String paramValue, String url) {
         if (commandResult) {
             return url + paramName + '=' + paramValue;
-        }
-        else {
+        } else {
             String incorrectMessages = validator.getIncorrectDataMessages().toString();
             return url + incorrectMessages;
         }
