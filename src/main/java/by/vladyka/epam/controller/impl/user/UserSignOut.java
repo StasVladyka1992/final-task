@@ -17,7 +17,7 @@ public class UserSignOut implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession(true);
-        rememberLastPage(req);
+        rememberLastRequest(req);
         session.invalidate();
         resp.sendRedirect(GO_TO_AUTHORIZATION);
     }

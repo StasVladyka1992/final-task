@@ -42,17 +42,21 @@ public final class JSPNavigation {
 
     //pharmacist
     public static final String PHARMACIST_MAIN = "/WEB-INF/jsp/secure/pharmacist/pharmacist_main.jsp";
-    public static final String REMEDY_ADMINISTRATION = "/WEB-INF/jsp/secure/pharmacist/remedy_administration.jsp?";
+    public static final String REMEDY_ADMINISTRATION = "/WEB-INF/jsp/secure/pharmacist/remedy_administration.jsp";
+    public static final String PURCHASE_ADMINISTRATION = "/WEB-INF/jsp/secure/pharmacist/purchase_administration.jsp";
     public static final String UPDATE_REMEDY = "/WEB-INF/jsp/secure/pharmacist/remedy_update.jsp";
-    public static final String GO_TO_UPDATE_REMEDY = "/secure?command=go_to_update_remedy&";
     public static final String GO_TO_REMEDY_ADMINISTRATION = "/secure?command=go_to_remedy_administration&";
+    public static final String GO_TO_PURCHASE_ADMINISTRATION = "/secure?command=go_to_purchase_administration&";
+
 
     public static String formNextUrl(boolean commandResult, AbstractValidator validator, String paramName,
                                      String paramValue, String url) {
         if (commandResult) {
             return url + paramName + '=' + paramValue;
         }
-        String incorrectMessages = validator.getIncorrectDataMessages().toString();
-        return url + incorrectMessages;
+        else {
+            String incorrectMessages = validator.getIncorrectDataMessages().toString();
+            return url + incorrectMessages;
+        }
     }
 }

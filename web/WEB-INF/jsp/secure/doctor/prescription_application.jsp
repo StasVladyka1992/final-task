@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../../../../styles/user_main.css">
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
-<fmt:message bundle="${loc}" key="receiptStatus" var="receiptStatus"/>
+<fmt:message bundle="${loc}" key="status" var="receiptStatus"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
 <fmt:message bundle="${loc}" key="lastName" var="phone"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
@@ -32,6 +32,7 @@
 <fmt:message bundle="${loc}" key="approvals" var="approvals"/>
 <fmt:message bundle="${loc}" key="remedy" var="remedy"/>
 <fmt:message bundle="${loc}" key="checkApplications" var="checkApplications"/>
+<fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
 
 <div class="container-fluid ">
     <h4 class="mb-2">${prescriptionWriting}</h4>
@@ -216,6 +217,9 @@
             <button type="submit" class="btn btn-sm btn-primary">${checkApplications}</button>
         </form>
     </div>
+</div>
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
 </div>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>

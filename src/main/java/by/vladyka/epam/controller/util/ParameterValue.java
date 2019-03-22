@@ -1,5 +1,11 @@
 package by.vladyka.epam.controller.util;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
+import static by.vladyka.epam.controller.util.ParameterName.*;
+
 /**
  * Created by Vladyka Stas
  * on 10.03.2019 at 21:52
@@ -17,5 +23,10 @@ public class ParameterValue {
     public static final String PARAM_VALUE_QUANTITY_CHANGED = "quantity_changed";
     public static final String PARAM_VALUE_BASKET_CLEANED = "basket_cleaned";
 
+    public static Map<String, String> getUserParams(HttpServletRequest req) {
+        Map<String, String> userParams = new HashMap<>();
+
+        return userParams;
+    }
 
 }

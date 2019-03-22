@@ -16,7 +16,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REMEDY_ADMINISTRATIO
 public class GoToRemedyAdministration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(REMEDY_ADMINISTRATION).forward(req,resp);
     }
 }

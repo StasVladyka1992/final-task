@@ -25,17 +25,17 @@ public class UserRegistration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
         String email = req.getParameter(PARAM_NAME_EMAIL);
-        String password = req.getParameter(PARAM_NAME_PASSWORD);
         String firstName = req.getParameter(PARAM_NAME_FIRST_NAME);
         String lastName = req.getParameter(PARAM_NAME_LAST_NAME);
         String phone = req.getParameter(PARAM_NAME_PHONE);
+        String password = req.getParameter(PARAM_NAME_PASSWORD);
         User.UserRole role = User.UserRole.valueOf(req.getParameter(PARAM_NAME_ROLE));
 
         UserService<User> userService = ServiceProvider.getInstance().getUserService();
         boolean isRegistrationSuccessful = userService.registration(email, firstName, lastName, password, phone, role);
 
         HttpSession session = req.getSession(true);
-        rememberLastPage(req);
+        rememberLastRequest(req);
         if (isRegistrationSuccessful) {
             User user = new User();
             user.setFirstName(firstName);

@@ -20,7 +20,7 @@
 <fmt:message bundle="${loc}" key="yDefenition" var="yDefenition"/>
 <fmt:message bundle="${loc}" key="searchingRemedyPlaceholder" var="searchingRemedyPlaceholder"/>
 <fmt:message bundle="${loc}" key="remedySearching" var="remedySearching"/>
-<fmt:message bundle="${loc}" key="buy" var="buy"/>
+<fmt:message bundle="${loc}" key="placeOrder" var="placeOrder"/>
 <fmt:message bundle="${loc}" key="goToAdding" var="goToAdding"/>
 <fmt:message bundle="${loc}" key="askForReceipt" var="askForReceipt"/>
 <fmt:message bundle="${loc}" key="showOnlyInStock" var="showOnlyInStock"/>
@@ -33,6 +33,7 @@
 <fmt:message bundle="${loc}" key="goToBasket" var="goToBasket"/>
 <fmt:message bundle="${loc}" key="goodAlreadyInBasket" var="goodAlreadyInBasket"/>
 <fmt:message bundle="${loc}" key="incorrectQuantity" var="incorrectQuantity"/>
+<fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
 
 
 <div class="container-fluid">
@@ -47,15 +48,7 @@
                 <button type="submit" class="btn btn-primary">${search}</button>
             </div>
         </div>
-        <div class="col-auto my-1">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="isExist" value="true" id="existence">
-                <label class="form-check-label" for="existence">
-                    ${showOnlyInStock}
-                </label>
-            </div>
-            <input type="hidden" name="currentPage" value="1"/>
-        </div>
+        <input type="hidden" name="currentPage" value="1"/>
     </form>
     <div class="table-responsive-md">
         <table class="table table-bordered">
@@ -184,6 +177,10 @@
             <a href="/secure?command=go_to_basket">${goToBasket}</a>
         </div>
     </c:if>
+</div>
+
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
 </div>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>

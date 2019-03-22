@@ -19,7 +19,7 @@
 <fmt:message bundle="${loc}" key="basket" var="basket"/>
 <fmt:message bundle="${loc}" key="cleanBasket" var="cleanBasket"/>
 <fmt:message bundle="${loc}" key="deleteFromBasket" var="deleteFromBasket"/>
-<fmt:message bundle="${loc}" key="buy" var="buy"/>
+<fmt:message bundle="${loc}" key="placeOrder" var="placeOrder"/>
 <fmt:message bundle="${loc}" key="changeQuantity" var="changeQuantity"/>
 <fmt:message bundle="${loc}" key="remedyDeleted" var="remedyDeleted"/>
 <fmt:message bundle="${loc}" key="goToRemedySearching" var="goToRemedySearching"/>
@@ -88,7 +88,7 @@
 <!--Кнопки-->
 <div class="container-fluid mb-2">
     <c:if test="${sessionScope.get('orderDto').goods.size()!=0 || empty sessionScope.get('orderDto')}">
-        <a href="/secure?command=buy" type="button" class="btn btn-sm btn-success mr-2">${buy}</a>
+        <a href="/secure?command=buy" type="button" class="btn btn-sm btn-success mr-2">${placeOrder}</a>
         <a href="/secure?command=go_to_client_searching_page" type="button"
            class="btn btn-sm btn-success mr-2">${addToBasket}</a>
         <a href="/secure?command=clean_basket" type="button" class="btn btn-sm btn-danger">${cleanBasket}</a>

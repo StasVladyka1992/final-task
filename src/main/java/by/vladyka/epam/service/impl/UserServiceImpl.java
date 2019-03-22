@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public boolean update(String email, String firstName, String lastName,  String phone)
+    public boolean update(int id, String email, String firstName, String lastName,  String phone)
             throws ServiceException {
         boolean isRegistrationDataCorrect = validator.checkUpdateDataAndSetMessage(email, firstName, lastName, phone);
         if (!isRegistrationDataCorrect) {
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isUpdatePerformed;
         try {
-            isUpdatePerformed = daoProvider.getSQLUserDAO().update(email, firstName, lastName, phone);
+            isUpdatePerformed = daoProvider.getSQLUserDAO().update(id, email, firstName, lastName, phone);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

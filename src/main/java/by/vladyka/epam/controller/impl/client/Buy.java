@@ -7,8 +7,6 @@ import by.vladyka.epam.service.ClientOrderService;
 import by.vladyka.epam.service.RemedyOrderService;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
-import by.vladyka.epam.service.impl.ClientOrderServiceImpl;
-import by.vladyka.epam.service.validator.impl.ClientOrderValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,18 +27,18 @@ public class Buy implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
         HttpSession session = req.getSession();
-        User user = (User)session.getAttribute(PARAM_NAME_USER);
+        User user = (User) session.getAttribute(PARAM_NAME_USER);
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientOrderService clientOrderService = provider.getClientOrderService();
         int clientOrderId = clientOrderService.buy(user.getId());
-        if (clientOrderId==-1){
-            resp.sendRedirect(GO_TO_ORDER_STATUS +PARAM_NAME_OPERATION_RESULT+'='+PARAM_VALUE_OPERATION_RESULT_FAIL);
+        if (clientOrderId == -1) {
+            resp.sendRedirect(GO_TO_ORDER_STATUS + PARAM_NAME_OPERATION_RESULT + '=' + PARAM_VALUE_OPERATION_RESULT_FAIL);
         }
-        OrderDto orderDto = (OrderDto)session.getAttribute(PARAM_NAME_ORDER_DTO);
+        OrderDto orderDto = (OrderDto) session.getAttribute(PARAM_NAME_ORDER_DTO);
         RemedyOrderService remedyOrderService = provider.getRemedyOrderService();
-        boolean result =  remedyOrderService.create(orderDto, clientOrderId);
-        if (result){
-            resp.sendRedirect(GO_TO_ORDER_STATUS+PARAM_NAME_OPERATION_RESULT+"="+PARAM_VALUE_OPERATION_RESULT_SUCCESS);
+        boolean result = remedyOrderService.create(orderDto, clientOrderId);
+        if (result) {
+            resp.sendRedirect(GO_TO_ORDER_STATUS + PARAM_NAME_OPERATION_RESULT + "=" + PARAM_VALUE_OPERATION_RESULT_SUCCESS);
         }
     }
 }

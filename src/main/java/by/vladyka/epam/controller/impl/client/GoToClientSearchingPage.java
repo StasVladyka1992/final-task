@@ -17,7 +17,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REMEDY_CLIENT;
 public class GoToClientSearchingPage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(REMEDY_CLIENT).forward(req, resp);
     }
 }

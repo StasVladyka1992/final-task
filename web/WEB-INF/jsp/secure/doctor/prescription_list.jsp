@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../../../../styles/user_main.css">
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
-<fmt:message bundle="${loc}" key="receiptStatus" var="receiptStatus"/>
+<fmt:message bundle="${loc}" key="status" var="receiptStatus"/>
 <fmt:message bundle="${loc}" key="firstName" var="firstName"/>
 <fmt:message bundle="${loc}" key="lastName" var="phone"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>

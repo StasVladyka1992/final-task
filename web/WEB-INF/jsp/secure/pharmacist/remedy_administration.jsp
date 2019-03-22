@@ -12,7 +12,7 @@
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
-<fmt:message bundle="${loc}" key="description" var="phone"/>
+<fmt:message bundle="${loc}" key="description" var="description"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
 <fmt:message bundle="${loc}" key="previous" var="previous"/>
@@ -42,8 +42,6 @@
 <fmt:message bundle="${loc}" key="newRemedyAdding" var="newRemedyAdding"/>
 <fmt:message bundle="${loc}" key="absenceInStorage" var="absenceInStorage"/>
 <fmt:message bundle="${loc}" key="remedyNotExist" var="remedyNotExist"/>
-
-
 
 <div class="container-fluid mb-2">
     <h5>${remedyAdministration}</h5>
@@ -189,7 +187,7 @@
                     <%--</div>--%>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="description">${phone}</label>
+                    <label for="description">${description}</label>
                     <input type="text" class="form-control form-control-sm" id="description"
                            name="description" required>
                     <%--<div class="valid-feedback">--%>
@@ -212,7 +210,7 @@
                     <label for="price">${price}</label>
                     <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
                            class="form-control form-control-sm"
-                           id="price" placeholder="0.00">
+                           id="price" placeholder="0.00" required>
                     <%--<div class="invalid-feedback">--%>
                     <%--Please provide a valid zip.--%>
                     <%--</div>--%>
@@ -221,6 +219,9 @@
             <button class="btn btn-primary btn-sm" type="submit">${add}</button>
         </form>
     </div>
+</div>
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
 </div>
 <div class="container-fluid" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>

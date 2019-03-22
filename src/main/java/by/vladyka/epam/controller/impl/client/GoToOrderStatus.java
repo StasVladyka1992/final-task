@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.ORDER_STATUS;
+import static by.vladyka.epam.controller.util.ParameterName.*;
 
 /**
  * Created by Vladyka Stas
@@ -17,7 +18,12 @@ import static by.vladyka.epam.controller.util.JSPNavigation.ORDER_STATUS;
 public class GoToOrderStatus implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
+        req.getSession().removeAttribute(PARAM_NAME_ORDER_DTO);
+        req.getSession().removeAttribute(PARAM_NAME_ORDER_DTO);
+        req.getSession().removeAttribute(PARAM_NAME_REMEDY_NAME);
+        req.getSession().removeAttribute(PARAM_NAME_STORAGE);
+        req.getSession().removeAttribute(PARAM_NAME_STORAGE_LIST);
         req.getRequestDispatcher(ORDER_STATUS).forward(req, resp);
     }
 }

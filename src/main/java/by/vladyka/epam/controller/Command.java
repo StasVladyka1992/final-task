@@ -13,7 +13,7 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_PREVIOUS_
 
 public interface Command {
     void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException;
-    default void rememberLastPage (HttpServletRequest req) {
+    default void rememberLastRequest(HttpServletRequest req) {
         HttpSession session = req.getSession(true);
         String url = URLRestorer.restoreURL(req);
         session.setAttribute(PARAM_NAME_PREVIOUS_URL, url);

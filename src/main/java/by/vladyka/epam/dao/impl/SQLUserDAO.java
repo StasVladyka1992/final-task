@@ -72,27 +72,27 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean update(String email, String firstName, String lastName, String phone)
+    public boolean update(int id, String email, String firstName, String lastName, String phone)
             throws DAOException {
-//        int insertionResult;
-//        Connection connection = null;
-//        PreparedStatement preparedStatement = null;
-//        try {
-//            connection = pool.takeConnection();
-//            preparedStatement = connection.prepareStatement(QUERY_UPDATE_USER);
-//            preparedStatement.setString(1, email);
-//            preparedStatement.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
-//            preparedStatement.setString(3, firstName);
-//            preparedStatement.setString(4, lastName);
-//            preparedStatement.setString(5, phone);
-//            insertionResult = preparedStatement.executeUpdate();
-//        } catch (SQLException | ConnectionPoolException e) {
-//            throw new DAOException(e);
-//        } finally {
-//            pool.closeConnection(connection, preparedStatement);
-//        }
-//        return insertionResult == 1;
-    return false;}
+        int insertionResult;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = pool.takeConnection();
+            preparedStatement = connection.prepareStatement(QUERY_UPDATE_USER);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, firstName);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setString(4, phone);
+            preparedStatement.setInt(5, id);
+            insertionResult = preparedStatement.executeUpdate();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            pool.closeConnection(connection, preparedStatement);
+        }
+        return insertionResult == 1;
+    }
 
     @Override
     public User findById(int id) throws DAOException {

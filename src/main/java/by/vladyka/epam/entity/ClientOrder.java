@@ -10,11 +10,21 @@ import java.util.Objects;
  * on 09.03.2019 at 19:58
  **/
 public class ClientOrder extends AbstractEntity implements Serializable {
-    private static final long serialVersionUID = -4188154771635837479L;
+
+    private static final long serialVersionUID = 4356189928633431320L;
     private Date createdOn;
     private Date finishedOn;
     private User client;
     private List<RemedyOrder> remedyOrders;
+    private ClientOrderStatus status;
+
+    public ClientOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ClientOrderStatus status) {
+        this.status = status;
+    }
 
     public Date getCreatedOn() {
         return createdOn;
@@ -58,6 +68,7 @@ public class ClientOrder extends AbstractEntity implements Serializable {
         if (!createdOn.equals(that.createdOn)) return false;
         if (!Objects.equals(finishedOn, that.finishedOn)) return false;
         if (!client.equals(that.client)) return false;
+        if (status != that.status) return false;
         return remedyOrders.equals(that.remedyOrders);
     }
 
@@ -68,6 +79,7 @@ public class ClientOrder extends AbstractEntity implements Serializable {
         result = 31 * result + client.hashCode();
         result = 31 * result + remedyOrders.hashCode();
         result = 31 * result + getId();
+        result = 31 * result + status.hashCode();
         return result;
     }
 
@@ -79,6 +91,11 @@ public class ClientOrder extends AbstractEntity implements Serializable {
                 ", finishedOn=" + finishedOn +
                 ", client=" + client +
                 ", remedyOrders=" + remedyOrders +
+                ", status=" + status +
                 '}';
+    }
+
+    public enum ClientOrderStatus {
+        REJECTED, EXECUTED, UNHANDLED
     }
 }

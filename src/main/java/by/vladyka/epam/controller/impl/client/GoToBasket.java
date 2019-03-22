@@ -17,7 +17,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.BASKET;
 public class GoToBasket implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(BASKET).forward(req, resp);
     }
 }

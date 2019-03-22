@@ -4,7 +4,7 @@ import by.vladyka.epam.dao.RemedyDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
-import by.vladyka.epam.dao.util.RemedyUtil;
+import by.vladyka.epam.dao.util.SQLDaoAssistant;
 import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
@@ -13,13 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.createRemedy;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
  * Created by Vladyka Stas
  * on 26.02.2019 at 1:58
  **/
-public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
+public class SQLRemedyDAO implements RemedyDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
@@ -54,7 +55,7 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws DAOException {
         String query = QUERY_UPDATE_REMEDY + id;
-        boolean result = queryExecutor(QUERY_UPDATE_REMEDY, name, description, price,
+        boolean result = queryExecutor(query, name, description, price,
                 receiptRequired);
         return result;
     }
@@ -71,19 +72,6 @@ public class SQLRemedyDAO implements RemedyDAO, RemedyUtil {
     public boolean deleteById(int id) throws DAOException {
         return deleteHelper(id, QUERY_DELETE_REMEDY, pool);
     }
-
-//    private PreparedStatement queryExecutor(Connection con, String query, String name,
-//                                                                         String description, double price, boolean
-//                                                                                 receiptRequired) throws SQLException, ConnectionPoolException {
-//
-//
-//        PreparedStatement ps = con.prepareStatement(query);
-//        ps.setString(1, name);
-//        ps.setString(2, description);
-//        ps.setDouble(3, price);
-//        ps.setBoolean(4, receiptRequired);
-//        return ps;
-//    }
 
     private boolean queryExecutor(String query, String name,
                                   String description, double price, boolean

@@ -17,7 +17,7 @@ public class UserInfoAfterRegistration implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(REGISTRATION_RESULT).forward(req, resp);
     }
 }

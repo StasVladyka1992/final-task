@@ -22,6 +22,7 @@
 <fmt:message bundle="${loc}" key="incorrectUserName" var="incorrectUserName"/>
 <fmt:message bundle="${loc}" key="incorrectPhone" var="incorrectPhone"/>
 <fmt:message bundle="${loc}" key="changePassword" var="changePassword"/>
+<fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
 
 <div class="container-fluid">
     <div class="container-fluid col-sm-8 mb-3 mt-5">
@@ -55,8 +56,6 @@
                 </div>
             </div>
             <button class="btn btn-sm btn-primary mr-2" type="submit">${alter}</button>
-            <button class="btn btn-sm btn-primary ml-2" type="button" href="/secure?command=go_to_change_password">
-                ${changePassword}</button>
         </form>
     </div>
     <c:if test="${not empty param.incorrectUserName}">
@@ -79,6 +78,9 @@
             <c:out value="${incorrectPhone}"/>
         </p>
     </c:if>
+    <div class="d-flex justify-content-start">
+        <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
+    </div>
 </div>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../constant_part/footer.jsp" %>

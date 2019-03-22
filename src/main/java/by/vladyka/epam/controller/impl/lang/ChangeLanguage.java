@@ -25,7 +25,7 @@ public class ChangeLanguage implements Command {
     }
 
     @Override
-    public void rememberLastPage(HttpServletRequest req) {
+    public void rememberLastRequest(HttpServletRequest req) {
         /* no implementation */
     }
 }

@@ -12,7 +12,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.AUTHORIZATION;
 public class GoToAutorization implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(AUTHORIZATION).forward(req, response);
     }
 }

@@ -17,7 +17,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.PRESCRIPTION_LIST;
 public class GoToPrescritptionList implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(PRESCRIPTION_LIST).forward(req, resp);
     }
 }

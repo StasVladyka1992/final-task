@@ -20,7 +20,7 @@ public class GoToDefault implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String adminMail = (String) req.getServletContext().getAttribute(PARAM_NAME_ADMIN_MAIL);
         HttpSession session = req.getSession(true);
-        rememberLastPage(req);
+        rememberLastRequest(req);
         session.setAttribute(PARAM_NAME_ADMIN_MAIL, adminMail);
         req.getRequestDispatcher(DEFAULT).forward(req, resp);
     }

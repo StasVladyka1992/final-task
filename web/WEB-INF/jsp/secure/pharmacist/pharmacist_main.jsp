@@ -14,6 +14,8 @@
 <fmt:message bundle="${loc}" key="further" var="further"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfo" var="updatePersonalInfo"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfoMessage" var="updatePersonalInfoMessage"/>
+<fmt:message bundle="${loc}" key="ordersAdministration" var="ordersAdministration"/>
+<fmt:message bundle="${loc}" key="purchaseAdministrationMessage" var="purchaseAdministrationMessage"/>
 <div class="container">
     <div class="d-flex flex-wrap justify-content-around mt-1">
         <div class="card mt-1 mb-1">
@@ -27,12 +29,22 @@
             </div>
         </div>
         <div class="card mt-1 mb-1">
+            <img class="card-img-top" src="../../../../images/purchases.jpg">
+            <div class="card-body">
+                <h5 class="card-title text-center">${ordersAdministration}</h5>
+                <p class="card-text">${purchaseAdministrationMessage}</p>
+                <div class="d-flex justify-content-around">
+                    <a href="/secure?command=go_to_purchase_administration" type="button" class="btn btn-success ">${further}</a>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-1 mb-1">
             <img class="card-img-top" src="../../../../images/personal_data.jpeg">
             <div class="card-body">
                 <h5 class="card-title text-center">${updatePersonalInfo}</h5>
                 <p class="card-text">${updatePersonalInfoMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="#" type="button" class="btn btn-success ">${further}</a>
+                    <a href="/secure?command=go_to_personal_info" type="button" class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

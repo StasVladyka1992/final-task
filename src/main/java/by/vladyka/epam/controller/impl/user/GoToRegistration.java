@@ -16,7 +16,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REGISTRATION;
 public class GoToRegistration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(REGISTRATION).forward(req, resp);
     }
 }

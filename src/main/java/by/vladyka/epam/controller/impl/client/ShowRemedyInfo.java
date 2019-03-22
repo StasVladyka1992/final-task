@@ -29,7 +29,7 @@ public class ShowRemedyInfo implements Command {
         Storage storage = service.findById(id);
         HttpSession session = req.getSession();
         session.setAttribute(PARAM_NAME_STORAGE, storage);
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(REMEDY_INFO).forward(req, resp);
     }
 }

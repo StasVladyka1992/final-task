@@ -22,7 +22,7 @@ public class GoToAuthorizedMain implements Command {
         User user = (User) session.getAttribute(PARAM_NAME_USER);
         User.UserRole role = user.getRole();
         String navigationCommand = authorization_scenarios.get(role);
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(navigationCommand).forward(req,resp);
     }
 }

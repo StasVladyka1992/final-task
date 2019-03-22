@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import static by.vladyka.epam.dao.util.SQLQuery.QUERY_CREATE_REMEDY_ORDER;
+
 /**
  * Created by Vladyka Stas
  * on 21.03.2019 at 1:08
@@ -40,23 +42,29 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
     public boolean create(OrderDto orderDto, int clientOrderId) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
+        boolean result;
         try {
             con = pool.takeConnection();
             con.setAutoCommit(false);
             String[] commands = builtInsertCommands(orderDto, clientOrderId);
             ps = con.prepareStatement(commands[0]);
             if (commands.length > 1) {
-                for (int i = 1; i < commands.length; i++) {
+                for (int i = 0; i < commands.length; i++) {
                     ps.addBatch(commands[i]);
                 }
-            }
-            int[] results = ps.executeBatch();
-            for (int i = 0; i < results.length; i++) {
-                if (results[i] != 1) {
-                    throw new SQLException("Some of the remedy orders weren't created");
+                int[] results = ps.executeBatch();
+                for (int i = 0; i < commands.length; i++) {
+                    if (results[i] != 1) {
+                        throw new SQLException("Some of the remedy orders weren't created");
+                    }
                 }
+                result=true;
+            } else {
+                int insertResult = ps.executeUpdate();
+                result = insertResult == 1;
             }
             con.commit();
+            return result;
         } catch (ConnectionPoolException | SQLException e) {
             try {
                 con.rollback();
@@ -67,7 +75,6 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
         } finally {
             pool.closeConnection(con, ps);
         }
-        return false;
     }
 
     private String[] builtInsertCommands(OrderDto dto, int clientOrderId) {
@@ -78,7 +85,7 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
                 dto.getGoods().entrySet()) {
             int remedyId = pair.getKey().getRemedy().getId();
             int quantity = pair.getValue();
-            String command = "INSERT INTO receipt_orders (remedyId, quantity, clientOrderId) VALUES (" + remedyId + "," +
+            String command = QUERY_CREATE_REMEDY_ORDER + remedyId + "," +
                     quantity + "," + clientOrderId + ")";
             commands[count] = command;
             count++;

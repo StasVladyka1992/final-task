@@ -17,7 +17,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REJECTION_LIST;
 public class GoToRejectedList implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(REJECTION_LIST).forward(req,resp);
     }
 }

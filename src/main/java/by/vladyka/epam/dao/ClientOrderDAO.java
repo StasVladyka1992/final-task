@@ -9,5 +9,4 @@ import by.vladyka.epam.entity.ClientOrder;
  **/
 public interface ClientOrderDAO extends AbstractDAO<ClientOrder> {
     int create (int clientId) throws DAOException;
-    int getLastInsertedId() throws DAOException;
 }

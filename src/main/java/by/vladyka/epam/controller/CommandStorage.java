@@ -49,6 +49,7 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_CLEAN_BASKET = "clean_basket";
     private static final String COMMAND_VALUE_BUY = "buy";
     private static final String COMMAND_VALUE_GO_TO_ORDER_STATUS = "go_to_order_status";
+    private static final String COMMAND_VALUE_GO_TO_PURCHASE_ADMINISTRATION = "go_to_purchase_administration";
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -91,6 +92,7 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_CLEAN_BASKET, new CleanBasket());
         commands.put(COMMAND_VALUE_BUY, new Buy());
         commands.put(COMMAND_VALUE_GO_TO_ORDER_STATUS, new GoToOrderStatus());
+        commands.put(COMMAND_VALUE_GO_TO_PURCHASE_ADMINISTRATION, new GoToPurchaseAdministration());
     }
 
     public Command getCommand(String command) {

@@ -25,9 +25,9 @@ public class ShowUnhandledApplication implements Command {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
         ServiceProvider provider = ServiceProvider.getInstance();
         ReceiptServiceImpl service = provider.getReceiptService();
+        EntitySearchingResult entitySearchingResult;
         int currentPage = getCurrentPage(req);
         int startPosition = calculateStartPosition(currentPage);
-        EntitySearchingResult entitySearchingResult;
         entitySearchingResult = service.findUnhandledReceipts(startPosition, OFFSET);
         HttpSession session = req.getSession(true);
         setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_RECEIPT_LIST);

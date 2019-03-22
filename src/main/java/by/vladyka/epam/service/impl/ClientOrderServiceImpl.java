@@ -3,6 +3,7 @@ package by.vladyka.epam.service.impl;
 import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.impl.SQLClientOrderDAO;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.ClientOrder;
 import by.vladyka.epam.service.ClientOrderService;
 import by.vladyka.epam.service.exception.ServiceException;
@@ -27,6 +28,17 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         return null;
     }
 
+    public EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int start, int offset) throws ServiceException {
+        SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        EntitySearchingResult<ClientOrder> orders;
+        try {
+            orders = clientOrderDAO.findUnhandledClientOrders(start, offset);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return orders;
+    }
+
     @Override
     public List<ClientOrder> findAll() throws ServiceException {
         return null;
@@ -35,17 +47,14 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     @Override
     public int buy(int clientId) throws ServiceException {
         int clientOrderId = -1;
-        boolean validationResult = validator.checkId(clientId);
+        boolean validationResult = validator.checkClientIdAndSetMessage(clientId);
         if (!validationResult) {
             return clientOrderId;
         }
         DAOProvider provider = DAOProvider.getInstance();
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) provider.getSQLClientOrderDAO();
         try {
-            int result = clientOrderDAO.create(clientId);
-            if (result == 1) {
-                clientOrderId = clientOrderDAO.getLastInsertedId();
-            }
+            clientOrderId = clientOrderDAO.create(clientId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

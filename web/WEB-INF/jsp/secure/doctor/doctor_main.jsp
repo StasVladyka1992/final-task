@@ -31,7 +31,7 @@
                 <h5 class="card-title text-center">${updatePersonalInfo}</h5>
                 <p class="card-text">${updatePersonalInfoMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="#" type="button" class="btn btn-success ">${further}</a>
+                    <a href="/secure?command=go_to_personal_info" type="button" class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

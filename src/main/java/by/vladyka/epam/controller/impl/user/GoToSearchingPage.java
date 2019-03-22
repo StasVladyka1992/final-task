@@ -22,7 +22,7 @@ public class GoToSearchingPage implements Command {
         HttpSession session = req.getSession(true);
         User user = (User)session.getAttribute(PARAM_NAME_USER);
         String navigationCommand = remedy_searching_scenarios.get(user.getRole());
-        rememberLastPage(req);
+        rememberLastRequest(req);
         req.getRequestDispatcher(navigationCommand).forward(req, resp);
     }
 }

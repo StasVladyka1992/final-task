@@ -45,4 +45,7 @@ public class ParameterName {
 
     //remedy order's params
     public static final String PARAM_NAME_QUANTITY = "quantity";
+
+    //client's order params
+    public static final String PARAM_NAME_CLIENT_ORDER_LIST = "clientOrderList";
 }

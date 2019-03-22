@@ -4,7 +4,6 @@ import by.vladyka.epam.dao.StorageDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
-import by.vladyka.epam.dao.util.RemedyUtil;
 import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Remedy;
 import by.vladyka.epam.entity.Storage;
@@ -16,13 +15,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static by.vladyka.epam.dao.util.DBColumn.REMEDY_LEFT;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.createRemedy;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.getFoundEntitiesNumber;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
  * Created by Vladyka Stas
  * on 11.03.2019 at 13:01
  **/
-public class SQLStorageDAO implements StorageDAO, RemedyUtil {
+public class SQLStorageDAO implements StorageDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
@@ -118,24 +119,8 @@ public class SQLStorageDAO implements StorageDAO, RemedyUtil {
     }
 
     private int getFoundRemediesNumber(String name) throws DAOException {
-        int foundRemediesNumber = 0;
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            con = pool.takeConnection();
-            ps = con.prepareStatement(QUERY_COUNT_SIMULAR_REMEDIES);
-            ps.setString(1, "%" + name + "%");
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                foundRemediesNumber = rs.getInt(1);
-            }
-        } catch (SQLException | ConnectionPoolException ex) {
-            throw new DAOException(ex);
-        } finally {
-            pool.closeConnection(con, ps, rs);
-        }
-        return foundRemediesNumber;
+        String query = QUERY_COUNT_SIMULAR_REMEDIES + "'%" + name + "%'";
+        return getFoundEntitiesNumber(query, pool);
     }
 
     private int createAndExecutePreparedStatement(String query, int remedyId,

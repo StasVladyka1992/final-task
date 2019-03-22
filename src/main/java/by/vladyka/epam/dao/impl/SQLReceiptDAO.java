@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static by.vladyka.epam.dao.util.DBColumn.ID;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.getFoundEntitiesNumber;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.setStartPositionAndOffset;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
@@ -35,13 +36,12 @@ public class SQLReceiptDAO implements ReceiptDAO {
         int unhandledReceiptsNumber;
         List<Receipt> receipts;
         try {
-            unhandledReceiptsNumber = getFoundReceiptsNumber(QUERY_COUNT_UNHANDLED_RECEIPTS);
+            unhandledReceiptsNumber = getFoundEntitiesNumber(QUERY_COUNT_UNHANDLED_RECEIPTS, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_UNHANDLED_RECEIPTS);
-            ps.setInt(1, start);
-            ps.setInt(2, offset);
-            rs = ps.executeQuery();
+            setStartPositionAndOffset(ps, start, offset);
             receipts = new ArrayList<>();
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Receipt receipt = new Receipt();
                 receipt.setId(rs.getInt(1));
@@ -113,7 +113,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
             rs = ps.executeQuery();
             if (rs.next()) {
                 java.sql.Date expireDate = rs.getDate(1);
-                if (expireDate == null || (expireDate.getTime() - new Date().getTime() >= 0)) {
+                if (expireDate == null || (expireDate.getTime() - new Date().getTime()) >= 0) {
                     return true;
                 } else return false;
             }
@@ -151,20 +151,20 @@ public class SQLReceiptDAO implements ReceiptDAO {
     @Override
     public EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset)
             throws DAOException {
-        return getFindHandledApplications(doctorId, start, offset, QUERY_COUNT_REJECTED_APPLICATIONS,
+        return findHandledApplications(doctorId, start, offset, QUERY_COUNT_REJECTED_APPLICATIONS,
                 QUERY_FIND_REJECTED_APPLICATIONS);
     }
 
     @Override
     public EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset)
             throws DAOException {
-        return getFindHandledApplications(doctorId, start, offset, QUERY_COUNT_WRITTEN_RECEIPTS,
+        return findHandledApplications(doctorId, start, offset, QUERY_COUNT_WRITTEN_RECEIPTS,
                 QUERY_FIND_WRITTEN_RECEIPTS);
     }
 
-    private EntitySearchingResult<Receipt> getFindHandledApplications(int doctorId, int start, int offset,
-                                                                      String queryCountApplications,
-                                                                      String queryFindApplications) throws DAOException {
+    private EntitySearchingResult<Receipt> findHandledApplications(int doctorId, int start, int offset,
+                                                                   String queryCountApplications,
+                                                                   String queryFindApplications) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -175,7 +175,9 @@ public class SQLReceiptDAO implements ReceiptDAO {
             con = pool.takeConnection();
             ps = con.prepareStatement(queryFindApplications);
             ps.setInt(1, doctorId);
-            setStartPositionAndOffset(ps, start, offset);
+            //setStartPosition не подходит, т.к. у них позиция 2,3
+            ps.setInt(2, start);
+            ps.setInt(3, offset);
             rs = ps.executeQuery();
             writtenPrescriptions = new ArrayList<>();
             while (rs.next()) {
@@ -234,30 +236,6 @@ public class SQLReceiptDAO implements ReceiptDAO {
         return insertionResult == 1;
     }
 
-    private void setStartPositionAndOffset(PreparedStatement ps, int start, int offset) throws SQLException {
-        ps.setInt(2, start);
-        ps.setInt(3, offset);
-    }
-
-    private int getFoundReceiptsNumber(String query) throws DAOException {
-        int foundReceiptsNumber = 0;
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            con = pool.takeConnection();
-            ps = con.prepareStatement(query);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                foundReceiptsNumber = rs.getInt(ID);
-            }
-        } catch (SQLException | ConnectionPoolException ex) {
-            throw new DAOException(ex);
-        } finally {
-            pool.closeConnection(con, ps, rs);
-        }
-        return foundReceiptsNumber;
-    }
 
     private int getFoundSpecialReceiptsNumber(String query, int id) throws DAOException {
         int foundReceiptsNumber = 0;
