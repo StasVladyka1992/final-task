@@ -34,7 +34,7 @@
                 <h5 class="card-title text-center">${ordersAdministration}</h5>
                 <p class="card-text">${purchaseAdministrationMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="/secure?command=go_to_purchase_administration" type="button" class="btn btn-success ">${further}</a>
+                    <a href="/secure?command=show_unhandled_order_list" type="button" class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

@@ -12,17 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_PRESCRIPTION_APPLICATION;
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_PURCHASE_ADMINISTRATION;
 import static by.vladyka.epam.controller.util.Pagination.*;
 import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_CLIENT_ORDER_LIST;
-import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_OPERATION_RESULT;
 
 /**
  * Created by Vladyka Stas
  * on 22.03.2019 at 0:02
  **/
-public class ShowClientOrder implements Command {
+public class ShowUnhandledOrderList implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
         ServiceProvider provider = ServiceProvider.getInstance();

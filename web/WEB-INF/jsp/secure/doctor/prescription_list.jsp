@@ -22,6 +22,9 @@
 <fmt:message bundle="${loc}" key="writtenPrescriptions" var="writtenPrescriptions"/>
 <fmt:message bundle="${loc}" key="prescriptionDate" var="prescriptionDate"/>
 <fmt:message bundle="${loc}" key="expireDate" var="expireDate"/>
+<fmt:message bundle="${loc}" key="valid" var="valid"/>
+<fmt:message bundle="${loc}" key="expired" var="expired"/>
+<jsp:useBean id="currentDate" class="java.util.Date"/>
 
 <div class="container-fluid ">
     <h4 class="mb-2">${writtenPrescriptions}</h4>
@@ -43,7 +46,13 @@
                     <tr>
                         <td><c:out value="${receipt.id}"/></td>
                         <td><c:out value="${receipt.remedy.name}"/></td>
-                        <td><c:out value="${receipt.status}"/></td>
+                        <td>
+                            <c:if test="${currentDate.time<=receipt.expireDate.time}">
+                                <c:out value="${valid}"/>
+                            </c:if>
+                            <c:if test="${currentDate.time>receipt.expireDate.time}">
+                                <c:out value="${expired}"/>
+                            </c:if></td>
                         <td>
                             <fmt:formatDate value="${receipt.prescriptionDate}" pattern="yyyy-MM-dd hh:mm:ss"/>
                         </td>

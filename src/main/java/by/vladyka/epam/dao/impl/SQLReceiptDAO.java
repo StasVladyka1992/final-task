@@ -9,10 +9,7 @@ import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.entity.Remedy;
 import by.vladyka.epam.entity.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,8 +44,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
                 Receipt receipt = new Receipt();
                 receipt.setId(rs.getInt(1));
                 receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
-                receipt.setExpireDate(rs.getDate(4));
-
+                receipt.setExpireDate(new Date(rs.getTimestamp(4).getTime()));
                 Remedy remedy = new Remedy();
                 remedy.setName(rs.getString(3));
 
@@ -156,7 +152,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
     }
 
     @Override
-    public boolean createReceipt(int id, int doctorId, java.sql.Date expireDate, java.sql.Date prescriptionDate, String message,
+    public boolean createReceipt(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
                                  Receipt.Status status) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -165,8 +161,8 @@ public class SQLReceiptDAO implements ReceiptDAO {
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_WRITE_PRESCRIPTION);
             ps.setInt(1, doctorId);
-            ps.setDate(2, expireDate);
-            ps.setDate(3, prescriptionDate);
+            ps.setTimestamp(2, new Timestamp(expireDate.getTime()));
+            ps.setTimestamp(3, new Timestamp(prescriptionDate.getTime()));
             ps.setString(4, message);
             ps.setString(5, status.toString());
             ps.setInt(6, id);
@@ -262,16 +258,20 @@ public class SQLReceiptDAO implements ReceiptDAO {
                 application.setId(rs.getInt(1));
                 application.setStatus(Receipt.Status.valueOf(rs.getString(2)));
                 application.setPrescriptionDate(rs.getDate(3));
-//                application.setPrescriptionDate(rs.getDate(3));
-                application.setMessage(rs.getString(4));
+                if (rs.getTimestamp(4) == null) {
+                    application.setExpireDate(null);
+                } else {
+                    application.setExpireDate(new Date(rs.getTimestamp(4).getTime()));
+                }
+                application.setMessage(rs.getString(5));
 
                 User client = new User();
-                client.setFirstName(rs.getString(5));
-                client.setLastName(rs.getString(6));
-                client.setEmail(rs.getString(7));
+                client.setFirstName(rs.getString(6));
+                client.setLastName(rs.getString(7));
+                client.setEmail(rs.getString(8));
 
                 Remedy remedy = new Remedy();
-                remedy.setName(rs.getString(8));
+                remedy.setName(rs.getString(9));
 
                 application.setRemedy(remedy);
                 application.setClient(client);

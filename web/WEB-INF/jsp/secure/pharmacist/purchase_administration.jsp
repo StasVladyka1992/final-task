@@ -31,22 +31,25 @@
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
             <th class="align-middle"><c:out value="${createdOn}"/></th>
-            <th class="align-middle"><c:out value="${finishedOn}"/></th>
-            <th class="align-middle"><c:out value="${clientId}"/></th>
             <th class="align-middle"><c:out value="${status}"/></th>
             </thead>
-            <c:if test="${orderList.size()!=0 || orderList !=null}">
-                <c:forEach var="order" items="${orderList}">
+            <c:if test="${clientOrderList.size()!=0 || clientOrderList !=null}">
+                <c:forEach var="order" items="${clientOrderList}">
                     <tr>
                         <td><c:out value="${order.id}"/></td>
-                        <td><c:out value="${order.createdOn}"/></td>
-                        <td><c:out value="${order.finishedOn}"/></td>
-                        <td><c:out value="${order.clientId}"/></td>
-                        <td><c:out value="${order.status}"/></td>
+                        <td>
+                            <fmt:formatDate value="${order.createdOn}" pattern="yyyy-MM-dd hh:mm:ss"/>
+                        </td>
+                        <td>
+                            <c:if test="">
+
+                            </c:if>
+                            <c:out value="${order.status}"/>
+                        </td>
                         <td>
                             <div class="row justify-content-center">
-                                <form action="/secure?command=reject_application" method="post">
-                                    <button class="btn btn-primary" type="submit">${goToOrder}</button>
+                                <form class="mb-0" action="/secure?command=show_client_order" method="post">
+                                    <button class="btn btn-sm btn-primary" type="submit">${goToOrder}</button>
                                     <input type="hidden"
                                            value="${order.id}" name="id">
                                 </form>
@@ -55,7 +58,7 @@
                     </tr>
                 </c:forEach>
             </c:if>
-            <c:if test="${receiptList.size()==0}">
+            <c:if test="${clientOrderList.size()==0}">
                 <tr>
                     <td colspan="6"><c:out value="${nothingFound}"/></td>
                 </tr>
@@ -74,7 +77,7 @@
             <!--available "Previous" link-->
             <c:if test="${currentPage>1}">
                 <li class="page-item"><a class="page-link"
-                                         href="/secure?command=show_unhandled_applications&currentPage=${currentPage-1}"><c:out
+                                         href="/secure?command=show_unhandled_order_list&currentPage=${currentPage-1}"><c:out
                         value="${previous}"/></a>
                 </li>
             </c:if>
@@ -87,18 +90,18 @@
                 <c:choose>
                     <c:when test="${currentPage==i}">
                         <li class="page-item active"><a class="page-link"
-                                                        href="/secure?command=show_unhandled_applications&currentPage=${i}">${i}</a>
+                                                        href="/secure?command=show_unhandled_order_list&currentPage=${i}">${i}</a>
                         </li>
                     </c:when>
                     <c:when test="${i!=currentPage}">
                         <c:if test="${i>currentPage}">
                             <li class="page-item"><a class="page-link"
-                                                     href="/secure?command=show_unhandled_applications&currentPage=${i}">${i}</a>
+                                                     href="/secure?command=show_unhandled_order_list&currentPage=${i}">${i}</a>
                             </li>
                         </c:if>
                         <c:if test="${i<currentPage}">
                             <li class="page-item"><a class="page-link"
-                                                     href="/secure?command=show_unhandled_applications&currentPage=${i}">${i}</a>
+                                                     href="/secure?command=show_unhandled_order_list&currentPage=${i}">${i}</a>
                             </li>
                         </c:if>
                     </c:when>
@@ -107,7 +110,7 @@
             <!--available "Next" link-->
             <c:if test="${currentPage+1<=pagesNumber}">
                 <li class="page-item"><a class="page-link"
-                                         href="/secure?command=show_unhandled_applications&currentPage=${currentPage+1}"><c:out
+                                         href="/secure?command=show_unhandled_order_list&currentPage=${currentPage+1}"><c:out
                         value="${next}"/></a>
                 </li>
             </c:if>
@@ -118,7 +121,7 @@
         </ul>
     </c:if>
 </div>
-<div class="container-fluid">
+<div class="container-fluid d-flex justify-content-center">
     <div class="btn-group">
         <form action="#" method="post" class="form-inline mr-1">
             <button type="submit" class="btn btn-sm btn-primary">${canceledOrders}</button>
@@ -130,7 +133,7 @@
         </form>
     </div>
     <div class="btn-group">
-        <form action="#" method="post" class="form-inline mr-1">
+        <form action="/secure?command=show_unhandled_order_list" method="post" class="form-inline mr-1">
             <button type="submit" class="btn btn-sm btn-primary">${updateOrders}</button>
         </form>
     </div>

@@ -91,7 +91,7 @@
                     </tr>
                 </c:forEach>
             </c:if>
-            <c:if test="${remedyList.size()==0}">
+            <c:if test="${storageList.size()==0}">
                 <tr>
                     <td colspan="6"><c:out value="${nothingFound}"/></td>
                 </tr>

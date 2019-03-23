@@ -25,7 +25,19 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 
     @Override
     public ClientOrder findById(int id) throws ServiceException {
-        return null;
+        ClientOrderValidator validator = getValidator();
+        boolean validationResult = validator.checkClientOrderIdAndSetMessage(id);
+        if (!validationResult) {
+            return null;
+        }
+        ClientOrder order = null;
+        SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        try {
+           order = clientOrderDAO.findById(id);
+        } catch (DAOException ex) {
+            throw new ServiceException(ex);
+        }
+        return order;
     }
 
     public EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int start, int offset) throws ServiceException {

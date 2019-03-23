@@ -54,6 +54,8 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_GO_TO_PRESCRIPTION_APPLICATION_LIST = "go_to_prescription_application_list";
     private static final String COMMAND_VALUE_SHOW_CLIENT_WRITTEN_PRESCRIPTION_LIST = "show_client_written_prescription_list";
     private static final String COMMAND_VALUE_GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST = "go_to_client_written_prescription_list";
+    private static final String COMMAND_VALUE_SHOW_UNHANDLED_ORDER_LIST = "show_unhandled_order_list";
+    private static final String COMMAND_VALUE_SHOW_CLIENT_ORDER = "show_client_order";
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -101,6 +103,8 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_GO_TO_PRESCRIPTION_APPLICATION_LIST, new GoToPrescriptionApplicationList());
         commands.put(COMMAND_VALUE_SHOW_CLIENT_WRITTEN_PRESCRIPTION_LIST, new ShowClientWrittenPrescriptionList());
         commands.put(COMMAND_VALUE_GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST, new GoToClientWrittenPrescriptionList());
+        commands.put(COMMAND_VALUE_SHOW_UNHANDLED_ORDER_LIST, new ShowUnhandledOrderList());
+        commands.put(COMMAND_VALUE_SHOW_CLIENT_ORDER, new ShowClientOrder());
     }
 
     public Command getCommand(String command) {

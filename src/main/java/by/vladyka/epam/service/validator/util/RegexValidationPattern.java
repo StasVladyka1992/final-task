@@ -28,7 +28,7 @@ public final class RegexValidationPattern {
     public static final Pattern QUANTITY = Pattern.compile("^[0-9]++$");
 
     //receipt's pattern
-    public static final Pattern DATE = Pattern.compile("^([2-9]\\d{3})-(0[1-9]|([1][0-2]))-(([1-2]\\d)|(3[0-1])|(\\d))$");
+    public static final Pattern DATE = Pattern.compile("^\\d+$");
     public static final Pattern STATUS = Pattern.compile("^(REJECTED)|(APPROVED)|(NONE)|(USED)$");
     public static final Pattern MESSAGE = Pattern.compile("^[A-ZА-я _()\",.]++", Pattern.CASE_INSENSITIVE);
 

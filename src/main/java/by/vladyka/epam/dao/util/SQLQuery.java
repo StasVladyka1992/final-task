@@ -43,16 +43,16 @@ public final class SQLQuery {
     public static final String QUERY_REJECT = "UPDATE receipts SET doctorId=?, message=?, status=?, prescriptionDate=? WHERE id=?";
     public static final String QUERY_COUNT_REJECTED_APPLICATIONS = "SELECT COUNT(id) FROM receipts WHERE doctorId=? and status='REJECTED'";
     public static final String QUERY_COUNT_WRITTEN_RECEIPTS = "SELECT COUNT(id) FROM receipts WHERE doctorId=? and status='APPROVED'";
-    public static final String QUERY_FIND_REJECTED_APPLICATIONS = "SELECT rec.id, rec.status, rec.prescriptionDate, rec.message, u.firstName, u.lastName, u.email, rem.name FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.doctorId=? AND rec.status='REJECTED' LIMIT ?,?";
-    public static final String QUERY_FIND_WRITTEN_RECEIPTS = "SELECT rec.id, rec.status, rec.prescriptionDate, rec.message, u.firstName, u.lastName, u.email, rem.name FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.doctorId=? AND rec.status='APPROVED' LIMIT ?,?";
+    public static final String QUERY_FIND_REJECTED_APPLICATIONS = "SELECT rec.id, rec.status, rec.prescriptionDate, rec.expireDate, rec.message, u.firstName, u.lastName, u.email, rem.name FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.doctorId=? AND rec.status='REJECTED' LIMIT ?,?";
+    public static final String QUERY_FIND_WRITTEN_RECEIPTS = "SELECT rec.id, rec.status, rec.prescriptionDate, rec.expireDate, rec.message, u.firstName, u.lastName, u.email, rem.name FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN users AS u ON rec.clientId = u.id WHERE rec.doctorId=? AND rec.status='APPROVED' LIMIT ?,?";
 
     //client order's queries
-    public static final String QUERY_CREATE_CLIENT_ORDER = "INSERT INTO client_orders (createdOn, clientId) VALUES (?,?)";
+    public static final String QUERY_CREATE_CLIENT_ORDER = "INSERT INTO client_orders (createdOn, clientId) VALUES (NOW(),?)";
     public static final String QUERY_COUNT_UNHANDLED_CLIENT_ORDERS = "SELECT COUNT(id) FROM CLIENT_ORDERS WHERE status='UNHANDLED'";
     public static final String QUERY_GET_LAST_CLIENT_ORDER_ID = "SELECT MAX(id) FROM client_orders";
-    public static final String QUERY_FIND_UNHANDLED_CLIENT_ORDERS = "SELECT id, createdOn, finishedOn, status from client_orders WHERE status='UNHANDLED' LIMIT ?,?";
-
-
+    public static final String QUERY_FIND_UNHANDLED_CLIENT_ORDERS = "SELECT id, createdOn, status from client_orders WHERE status='UNHANDLED' LIMIT ?,?";
+    public static final String QUERY_FIND_CLIENT_ORDER_BY_ID =
+            "SELECT rem.name, rem.description, rem.receiptRequired, rem.price, rem_or.quantity, rem_or.receiptId, s.remedyLeft,   ";
     //remedy_order queries
     public static final String QUERY_CREATE_REMEDY_ORDER = "INSERT INTO remedy_orders (remedyId, quantity, clientOrderId) VALUES (";
 }

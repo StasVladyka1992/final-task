@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
 
-<fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
+<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
@@ -63,8 +63,8 @@
         <table class="table table-bordered">
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
-            <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${phone}"/></th>
+            <th class="align-middle"><c:out value="${remedyName}"/></th>
+            <th class="align-middle"><c:out value="${description}"/></th>
             <th class="align-middle"><c:out value="${price}"/></th>
             <th class="align-middle"><c:out value="${receipt}"/></th>
             <th class="align-middle"><c:out value="${quantity}"/></th>
@@ -82,7 +82,7 @@
                                 ${absenceInStorage}
                             </c:if>
                             <c:if test="${storage.remedyLeft!=-1}">
-                                <c:out value="${storage.remedyLeft}"></c:out>
+                                <c:out value="${storage.remedyLeft}"/>
                             </c:if>
                         </td>
                         <td>

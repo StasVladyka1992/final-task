@@ -28,6 +28,20 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
 
     @Override
     public ClientOrder findById(int id) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+//        try {
+//            con = pool.takeConnection();
+//            ps = con.prepareStatement();
+//            ps.setInt(1, id);
+//            rs = ps.executeQuery();
+//            if (rs.next()){
+//                rs.getInt();
+//            }
+//        }
+
+
         return null;
     }
 
@@ -47,10 +61,8 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             while (rs.next()) {
                 ClientOrder clientOrder = new ClientOrder();
                 clientOrder.setId(rs.getInt(1));
-                //TODO разобраться с датой
-                clientOrder.setCreatedOn(rs.getDate(2));
-                clientOrder.setFinishedOn(rs.getDate(3));
-                clientOrder.setStatus(ClientOrder.ClientOrderStatus.valueOf(rs.getString(4)));
+                clientOrder.setCreatedOn(new Date(rs.getTimestamp(2).getTime()));
+                clientOrder.setStatus(ClientOrder.ClientOrderStatus.valueOf(rs.getString(3)));
                 clientOrders.add(clientOrder);
             }
         } catch (SQLException | ConnectionPoolException e) {
@@ -76,8 +88,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             con = pool.takeConnection();
             con.setAutoCommit(false);
             ps = con.prepareStatement(QUERY_CREATE_CLIENT_ORDER);
-            ps.setDate(1, new java.sql.Date(new Date().getTime()));
-            ps.setInt(2, clientId);
+            ps.setInt(1, clientId);
             insertResult = ps.executeUpdate();
             if (insertResult == 1) {
                 lastId = getLastInsertId();

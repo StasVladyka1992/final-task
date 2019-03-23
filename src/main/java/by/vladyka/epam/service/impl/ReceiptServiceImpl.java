@@ -9,6 +9,7 @@ import by.vladyka.epam.service.ReceiptService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.ReceiptValidator;
 
+import java.util.Date;
 import java.util.List;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_EXIST;
@@ -132,7 +133,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public boolean createReceipt(int id, int doctorId, java.sql.Date expireDate, java.sql.Date prescriptionDate, String message,
+    public boolean createReceipt(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
                                  Receipt.Status status) throws ServiceException {
         boolean validationResult = validator.checkDoctorAddingDataAndSetMessage(id, doctorId, expireDate, prescriptionDate,
                 message, status);

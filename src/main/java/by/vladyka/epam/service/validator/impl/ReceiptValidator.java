@@ -3,6 +3,7 @@ package by.vladyka.epam.service.validator.impl;
 import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.service.validator.AbstractValidator;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.*;
@@ -19,8 +20,8 @@ public final class ReceiptValidator extends AbstractValidator {
         return isClientIdCorrect && isRemedyIdCorrect;
     }
 
-    public boolean checkDoctorAddingDataAndSetMessage(int id, int doctorId, java.sql.Date expireDate,
-                                                      java.sql.Date prescriptionDate, String message,
+    public boolean checkDoctorAddingDataAndSetMessage(int id, int doctorId, Date expireDate, Date prescriptionDate,
+                                                      String message,
                                                       Receipt.Status status) {
         boolean isIdCorrect = checkId(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
@@ -83,8 +84,8 @@ public final class ReceiptValidator extends AbstractValidator {
         }
         return result;
     }
-    public boolean checkDateAndSetMessage(java.sql.Date date) {
-        boolean result = DATE.matcher(date.toString()).find() ? true : false;
+    public boolean checkDateAndSetMessage(Date date) {
+        boolean result = DATE.matcher(String.valueOf(date.getTime())).find() ? true : false;
         if (!result) {
             addIncorrectDataMessage(INCORRECT_DATE);
         }

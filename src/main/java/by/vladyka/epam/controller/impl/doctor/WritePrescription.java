@@ -29,14 +29,14 @@ public class WritePrescription implements Command {
         String message = req.getParameter(PARAM_NAME_MESSAGE);
         String expireDateText = req.getParameter(PARAM_NAME_EXPIRE_DATE);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        java.sql.Date expireDate;
+        Date expireDate;
         try {
-            expireDate = new java.sql.Date((dateFormat.parse(expireDateText)).getTime());
+            expireDate = new Date((dateFormat.parse(expireDateText)).getTime());
         } catch (ParseException e) {
             //TODO правильно пробросить исключение
             throw new ServiceException(e);
         }
-        java.sql.Date prescriptionDate = new java.sql.Date(new Date().getTime());
+        Date prescriptionDate = new Date();
         Receipt.Status status = Receipt.Status.APPROVED;
         int doctorId = Integer.parseInt(req.getParameter(PARAM_NAME_DOCTOR_ID));
         int id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));

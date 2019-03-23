@@ -4,6 +4,8 @@ import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.service.exception.ServiceException;
 
+import java.util.Date;
+
 /**
  * Created by Vladyka Stas
  * on 15.03.2019 at 11:45
@@ -23,5 +25,6 @@ public interface ReceiptService extends AbstractService<Receipt> {
 
     boolean createAppliance(int clientId, int remedyId) throws ServiceException;
 
-    boolean createReceipt(int id, int doctorId, java.sql.Date expireDate, java.sql.Date prescriptionDate, String message, Receipt.Status status) throws ServiceException;
+    boolean createReceipt(int id, int doctorId, Date expireDate,  Date prescriptionDate, String message,
+                          Receipt.Status status) throws ServiceException;
 }
