@@ -30,11 +30,11 @@ public class SQLReceiptDAO implements ReceiptDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        int unhandledReceiptsNumber;
+        int writtenPrescriptionNumber;
         List<Receipt> receipts;
         try {
             String countCommand = QUERY_COUNT_CLIENT_WRITTEN_PRESCRIPTIONS + clientId;
-            unhandledReceiptsNumber = getFoundEntitiesNumber(countCommand, pool);
+            writtenPrescriptionNumber = getFoundEntitiesNumber(countCommand, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_CLIENT_WRITTEN_PRESCRIPTIONS);
             setClientIdStartOffsetToStatement(ps, clientId, start, offset);
@@ -56,10 +56,49 @@ public class SQLReceiptDAO implements ReceiptDAO {
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-        EntitySearchingResult<Receipt> unhandledReceipts = new EntitySearchingResult<>();
-        unhandledReceipts.setFoundEntities(receipts);
-        unhandledReceipts.setFoundEntitiesNumber(unhandledReceiptsNumber);
-        return unhandledReceipts;
+        EntitySearchingResult<Receipt> writtenPrescriptions = new EntitySearchingResult<>();
+        writtenPrescriptions.setFoundEntities(receipts);
+        writtenPrescriptions.setFoundEntitiesNumber(writtenPrescriptionNumber);
+        return writtenPrescriptions;
+    }
+
+    @Override
+    public EntitySearchingResult<Receipt> findClientRejectedApplications(int clientId, int start, int offset)
+            throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int rejectedApplicationsNumber;
+        List<Receipt> receipts;
+        try {
+            String countCommand = QUERY_COUNT_CLIENT_REJECTED_APPLICATIONS + clientId;
+            rejectedApplicationsNumber = getFoundEntitiesNumber(countCommand, pool);
+            con = pool.takeConnection();
+            ps = con.prepareStatement(QUERY_FIND_CLIENT_REJECTED_APPLICATIONS);
+            setClientIdStartOffsetToStatement(ps, clientId, start, offset);
+            receipts = new ArrayList<>();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Receipt receipt = new Receipt();
+                receipt.setId(rs.getInt(1));
+                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
+                receipt.setPrescriptionDate(new Date(rs.getTimestamp(4).getTime()));
+                receipt.setMessage(rs.getString(5));
+                Remedy remedy = new Remedy();
+                remedy.setName(rs.getString(3));
+
+                receipt.setRemedy(remedy);
+                receipts.add(receipt);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            pool.closeConnection(con, ps, rs);
+        }
+        EntitySearchingResult<Receipt> rejectedApplications = new EntitySearchingResult<>();
+        rejectedApplications.setFoundEntities(receipts);
+        rejectedApplications.setFoundEntitiesNumber(rejectedApplicationsNumber);
+        return rejectedApplications;
     }
 
     @Override
@@ -175,7 +214,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         return insertionResult == 1;
     }
 
-    public boolean isValidReceiptExist(int clientId, int remedyId) throws DAOException {
+    public int isValidReceiptExist(int clientId, int remedyId) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -185,17 +224,19 @@ public class SQLReceiptDAO implements ReceiptDAO {
             setClientIdAndRemedyIdToStatement(ps, clientId, remedyId);
             rs = ps.executeQuery();
             if (rs.next()) {
-                java.sql.Date expireDate = rs.getDate(1);
-                if (expireDate == null || (expireDate.getTime() - new Date().getTime()) >= 0) {
-                    return true;
-                } else return false;
+                Date expireDate = rs.getDate(1);
+                if (expireDate == null) {
+                    return 1;
+                } else if ((expireDate.getTime() - new Date().getTime()) >= 0) {
+                    return 2;
+                }
             }
         } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-        return false;
+        return 0;
     }
 
     @Override

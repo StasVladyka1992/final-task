@@ -51,20 +51,19 @@ public class RemedyOrder extends AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         RemedyOrder that = (RemedyOrder) o;
-        if (getId() != that.getId()) return false;
+
         if (quantity != that.quantity) return false;
-        if (!remedy.equals(that.remedy)) return false;
-        if (!receipt.equals(that.receipt)) return false;
-        return order.equals(that.order);
+        if (remedy != null ? !remedy.equals(that.remedy) : that.remedy != null) return false;
+        if (receipt != null ? !receipt.equals(that.receipt) : that.receipt != null) return false;
+        return order != null ? order.equals(that.order) : that.order == null;
     }
 
     @Override
     public int hashCode() {
-        int result = remedy.hashCode();
+        int result = remedy != null ? remedy.hashCode() : 0;
         result = 31 * result + quantity;
-        result = 31 * result + receipt.hashCode();
-        result = 31 * result + order.hashCode();
-        result = 31 * result + getId();
+        result = 31 * result + (receipt != null ? receipt.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
         return result;
     }
 

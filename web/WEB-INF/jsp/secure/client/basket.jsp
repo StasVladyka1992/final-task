@@ -30,9 +30,11 @@
 
 <h4 class="mt-3 mb-3 pl-3">${basket}</h4>
 <div class="table-responsive-md col-sm-6">
+    <c:set var="counter" value="0"/>
     <c:forEach items="${sessionScope.get('orderDto').goods}" var="entry">
         <c:set var="storage" value="${entry.key}"/>
         <c:set var="quantityToBuy" value="${entry.value}"/>
+        <c:set var="formName" value="changeQuantity${counter=counter+1}"/>
         <table class="table table-bordered mb-2">
             <tr>
                 <td class="align-middle w-25"><c:out value="${remedyName}"/></td>
@@ -49,7 +51,7 @@
             <tr>
                 <td class="align-middle w-25"><c:out value="${quantity}"/></td>
                 <td>
-                    <form id="changeQuantity" class="pl-1 d-inline-block" method="post"
+                    <form id="${formName}" class="pl-1 d-inline-block" method="post"
                           action="/secure?command=change_purchasing_quantity">
                         <input type="number" name="quantity" min="1" step="1"
                                max="${storage.remedyLeft}" class="form-control form-control-sm mt-1"
@@ -70,7 +72,7 @@
                                     class="btn btn-sm btn-primary mr-2 mb-1 mt-1">${deleteFromBasket}</button>
                             <input type="hidden" value="${storage.id}" name="id">
                         </form>
-                        <button form="changeQuantity" type="submit" class="btn btn-sm btn-primary mr-2 mb-1 mt-1">
+                        <button form="${formName}" type="submit" class="btn btn-sm btn-primary mr-2 mb-1 mt-1">
                                 ${changeQuantity}
                         </button>
                     </div>

@@ -77,8 +77,8 @@ public class Remedy extends AbstractEntity implements Serializable {
     public String toString() {
         return "Remedy{" +
                 "id=" + getId() +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", name='" + name  +
+                ", description='" + description  +
                 ", price=" + price +
                 ", receiptRequired=" + receiptRequired +
                 '}';

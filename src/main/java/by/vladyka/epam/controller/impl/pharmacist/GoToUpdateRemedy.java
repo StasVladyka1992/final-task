@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_REMEDY_ADMINISTRATION;
-import static by.vladyka.epam.controller.util.JSPNavigation.UPDATE_REMEDY;
+import static by.vladyka.epam.controller.util.JSPNavigation.REMEDY_UPDATE;
 import static by.vladyka.epam.controller.util.ParameterName.*;
 import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_REMEDY_NOT_EXIST;
 
@@ -33,7 +33,7 @@ public class GoToUpdateRemedy implements Command {
         }
         else {
             req.setAttribute(PARAM_NAME_STORAGE, storage);
-            req.getRequestDispatcher(UPDATE_REMEDY).forward(req, resp);
+            req.getRequestDispatcher(REMEDY_UPDATE).forward(req, resp);
         }
     }
 }

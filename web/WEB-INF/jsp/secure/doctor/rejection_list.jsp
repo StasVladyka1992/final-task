@@ -20,11 +20,11 @@
 <fmt:message bundle="${loc}" key="expireDate" var="expireDate"/>
 <fmt:message bundle="${loc}" key="receiptComment" var="receiptComment"/>
 <fmt:message bundle="${loc}" key="back" var="back"/>
-<fmt:message bundle="${loc}" key="receiptRejections" var="receiptRejections"/>
+<fmt:message bundle="${loc}" key="receiptRejections" var="prescriptionApplications"/>
 <fmt:message bundle="${loc}" key="rejectionDate" var="rejectionDate"/>
 
 <div class="container-fluid ">
-    <h4 class="mb-2">${receiptRejections}</h4>
+    <h4 class="mb-2">${prescriptionApplications}</h4>
     <div class="table-responsive-md">
         <table class="table table-bordered">
             <thead>

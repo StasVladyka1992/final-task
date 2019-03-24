@@ -33,9 +33,9 @@ import static by.vladyka.epam.controller.util.JSPNavigation.ERROR_PAGE;
 //18-Mar-2019 20:12:41.729 WARNING [RMI TCP Connection(15)-127.0.0.1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ROOT] is still processing a request that has yet to finish. This is very likely to create a memory leak. You can control the time allowed for requests to finish by using the unloadDelay attribute of the standard Context implementation. Stack trace of request processing thread:[
 //        sun.misc.Unsafe.park(Native Method)
 //TODO на jsp сделать switch вместо кучи if
-//TODO при повторном обращение за заявкой она появляется в url
+//TODO при повторном обращение за заявкой она появляется в url + пишет, что заявка уже существует. Разобраться!!!
 //TODO заюзать HashMap в UserRegistration
-//TODO не работает изменение количества в цикле
+//TODO вывести список отказанных заявок на рецепты у клиента
 
 public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(Controller.class);

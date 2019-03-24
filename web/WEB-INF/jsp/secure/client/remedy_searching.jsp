@@ -25,7 +25,7 @@
 <fmt:message bundle="${loc}" key="askForReceipt" var="askForReceipt"/>
 <fmt:message bundle="${loc}" key="showOnlyInStock" var="showOnlyInStock"/>
 <fmt:message bundle="${loc}" key="applicationSent" var="applicationSent"/>
-<fmt:message bundle="${loc}" key="receiptExist" var="receiptExist"/>
+<fmt:message bundle="${loc}" key="receiptApplicationExist" var="receiptApplicationExist"/>
 <fmt:message bundle="${loc}" key="absenceInStorage" var="absenceInStorage"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="add" var="add"/>
@@ -34,6 +34,7 @@
 <fmt:message bundle="${loc}" key="goodAlreadyInBasket" var="goodAlreadyInBasket"/>
 <fmt:message bundle="${loc}" key="incorrectQuantity" var="incorrectQuantity"/>
 <fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
+<fmt:message bundle="${loc}" key="receiptExist" var="receiptExist"/>
 
 
 <div class="container-fluid">
@@ -106,6 +107,11 @@
     <c:if test="${param.receiptExist.equals('true')}">
         <p class="text-danger">
             <c:out value="${receiptExist}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.receiptApplicationExist.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${receiptApplicationExist}"/>
         </p>
     </c:if>
     <c:if test="${param.operationResult.equals('success')}">

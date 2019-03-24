@@ -19,6 +19,8 @@ public interface ReceiptService extends AbstractService<Receipt> {
 
     EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int userId, int start, int offset) throws ServiceException;
 
+    EntitySearchingResult<Receipt> findClientRejectedApplications (int userId, int start, int offset) throws ServiceException;
+
     EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset) throws ServiceException;
 
     EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset) throws ServiceException;

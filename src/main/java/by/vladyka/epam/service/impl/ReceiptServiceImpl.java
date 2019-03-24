@@ -12,6 +12,7 @@ import by.vladyka.epam.service.validator.impl.ReceiptValidator;
 import java.util.Date;
 import java.util.List;
 
+import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_APPLICATION_EXIST;
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_EXIST;
 
 /**
@@ -51,6 +52,18 @@ public class ReceiptServiceImpl implements ReceiptService {
         EntitySearchingResult<Receipt> receipts;
         try {
             receipts = receiptDAO.findClientWrittenPrescriptions(userId, start, offset);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return receipts;
+    }
+
+    @Override
+    public EntitySearchingResult<Receipt> findClientRejectedApplications(int userId, int start, int offset) throws ServiceException {
+        SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
+        EntitySearchingResult<Receipt> receipts;
+        try {
+            receipts = receiptDAO.findClientRejectedApplications(userId, start, offset);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -119,10 +132,14 @@ public class ReceiptServiceImpl implements ReceiptService {
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) provider.getSQLReceiptDAO();
         boolean isAddingSuccessfull;
         try {
-            if (sqlReceiptDAO.isValidReceiptExist(clientId, remedyId)) {
-                if(!validator.getIncorrectDataMessages().toString().contains(RECEIPT_EXIST)){
-                    validator.addIncorrectDataMessage(RECEIPT_EXIST);
-                }
+            int checkingResult = sqlReceiptDAO.isValidReceiptExist(clientId, remedyId);
+            if (checkingResult == 1) {
+                validator.getIncorrectDataMessages().delete(0, validator.getIncorrectDataMessages().length());
+                validator.addIncorrectDataMessage(RECEIPT_APPLICATION_EXIST);
+                return false;
+            } else if (checkingResult == 2) {
+                validator.getIncorrectDataMessages().delete(0, validator.getIncorrectDataMessages().length());
+                validator.addIncorrectDataMessage(RECEIPT_EXIST);
                 return false;
             }
             isAddingSuccessfull = provider.getSQLReceiptDAO().createAppliance(clientId, remedyId);

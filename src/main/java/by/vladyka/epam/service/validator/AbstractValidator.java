@@ -20,9 +20,5 @@ public abstract class AbstractValidator {
 
     public boolean checkId(int id) {
         return ID.matcher(String.valueOf(id)).find() ? true : false;
-//        if (!result) {
-//            addIncorrectDataMessage(INCORRECT_ID);
-//        }
-
     }
 }

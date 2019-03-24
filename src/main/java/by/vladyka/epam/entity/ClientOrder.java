@@ -11,12 +11,21 @@ import java.util.Objects;
  **/
 public class ClientOrder extends AbstractEntity implements Serializable {
 
-    private static final long serialVersionUID = 4356189928633431320L;
+    private static final long serialVersionUID = 5573623773906753888L;
     private Date createdOn;
     private Date finishedOn;
     private User client;
     private List<RemedyOrder> remedyOrders;
     private ClientOrderStatus status;
+    private double sum;
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
 
     public ClientOrderStatus getStatus() {
         return status;
@@ -69,17 +78,21 @@ public class ClientOrder extends AbstractEntity implements Serializable {
         if (!Objects.equals(finishedOn, that.finishedOn)) return false;
         if (!client.equals(that.client)) return false;
         if (status != that.status) return false;
+        if (Double.compare(that.sum, sum) != 0) return false;
         return remedyOrders.equals(that.remedyOrders);
     }
 
     @Override
     public int hashCode() {
+        long temp;
         int result = createdOn.hashCode();
         result = 31 * result + (finishedOn != null ? finishedOn.hashCode() : 0);
         result = 31 * result + client.hashCode();
         result = 31 * result + remedyOrders.hashCode();
         result = 31 * result + getId();
         result = 31 * result + status.hashCode();
+        temp = Double.doubleToLongBits(sum);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
@@ -92,6 +105,7 @@ public class ClientOrder extends AbstractEntity implements Serializable {
                 ", client=" + client +
                 ", remedyOrders=" + remedyOrders +
                 ", status=" + status +
+                ", sum=" + sum +
                 '}';
     }
 

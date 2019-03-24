@@ -63,6 +63,7 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
                 int insertResult = ps.executeUpdate();
                 result = insertResult == 1;
             }
+
             con.commit();
             return result;
         } catch (ConnectionPoolException | SQLException e) {

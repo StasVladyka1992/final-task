@@ -37,7 +37,6 @@ public class EntitySearchingResult<T extends AbstractEntity>implements Serializa
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EntitySearchingResult that = (EntitySearchingResult) o;
-        if (!foundEntities.containsAll(that.foundEntities)&& foundEntities.size()==that.foundEntities.size()) return false;
         if (foundEntitiesNumber != that.foundEntitiesNumber) return false;
         return foundEntities.equals(that.foundEntities);
     }

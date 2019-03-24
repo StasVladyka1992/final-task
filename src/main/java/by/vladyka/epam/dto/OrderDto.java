@@ -20,4 +20,26 @@ public class OrderDto implements Serializable {
     public void setGoods(Map<Storage, Integer> goods) {
         this.goods = goods;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDto that = (OrderDto) o;
+        return goods.equals(that.goods);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = goods.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "goods="+goods;
+    }
 }

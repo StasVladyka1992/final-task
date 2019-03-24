@@ -34,4 +34,5 @@ public final class IncorrectDataMessage {
     public static final String INCORRECT_RESIDENCE_BETWEEN_DATES = "incorrectResidenceBetweenDates=true&";
     public static final String INCORRECT_MESSAGE = "incorrectMessage=true&";
     public static final String RECEIPT_EXIST = "receiptExist=true&";
+    public static final String RECEIPT_APPLICATION_EXIST = "receiptApplicationExist=true&";
 }

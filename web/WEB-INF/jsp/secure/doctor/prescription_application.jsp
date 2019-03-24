@@ -91,7 +91,7 @@
                                                         <label for="approveComment">${receiptComment}</label>
                                                         <textarea class="form-control" rows="5" id="approveComment"
                                                                   name="message"
-                                                                  placeholder="${addComment}"></textarea>
+                                                                  placeholder="${addComment}" required></textarea>
                                                     </div>
                                                     <button class="btn btn-primary" type="submit">${write}</button>
                                                     <input type="hidden"
@@ -117,7 +117,7 @@
                                                     <div class="form-group pl-0 col-sm-12 mb-3">
                                                         <label for="rejectComment">${receiptComment}</label>
                                                         <textarea class="form-control" rows="5" id="rejectComment"
-                                                                  name="message"
+                                                                  name="message" required
                                                                   placeholder="${addComment}"></textarea>
                                                     </div>
                                                     <button class="btn btn-primary" type="submit">${reject}</button>

@@ -14,6 +14,7 @@ public class ParameterName {
     public static final String PARAM_NAME_OPERATION_RESULT = "operationResult";
     public static final String PARAM_NAME_COMMAND_STATUS = "commandStatus";
     public static final String PARAM_NAME_ORDER_DTO = "orderDto";
+    public static final String PARAM_NAME_ORDER_DTO_FOR_PHARMACIST = "orderDtoForPharmacist";
 
     //user's params
     public static final String PARAM_NAME_USER = "user";

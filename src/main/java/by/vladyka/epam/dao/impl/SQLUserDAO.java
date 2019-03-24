@@ -28,7 +28,7 @@ public class SQLUserDAO implements UserDAO {
         ResultSet resultSet = null;
         try {
             connection = pool.takeConnection();
-            preparedStatement = connection.prepareStatement(QUERY_CHECK_USER_EXISTANCE);
+            preparedStatement = connection.prepareStatement(QUERY_CHECK_USER_EXISTENCE);
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

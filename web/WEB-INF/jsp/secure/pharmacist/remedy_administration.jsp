@@ -179,7 +179,7 @@
             <h5 class="text-center">${newRemedyAdding}</h5>
             <div class="form-row">
                 <div class="col-sm-6 mb-3">
-                    <label for="remedyName">${firstName}</label>
+                    <label for="remedyName">${remedyName}</label>
                     <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
                            required>
                     <%--<div class="valid-feedback">--%>

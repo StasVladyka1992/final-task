@@ -20,7 +20,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public boolean update(int remedyId, int remedyLeft) throws ServiceException {
-        if (!validateUpdateAndCreateData(remedyId, remedyLeft)) {
+        if (!validator.checkAddingDataAndSetMessage(remedyId, remedyLeft)) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
@@ -35,7 +35,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public boolean create(int remedyId, int remedyLeft) throws ServiceException {
-        if (!validateUpdateAndCreateData(remedyId, remedyLeft)) {
+        if (!validator.checkAddingDataAndSetMessage(remedyId, remedyLeft)) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
@@ -90,14 +90,6 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public List<Storage> findAll() throws ServiceException {
         return null;
-    }
-
-    private boolean validateUpdateAndCreateData(int remedyId, int remedyLeft) {
-        boolean validationResult = validator.checkAddingDataAndSetMessage(remedyId, remedyLeft);
-        if (!validationResult) {
-            return false;
-        }
-        return true;
     }
 
     public StorageValidator getValidator() {

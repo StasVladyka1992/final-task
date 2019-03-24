@@ -119,7 +119,7 @@ public class SQLStorageDAO implements StorageDAO {
     }
 
     private int getFoundRemediesNumber(String name) throws DAOException {
-        String query = QUERY_COUNT_SIMULAR_REMEDIES + "'%" + name + "%'";
+        String query = QUERY_COUNT_SIMILAR_REMEDIES + "'%" + name + "%'";
         return getFoundEntitiesNumber(query, pool);
     }
 

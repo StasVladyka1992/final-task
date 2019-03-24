@@ -2,6 +2,7 @@ package by.vladyka.epam.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Vladyka Stas
@@ -78,25 +79,25 @@ public class Receipt extends AbstractEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         Receipt receipt = (Receipt) o;
-        if (!message.equals(receipt.message)) return false;
-        if (getId() != receipt.getId())
-            if (!expireDate.equals(receipt.expireDate)) return false;
-        if (!prescriptionDate.equals(receipt.prescriptionDate)) return false;
-        if (!client.equals(receipt.client)) return false;
-        if (!doctor.equals(receipt.doctor)) return false;
-        if (status != receipt.status) return false;
-        return remedy.equals(receipt.remedy);
+
+        if (expireDate != null ? !expireDate.equals(receipt.expireDate) : receipt.expireDate != null) return false;
+        if (prescriptionDate != null ? !prescriptionDate.equals(receipt.prescriptionDate) : receipt.prescriptionDate != null)
+            return false;
+        if (client != null ? !client.equals(receipt.client) : receipt.client != null) return false;
+        if (doctor != null ? !doctor.equals(receipt.doctor) : receipt.doctor != null) return false;
+        if (remedy != null ? !remedy.equals(receipt.remedy) : receipt.remedy != null) return false;
+        if (message != null ? !message.equals(receipt.message) : receipt.message != null) return false;
+        return status == receipt.status;
     }
 
     @Override
     public int hashCode() {
-        int result = expireDate.hashCode();
-        result = 31 * result + message.hashCode();
-        result = 31 * result + prescriptionDate.hashCode();
-        result = 31 * result + client.hashCode();
-        result = 31 * result + doctor.hashCode();
-        result = 31 * result + remedy.hashCode();
-        result = 31 * result + getId();
+        int result = expireDate != null ? expireDate.hashCode() : 0;
+        result = 31 * result + (prescriptionDate != null ? prescriptionDate.hashCode() : 0);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (doctor != null ? doctor.hashCode() : 0);
+        result = 31 * result + (remedy != null ? remedy.hashCode() : 0);
+        result = 31 * result + (message != null ? message.hashCode() : 0);
         result = 31 * result + status.hashCode();
         return result;
     }
