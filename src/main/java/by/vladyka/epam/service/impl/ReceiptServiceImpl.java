@@ -177,11 +177,6 @@ public class ReceiptServiceImpl implements ReceiptService {
         return null;
     }
 
-    @Override
-    public List<Receipt> findAll() throws ServiceException {
-        return null;
-    }
-
     public ReceiptValidator getValidator() {
         return validator;
     }

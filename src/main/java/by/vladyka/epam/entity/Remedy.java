@@ -14,7 +14,6 @@ public class Remedy extends AbstractEntity implements Serializable {
     private double price;
     private boolean receiptRequired;
 
-
     public String getName() {
         return name;
     }
@@ -77,8 +76,8 @@ public class Remedy extends AbstractEntity implements Serializable {
     public String toString() {
         return "Remedy{" +
                 "id=" + getId() +
-                ", name='" + name  +
-                ", description='" + description  +
+                ", name='" + name +
+                ", description='" + description +
                 ", price=" + price +
                 ", receiptRequired=" + receiptRequired +
                 '}';

@@ -87,11 +87,6 @@ public class StorageServiceImpl implements StorageService {
         return entitySearchingResult;
     }
 
-    @Override
-    public List<Storage> findAll() throws ServiceException {
-        return null;
-    }
-
     public StorageValidator getValidator() {
         return validator;
     }

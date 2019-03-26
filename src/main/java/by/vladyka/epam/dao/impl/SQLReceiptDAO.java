@@ -246,7 +246,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         int insertionResult;
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(QUERY_REJECT);
+            ps = con.prepareStatement(QUERY_REJECT_RECEIPT_APPLICATION);
             ps.setInt(1, doctorId);
             ps.setString(2, message);
             ps.setString(3, status.toString());
@@ -392,8 +392,4 @@ public class SQLReceiptDAO implements ReceiptDAO {
         return false;
     }
 
-    @Override
-    public List<Receipt> findAll() throws DAOException {
-        return null;
-    }
 }

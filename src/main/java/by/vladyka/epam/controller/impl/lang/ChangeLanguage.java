@@ -18,7 +18,7 @@ public class ChangeLanguage implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String language = req.getParameter(PARAM_NAME_LANGUAGE);
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession();
         session.setAttribute(PARAM_NAME_LANGUAGE, language);
         String url = (String) session.getAttribute(PARAM_NAME_PREVIOUS_URL);
         resp.sendRedirect(url);

@@ -7,12 +7,12 @@ import java.util.Enumeration;
  * Created by Vladyka Stas
  * on 16.02.2019 at 13:53
  **/
-public final class URLRestorer {
+public  class URLRestorer {
     public static String restoreURL(HttpServletRequest req) {
-        Enumeration<String> parameters = req.getParameterNames();
         String url = "";
         String paramName;
         String paramValue;
+        Enumeration<String> parameters = req.getParameterNames();
         while (parameters.hasMoreElements()) {
             paramName = parameters.nextElement();
             paramValue = req.getParameter(paramName);

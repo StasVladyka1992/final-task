@@ -31,10 +31,6 @@ public class RemedyServiceImpl implements RemedyService {
         return remedy;
     }
 
-    @Override
-    public List<Remedy> findAll() throws ServiceException {
-        return null;
-    }
 
 
     @Override

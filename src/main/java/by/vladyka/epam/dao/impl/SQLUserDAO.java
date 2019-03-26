@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import static by.vladyka.epam.dao.util.DBColumn.*;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
@@ -104,11 +103,6 @@ public class SQLUserDAO implements UserDAO {
         return false;
     }
 
-    @Override
-    public List findAll() {
-        return null;
-    }
-
     private User createUser(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt(ID));
@@ -125,7 +119,6 @@ public class SQLUserDAO implements UserDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
         try {
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_CHECK_MAIL_USAGE);

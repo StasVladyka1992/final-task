@@ -1,6 +1,7 @@
 package by.vladyka.epam.service;
 
 import by.vladyka.epam.dto.OrderDto;
+import by.vladyka.epam.entity.ClientOrder;
 import by.vladyka.epam.entity.RemedyOrder;
 import by.vladyka.epam.service.exception.ServiceException;
 
@@ -10,4 +11,5 @@ import by.vladyka.epam.service.exception.ServiceException;
  **/
 public interface RemedyOrderService extends AbstractService<RemedyOrder> {
     boolean create(OrderDto orderDto, int clientOrderId) throws ServiceException;
+    boolean setReceipts (ClientOrder order) throws ServiceException;
 }

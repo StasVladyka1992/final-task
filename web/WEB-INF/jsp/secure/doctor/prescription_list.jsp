@@ -122,12 +122,9 @@
         </ul>
     </c:if>
 </div>
-<div class="container-fluid">
-    <div class="btn-group">
-        <a href="/secure?command=show_unhandled_applications" type="button" class="btn btn-sm btn-primary">${back}</a>
-    </div>
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=show_unhandled_applications" class="btn btn-sm btn-primary">${back}</a>
 </div>
-
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>
 </div>

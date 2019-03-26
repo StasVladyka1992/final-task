@@ -9,7 +9,7 @@ import by.vladyka.epam.controller.impl.user.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandStorage {
+public final class CommandStorage {
 
     private static final String COMMAND_VALUE_GO_TO_DEFAULT = "go_to_default";
     private static final String COMMAND_VALUE_GO_TO_AUTHORIZATION = "go_to_authorization";
@@ -56,10 +56,17 @@ public class CommandStorage {
     private static final String COMMAND_VALUE_GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST = "go_to_client_written_prescription_list";
     private static final String COMMAND_VALUE_SHOW_CLIENT_REJECTED_APPLICATION_LIST = "show_client_rejected_application_list";
     private static final String COMMAND_VALUE_GO_TO_CLIENT_REJECTED_APPLICATION_LIST = "go_to_client_rejected_application_list";
-
     private static final String COMMAND_VALUE_SHOW_UNHANDLED_ORDER_LIST = "show_unhandled_order_list";
     private static final String COMMAND_VALUE_SHOW_CLIENT_ORDER = "show_client_order";
     private static final String COMMAND_VALUE_GO_TO_CLIENT_ORDER = "go_to_client_order";
+    private static final String COMMAND_VALUE_GO_TO_HANDLED_ORDER_LIST = "go_to_handled_order_list";
+    private static final String COMMAND_VALUE_SHOW_HANDLED_ORDER_LIST = "show_handled_order_list";
+    private static final String COMMAND_VALUE_CONFIRM_ORDER = "confirm_order";
+    private static final String COMMAND_VALUE_REJECT_ORDER = "reject_order";
+    private static final String COMMAND_VALUE_SHOW_CLIENT_UNHANDLED_ORDERS = "show_client_unhandled_orders";
+    private static final String COMMAND_VALUE_GO_TO_CLIENT_UNHANDLED_ORDER_LIST = "go_to_client_unhandled_order_list";
+    private static final String COMMAND_VALUE_SHOW_CLIENT_HANDLED_ORDERS = "show_client_handled_orders";
+    private static final String COMMAND_VALUE_GO_TO_CLIENT_HANDLED_ORDER_LIST = "go_to_client_handled_order_list";
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -112,6 +119,14 @@ public class CommandStorage {
         commands.put(COMMAND_VALUE_SHOW_UNHANDLED_ORDER_LIST, new ShowUnhandledOrderList());
         commands.put(COMMAND_VALUE_SHOW_CLIENT_ORDER, new ShowClientOrder());
         commands.put(COMMAND_VALUE_GO_TO_CLIENT_ORDER, new GoToClientOrder());
+        commands.put(COMMAND_VALUE_SHOW_HANDLED_ORDER_LIST, new ShowHandledOrderList());
+        commands.put(COMMAND_VALUE_GO_TO_HANDLED_ORDER_LIST, new GoToHandledOrderList());
+        commands.put(COMMAND_VALUE_CONFIRM_ORDER, new ConfirmOrder());
+        commands.put(COMMAND_VALUE_REJECT_ORDER, new RejectOrder());
+        commands.put(COMMAND_VALUE_SHOW_CLIENT_UNHANDLED_ORDERS, new ShowUnhandledClientOrderList());
+        commands.put(COMMAND_VALUE_GO_TO_CLIENT_UNHANDLED_ORDER_LIST, new GoToClientUnhandledOrderList());
+        commands.put(COMMAND_VALUE_SHOW_CLIENT_HANDLED_ORDERS, new ShowHandledClientOrderList());
+        commands.put(COMMAND_VALUE_GO_TO_CLIENT_HANDLED_ORDER_LIST, new GoToClientHandledOrderList());
     }
 
     public Command getCommand(String command) {

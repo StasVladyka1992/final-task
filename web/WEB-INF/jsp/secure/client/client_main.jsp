@@ -16,7 +16,9 @@
 <fmt:message bundle="${loc}" key="prescriptionApplicationsMessage" var="prescriptionApplicationsMessage"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfo" var="updatePersonalInfo"/>
 <fmt:message bundle="${loc}" key="updatePersonalInfoMessage" var="updatePersonalInfoMessage"/>
-<div class="container">
+<fmt:message bundle="${loc}" key="orders" var="orders"/>
+<fmt:message bundle="${loc}" key="ordersMessage" var="ordersMessage"/>
+<div class="container-fluid">
     <div class="d-flex flex-wrap justify-content-around mt-1">
         <div class="card mt-1 mb-1">
             <img class="card-img-top" src="../../../../images/remedy_searching.jpeg">
@@ -47,6 +49,16 @@
                 <p class="card-text">${updatePersonalInfoMessage}</p>
                 <div class="d-flex justify-content-around">
                     <a href="/secure?command=go_to_personal_info" type="button" class="btn btn-success ">${further}</a>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-1 mb-1">
+            <img class="card-img-top" src="../../../../images/orders_history.jpg">
+            <div class="card-body">
+                <h5 class="card-title text-center">${orders}</h5>
+                <p class="card-text">${ordersMessage}</p>
+                <div class="d-flex justify-content-around">
+                    <a href="/secure?command=show_client_unhandled_orders" type="button" class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

@@ -12,8 +12,8 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_PAGES_NUM
  * Created by Vladyka Stas
  * on 01.03.2019 at 12:08
  **/
-public class Pagination {
-    public static final int OFFSET = 2;
+public final class Pagination {
+    public static final int OFFSET = 5;
 
     public static int calculatePagesNumber(EntitySearchingResult entitySearchingResult) {
         int remediesNumber = entitySearchingResult.getFoundEntitiesNumber();
@@ -40,13 +40,14 @@ public class Pagination {
         return reqSearchingName == null ? sessionSearchingName : reqSearchingName;
     }
 
-    public static void setSessionPaginationParams (HttpSession session, int currentPage, EntitySearchingResult searchingResult,
-                                            String paramListName) {
+    public static void setSessionPaginationParams(HttpSession session, int currentPage, EntitySearchingResult searchingResult,
+                                                  String paramListName) {
         session.setAttribute(PARAM_NAME_CURRENT_PAGE, currentPage);
         session.setAttribute(paramListName, searchingResult.getFoundEntities());
         session.setAttribute(PARAM_NAME_PAGES_NUMBER, calculatePagesNumber(searchingResult));
     }
-    public static int getCurrentPage (HttpServletRequest req) {
+
+    public static int getCurrentPage(HttpServletRequest req) {
         int currentPage = 1;
         String currentPageText = req.getParameter(PARAM_NAME_CURRENT_PAGE);
         if (currentPageText != null) {

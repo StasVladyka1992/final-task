@@ -2,7 +2,7 @@ package by.vladyka.epam.dao;
 
 import by.vladyka.epam.dao.impl.*;
 
-public class DAOProvider {
+public final class DAOProvider {
     private static final DAOProvider instance = new DAOProvider();
     private final UserDAO sqlUserDao = new SQLUserDAO();
     private final RemedyDAO sqlRemedyDao = new SQLRemedyDAO();
@@ -10,7 +10,6 @@ public class DAOProvider {
     private final ReceiptDAO sqlReceiptDao = new SQLReceiptDAO();
     private final ClientOrderDAO sqlClientOrderDao = new SQLClientOrderDAO();
     private final RemedyOrderDAO sqlRemedyOrderDao = new SQLRemedyOrderDAO();
-
 
     public static DAOProvider getInstance() {
         return instance;

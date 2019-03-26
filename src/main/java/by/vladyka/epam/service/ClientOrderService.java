@@ -10,8 +10,19 @@ import by.vladyka.epam.service.exception.ServiceException;
  * Created by Vladyka Stas
  * on 21.03.2019 at 2:04
  **/
-public interface ClientOrderService extends AbstractService <ClientOrder> {
+public interface ClientOrderService extends AbstractService<ClientOrder> {
     int buy(int clientId, OrderDto orderDto) throws ServiceException;
-    EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int start, int offset) throws ServiceException;
-    OrderDtoForPharmacist findByIdAndSetReceipts(int id, int clientId) throws ServiceException;
+
+    EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws ServiceException;
+
+    EntitySearchingResult<ClientOrder> findHandledOrders(int start, int offset) throws ServiceException;
+
+    boolean confirmOrder(OrderDtoForPharmacist order) throws ServiceException;
+
+    boolean rejectOrder(int id) throws ServiceException;
+
+    EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int clientId, int startPosition, int offset) throws ServiceException;
+    EntitySearchingResult<ClientOrder> findHandledClientOrders(int clientId, int startPosition, int offset) throws ServiceException;
+
+    OrderDtoForPharmacist findByIdForPharmacist(int id) throws ServiceException;
 }

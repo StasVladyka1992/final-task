@@ -5,6 +5,8 @@ import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.dto.OrderDto;
+import by.vladyka.epam.dto.OrderDtoForPharmacist;
+import by.vladyka.epam.entity.ClientOrder;
 import by.vladyka.epam.entity.RemedyOrder;
 import by.vladyka.epam.entity.Storage;
 
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static by.vladyka.epam.dao.util.SQLQuery.QUERY_CREATE_REMEDY_ORDER;
+import static by.vladyka.epam.dao.util.SQLQuery.QUERY_SET_RECEIPTS_TO_CLIENT_ORDER;
 
 /**
  * Created by Vladyka Stas
@@ -31,11 +34,6 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
     @Override
     public boolean deleteById(int id) throws DAOException {
         return false;
-    }
-
-    @Override
-    public List<RemedyOrder> findAll() throws DAOException {
-        return null;
     }
 
     @Override
@@ -58,7 +56,7 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
                         throw new SQLException("Some of the remedy orders weren't created");
                     }
                 }
-                result=true;
+                result = true;
             } else {
                 int insertResult = ps.executeUpdate();
                 result = insertResult == 1;
@@ -92,5 +90,29 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
             count++;
         }
         return commands;
+    }
+
+    public int[] setReceiptsToRemedyOrders(ClientOrder order) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int[] result;
+        try {
+            con = pool.takeConnection();
+            ps = con.prepareStatement(QUERY_SET_RECEIPTS_TO_CLIENT_ORDER);
+
+            for (RemedyOrder remedyOrder:
+                 order.getRemedyOrders()) {
+                ps.setInt(1, order.getClient().getId());
+                ps.setInt(2, remedyOrder.getRemedy().getId());
+                ps.setInt(3, remedyOrder.getId());
+                ps.addBatch();
+            }
+            result = ps.executeBatch();
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DAOException(e);
+        } finally {
+            pool.closeConnection(con, ps);
+        }
+        return result;
     }
 }

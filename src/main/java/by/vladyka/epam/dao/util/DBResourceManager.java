@@ -8,17 +8,18 @@ import static by.vladyka.epam.dao.util.DBParameter.BUNDLE_NAME;
  * Created by Vladyka Stas
  * on 06.03.2019 at 3:09
  **/
-public class DBResourceManager {
+public final class DBResourceManager {
     private final static DBResourceManager instance = new DBResourceManager();
     private ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_NAME);
 
-    private DBResourceManager(){}
+    private DBResourceManager() {
+    }
 
-    public static DBResourceManager getInstance (){
+    public static DBResourceManager getInstance() {
         return instance;
     }
 
-    public String getValue (String resourceKey){
+    public String getValue(String resourceKey) {
         return bundle.getString(resourceKey);
     }
 }

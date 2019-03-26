@@ -18,7 +18,7 @@ import static by.vladyka.epam.dao.util.DBParameter.*;
  * on 02.03.2019 at 0:55
  **/
 
-public class ConnectionPool {
+public final class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private BlockingQueue<Connection> connectionQueue;
@@ -105,6 +105,16 @@ public class ConnectionPool {
         closeStatementAndConnection(con, st);
     }
 
+    public void closeStatement(Statement st) {
+        try {
+            if (st != null) {
+                st.close();
+            }
+        } catch (SQLException ex) {
+            logger.error("Statement wasn't closed", ex);
+        }
+    }
+
     public void closeConnection(Connection con, Statement st, ResultSet resultSet) {
         try {
             if (resultSet != null) {
@@ -150,8 +160,6 @@ public class ConnectionPool {
             connection.clearWarnings();
         }
 
-        // этот метод псевдо-close, т.к. его вызов не приводит к реальному закрытю connections, а только к перебросу
-        // connection из givenAwayConnections в connectionQueue
         @Override
         public void close() throws SQLException {
             if (connection.isClosed()) {
@@ -207,7 +215,6 @@ public class ConnectionPool {
         public void rollback() throws SQLException {
             connection.rollback();
         }
-
 
         @Override
         public boolean isClosed() throws SQLException {

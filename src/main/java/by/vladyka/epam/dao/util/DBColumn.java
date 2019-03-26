@@ -7,15 +7,11 @@ package by.vladyka.epam.dao.util;
 public final class DBColumn {
     //common
     public static final String ID = "id";
-    public static final String REMEDY_ID = "remedyId";
-    public static final String CLIENT_ID = "clientId";
-
     //remedies
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String PRICE = "price";
     public static final String RECEIPT_REQUIRED = "receiptRequired";
-
     //users
     public static final String EMAIL = "email";
     public static final String FIRST_NAME = "firstName";

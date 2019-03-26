@@ -7,7 +7,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_AUTHORIZATION;
+import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_SESSION_EXPIRED;
 import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_USER;
+import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_TRUE;
 
 /**
  * Created by Vladyka Stas
@@ -23,11 +25,10 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
-
-        if (session.getAttribute(PARAM_NAME_USER) == null || session==null) {
-            request.getRequestDispatcher(GO_TO_AUTHORIZATION).forward(request, response);
+        if (session == null || session.getAttribute(PARAM_NAME_USER) == null ) {
+              response.sendRedirect(GO_TO_AUTHORIZATION+PARAM_NAME_SESSION_EXPIRED+"="+PARAM_VALUE_TRUE);
         } else {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, servletResponse);
         }
     }
 

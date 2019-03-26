@@ -10,7 +10,7 @@ import static by.vladyka.epam.controller.util.ParameterName.*;
  * Created by Vladyka Stas
  * on 10.03.2019 at 21:52
  **/
-public class ParameterValue {
+public final class ParameterValue {
     public static final String PARAM_VALUE_OPERATION_RESULT_SUCCESS = "success";
     public static final String PARAM_VALUE_OPERATION_RESULT_FAIL = "fail";
     public static final String PARAM_VALUE_USER_NOT_FOUND = "user not found";
@@ -22,11 +22,10 @@ public class ParameterValue {
     public static final String PARAM_VALUE_REMEDY_DELETED = "remedy_deleted";
     public static final String PARAM_VALUE_QUANTITY_CHANGED = "quantity_changed";
     public static final String PARAM_VALUE_BASKET_CLEANED = "basket_cleaned";
-
-    public static Map<String, String> getUserParams(HttpServletRequest req) {
-        Map<String, String> userParams = new HashMap<>();
-
-        return userParams;
-    }
-
+    public static final String PARAM_VALUE_ORDER_CONFIRMED = "order_confirmed";
+    public static final String PARAM_VALUE_ORDER_NOT_CONFIRMED = "order_not_confirmed";
+    public static final String PARAM_VALUE_CONFIRM_BUTTON_AVAILABLE = "available";
+    public static final String PARAM_VALUE_CONFIRM_BUTTON_DISABLED = "disabled";
+    public static final String PARAM_VALUE_ORDER_REJECTED = "order_rejected";
+    public static final String PARAM_VALUE_TRUE = "true";
 }

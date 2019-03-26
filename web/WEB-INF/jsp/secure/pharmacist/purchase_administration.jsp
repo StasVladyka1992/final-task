@@ -19,10 +19,14 @@
 <fmt:message bundle="${loc}" key="clientId" var="clientId"/>
 <fmt:message bundle="${loc}" key="status" var="status"/>
 <fmt:message bundle="${loc}" key="goToOrder" var="goToOrder"/>
-<fmt:message bundle="${loc}" key="canceledOrders" var="canceledOrders"/>
-<fmt:message bundle="${loc}" key="paidOrders" var="paidOrders"/>
+<fmt:message bundle="${loc}" key="handledOrders" var="handledOrders"/>
 <fmt:message bundle="${loc}" key="updateOrders" var="updateOrders"/>
 <fmt:message bundle="${loc}" key="ordersAdministration" var="ordersAdministration"/>
+<fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
+<fmt:message bundle="${loc}" key="orderConfirmed" var="orderConfirmed"/>
+<fmt:message bundle="${loc}" key="orderNotConfirmed" var="orderNotConfirmed"/>
+<fmt:message bundle="${loc}" key="orderNotRejected" var="orderNotRejected"/>
+<fmt:message bundle="${loc}" key="orderRejected" var="orderRejected"/>
 
 <div class="container-fluid col-sm-10">
     <h4 class="mb-2">${ordersAdministration}</h4>
@@ -65,13 +69,26 @@
             </c:if>
         </table>
     </div>
-
-    <c:if test="${param.operationResult.equals('prescriptionWritten')}">
+    <c:if test="${param.operationResult.equals('order_confirmed')}">
         <p class="text-success">
-                ${prescriptionWrote}
+                ${orderConfirmed}
         </p>
     </c:if>
-
+    <c:if test="${param.operationResult.equals('order_not_confirmed')}">
+        <p class="text-success">
+                ${orderNotConfirmed}
+        </p>
+    </c:if>
+    <c:if test="${param.operationResult.equals('fail')}">
+        <p class="text-success">
+                ${orderNotRejected}
+        </p>
+    </c:if>
+    <c:if test="${param.operationResult.equals('order_rejected')}">
+        <p class="text-success">
+                ${orderRejected}
+        </p>
+    </c:if>
     <c:if test="${sessionScope.pagesNumber>1}">
         <ul class="pagination justify-content-center">
             <!--available "Previous" link-->
@@ -121,15 +138,10 @@
         </ul>
     </c:if>
 </div>
-<div class="container-fluid d-flex justify-content-center">
+<div class="container-fluid d-flex justify-content-left">
     <div class="btn-group">
-        <form action="#" method="post" class="form-inline mr-1">
-            <button type="submit" class="btn btn-sm btn-primary">${canceledOrders}</button>
-        </form>
-    </div>
-    <div class="btn-group">
-        <form action="#" method="post" class="form-inline mr-1">
-            <button type="submit" class="btn btn-sm btn-primary">${paidOrders}</button>
+        <form action="/secure?command=show_handled_order_list" method="post" class="form-inline mr-1">
+            <button type="submit" class="btn btn-sm btn-primary">${handledOrders}</button>
         </form>
     </div>
     <div class="btn-group">
@@ -137,6 +149,9 @@
             <button type="submit" class="btn btn-sm btn-primary">${updateOrders}</button>
         </form>
     </div>
+</div>
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
 </div>
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>

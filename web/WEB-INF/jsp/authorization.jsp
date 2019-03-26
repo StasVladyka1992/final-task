@@ -6,6 +6,7 @@
 <fmt:message bundle="${loc}" key="submit" var="submit"/>
 <fmt:message bundle="${loc}" key="remember" var="remember"/>
 <fmt:message bundle="${loc}" key="error" var="error"/>
+<fmt:message bundle="${loc}" key="sessionExpired" var="sessionExpired"/>
 
 <div class="container-fluid">
     <form action="/index?command=authorization" method="post">
@@ -21,6 +22,11 @@
     </form>
     <c:if test="${param.get('commandStatus').equals('user not found')}">
         <p class="text-danger">${error}</p>
+    </c:if>
+    <c:if test="${param.get('sessionExpired').equals('true')}">
+        <p class="text-danger">
+            <c:out value="${sessionExpired}"/>
+        </p>
     </c:if>
 </div>
 <div class="container-fluid fixed-bottom" id="footer">

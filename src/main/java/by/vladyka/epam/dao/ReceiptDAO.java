@@ -16,18 +16,24 @@ public interface ReceiptDAO extends AbstractDAO<Receipt> {
     boolean createReceipt(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
                           Receipt.Status status) throws DAOException;
 
-    EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws DAOException;
-
-    EntitySearchingResult<Receipt> findClientUnhandledApplications(int clientId, int start, int offset) throws DAOException;
-
-    EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int clientId, int start, int offset) throws DAOException;
-
-    EntitySearchingResult<Receipt> findClientRejectedApplications(int clientId, int start, int offset) throws DAOException;
-
-    EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset) throws DAOException;
-
-    EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset) throws DAOException;
-
     boolean reject(int id, int doctorId, String message, Receipt.Status status)
             throws DAOException;
+
+    EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws DAOException;
+
+    EntitySearchingResult<Receipt> findClientUnhandledApplications(int clientId, int start, int offset)
+            throws DAOException;
+
+    EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int clientId, int start, int offset)
+            throws DAOException;
+
+    EntitySearchingResult<Receipt> findClientRejectedApplications(int clientId, int start, int offset)
+            throws DAOException;
+
+    EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset)
+            throws DAOException;
+
+    EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset)
+            throws DAOException;
+
 }

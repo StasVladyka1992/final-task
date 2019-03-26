@@ -19,7 +19,6 @@ public interface AbstractDAO<T extends AbstractEntity> {
 
     boolean deleteById(int id) throws DAOException;
 
-    List<T> findAll() throws DAOException;
 
     default boolean deleteHelper(int id, String query, ConnectionPool pool) throws DAOException {
         Connection con = null;

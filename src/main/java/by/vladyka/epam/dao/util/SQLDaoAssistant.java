@@ -2,10 +2,7 @@ package by.vladyka.epam.dao.util;
 
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
-import by.vladyka.epam.entity.ClientOrder;
-import by.vladyka.epam.entity.Receipt;
-import by.vladyka.epam.entity.Remedy;
-import by.vladyka.epam.entity.RemedyOrder;
+import by.vladyka.epam.entity.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,8 +38,22 @@ public final class SQLDaoAssistant {
 //
 //    }
 
+//    private User createUser(ResultSet resultSet) throws SQLException {
+//        User user = new User();
+//        user.setId(resultSet.getInt(ID));
+//        user.setEmail(resultSet.getString(EMAIL));
+//        user.setFirstName(resultSet.getString(FIRST_NAME));
+//        user.setLastName(resultSet.getString(LAST_NAME));
+//        user.setRole(User.UserRole.valueOf(resultSet.getString(ROLE)));
+//        user.setPhone(resultSet.getString(PHONE));
+//        return user;
+//    }
+
+
+
+
     public static int getFoundEntitiesNumber(String query, ConnectionPool pool) throws DAOException {
-        int foundReceiptsNumber = 0;
+        int foundEntitiesNumber = 0;
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -51,14 +62,14 @@ public final class SQLDaoAssistant {
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
             if (rs.next()) {
-                foundReceiptsNumber = rs.getInt(1);
+                foundEntitiesNumber = rs.getInt(1);
             }
         } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-        return foundReceiptsNumber;
+        return foundEntitiesNumber;
     }
 
     public static void setStartPositionAndOffset(PreparedStatement ps, int start, int offset) throws SQLException {

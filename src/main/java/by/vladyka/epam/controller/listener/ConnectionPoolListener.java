@@ -27,7 +27,6 @@ private static final Logger logger  = LogManager.getLogger(ConnectionPoolListene
             throw new InitializationPoolException();
         }
     }
-
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         pool.disposeOfConnectionQueues();

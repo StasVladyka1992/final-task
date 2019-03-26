@@ -11,7 +11,6 @@
         <servlet-name>controller</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>secure</servlet-name>
         <servlet-class>by.vladyka.epam.controller.Controller</servlet-class>
@@ -44,6 +43,9 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/secure/*</url-pattern>
     </filter-mapping>
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
     <!--<error-page>-->
         <!--<location>/error.jsp</location>-->
     <!--</error-page>-->

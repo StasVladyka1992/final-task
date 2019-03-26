@@ -12,8 +12,6 @@ import by.vladyka.epam.service.ClientOrderService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.ClientOrderValidator;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,44 +22,76 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     private ClientOrderValidator validator = new ClientOrderValidator();
 
     @Override
-    public boolean delete(int id) throws ServiceException {
-        return false;
+    public EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int clientId, int startPosition, int offset) throws ServiceException {
+        SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        EntitySearchingResult<ClientOrder> orders;
+        try {
+            orders = clientOrderDAO.findUnhandledClientOrders(clientId, startPosition, offset);
+            return orders;
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
     }
 
     @Override
-    public ClientOrder findById(int id) throws ServiceException {
-        return null;
+    public EntitySearchingResult<ClientOrder> findHandledClientOrders(int clientId, int startPosition, int offset) throws ServiceException {
+        SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        EntitySearchingResult<ClientOrder> orders;
+        try {
+            orders = clientOrderDAO.findHandledClientOrders(clientId, startPosition, offset);
+            return orders;
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public OrderDtoForPharmacist findByIdAndSetReceipts(int id, int clientId) throws ServiceException {
+    public boolean confirmOrder(OrderDtoForPharmacist order) throws ServiceException {
+        SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        boolean result;
+        try {
+            result = clientOrderDAO.confirmOrder(order);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean rejectOrder(int id) throws ServiceException {
+        SQLClientOrderDAO dao = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        boolean result;
+        try {
+            result = dao.rejectOrder(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public OrderDtoForPharmacist findByIdForPharmacist(int id) throws ServiceException {
         ClientOrderValidator validator = getValidator();
         boolean validationResult = validator.checkClientOrderIdAndSetMessage(id);
         if (!validationResult) {
             return null;
         }
-        ClientOrder order;
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
-        OrderDtoForPharmacist orderDtoForPharmacist = null;
+        OrderDtoForPharmacist orderDtoForPharmacist;
         try {
-            order = clientOrderDAO.findByIdAndSetReceipts(id, clientId);
-            if (order != null) {
-                Map<Integer, Integer> storageQuantityOfRemedyOrders = clientOrderDAO.
-                        findStorageQuantityForClientOrder(order.getId());
-                orderDtoForPharmacist = new OrderDtoForPharmacist(order,
-                        storageQuantityOfRemedyOrders);
-            }
+            orderDtoForPharmacist = clientOrderDAO.findByIdForPharmacist(id);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
         return orderDtoForPharmacist;
     }
 
-    public EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int start, int offset) throws ServiceException {
+    public EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws ServiceException {
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
         EntitySearchingResult<ClientOrder> orders;
         try {
-            orders = clientOrderDAO.findUnhandledClientOrders(start, offset);
+            orders = clientOrderDAO.findUnhandledOrders(start, offset);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -69,8 +99,15 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     }
 
     @Override
-    public List<ClientOrder> findAll() throws ServiceException {
-        return null;
+    public EntitySearchingResult<ClientOrder> findHandledOrders(int start, int offset) throws ServiceException {
+        SQLClientOrderDAO dao = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
+        EntitySearchingResult<ClientOrder> clientOrders;
+        try {
+            clientOrders = dao.findHandledOrders(start, offset);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        return clientOrders;
     }
 
     @Override
@@ -108,4 +145,16 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         }
         return sum;
     }
+
+    @Override
+    public boolean delete(int id) throws ServiceException {
+        return false;
+    }
+
+    @Override
+    public ClientOrder findById(int id) throws ServiceException {
+        return null;
+    }
+
+
 }

@@ -48,11 +48,6 @@ public class SQLRemedyDAO implements RemedyDAO {
     }
 
     @Override
-    public List<Remedy> findAll() {
-        return null;
-    }
-
-    @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws DAOException {
         String query = QUERY_UPDATE_REMEDY + id;
         boolean result = queryExecutor(query, name, description, price,

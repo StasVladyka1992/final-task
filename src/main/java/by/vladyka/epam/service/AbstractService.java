@@ -15,5 +15,4 @@ public interface AbstractService<T extends AbstractEntity> {
 
     T findById(int id) throws ServiceException;
 
-    List<T> findAll() throws ServiceException;
 }

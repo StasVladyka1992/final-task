@@ -42,6 +42,8 @@
 <fmt:message bundle="${loc}" key="newRemedyAdding" var="newRemedyAdding"/>
 <fmt:message bundle="${loc}" key="absenceInStorage" var="absenceInStorage"/>
 <fmt:message bundle="${loc}" key="remedyNotExist" var="remedyNotExist"/>
+<fmt:message bundle="${loc}" key="addNewRemedy" var="addNewRemedy"/>
+<fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
 
 <div class="container-fluid mb-2">
     <h5>${remedyAdministration}</h5>
@@ -174,55 +176,73 @@
             </c:if>
         </ul>
     </c:if>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+            data-target="#addNewRemedy">
+        ${addNewRemedy}
+    </button>
     <div class="container-fluid col-sm-8 mb-3 mt-5">
-        <form class="border border-secondary pl-5 pr-5 pt-3 pb-3" action="/secure?command=add_remedy" method="post">
-            <h5 class="text-center">${newRemedyAdding}</h5>
-            <div class="form-row">
-                <div class="col-sm-6 mb-3">
-                    <label for="remedyName">${remedyName}</label>
-                    <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
-                           required>
-                    <%--<div class="valid-feedback">--%>
-                    <%--Looks good!--%>
-                    <%--</div>--%>
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <label for="description">${description}</label>
-                    <input type="text" class="form-control form-control-sm" id="description"
-                           name="description" required>
-                    <%--<div class="valid-feedback">--%>
-                    <%--Looks good!--%>
-                    <%--</div>--%>
+        <div class="modal fade" id="addNewRemedy">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">${changeQuantity}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="/secure?command=add_remedy" method="post">
+                            <h5 class="text-center">${newRemedyAdding}</h5>
+                            <div class="form-row">
+                                <div class="col-sm-6 mb-3">
+                                    <label for="remedyName">${remedyName}</label>
+                                    <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
+                                           required>
+                                    <%--<div class="valid-feedback">--%>
+                                    <%--Looks good!--%>
+                                    <%--</div>--%>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="description">${description}</label>
+                                    <input type="text" class="form-control form-control-sm" id="description"
+                                           name="description" required>
+                                    <%--<div class="valid-feedback">--%>
+                                    <%--Looks good!--%>
+                                    <%--</div>--%>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6 mb-3">
+                                    <label for="receipt">${receipt}</label>
+                                    <select id="receipt" class="form-control form-control-sm" name="receiptRequired">
+                                        <option selected value="false">${no}</option>
+                                        <option value="true">${yes}</option>
+                                    </select>
+                                    <%--<div class="valid-feedback">--%>
+                                    <%--Please provide a valid state.--%>
+                                    <%--</div>--%>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label for="price">${price}</label>
+                                    <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
+                                           class="form-control form-control-sm"
+                                           id="price" placeholder="0.00" required>
+                                    <%--<div class="invalid-feedback">--%>
+                                    <%--Please provide a valid zip.--%>
+                                    <%--</div>--%>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="submit">${add}</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col-sm-6 mb-3">
-                    <label for="receipt">${receipt}</label>
-                    <select id="receipt" class="form-control form-control-sm" name="receiptRequired">
-                        <option selected value="false">${no}</option>
-                        <option value="true">${yes}</option>
-                    </select>
-                    <%--<div class="valid-feedback">--%>
-                    <%--Please provide a valid state.--%>
-                    <%--</div>--%>
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <label for="price">${price}</label>
-                    <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
-                           class="form-control form-control-sm"
-                           id="price" placeholder="0.00" required>
-                    <%--<div class="invalid-feedback">--%>
-                    <%--Please provide a valid zip.--%>
-                    <%--</div>--%>
-                </div>
-            </div>
-            <button class="btn btn-primary btn-sm" type="submit">${add}</button>
-        </form>
+        </div>
     </div>
 </div>
 <div class="d-flex container-fluid justify-content-start">
     <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
 </div>
-<div class="container-fluid" id="footer">
+<div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>
 </div>

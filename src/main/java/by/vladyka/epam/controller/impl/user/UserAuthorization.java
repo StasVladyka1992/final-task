@@ -28,7 +28,6 @@ public class UserAuthorization implements Command {
         User user;
         String email = req.getParameter(PARAM_NAME_EMAIL);
         String password = req.getParameter(PARAM_NAME_PASSWORD);
-
         user = ServiceProvider.getInstance().getUserService().authorization(email, password);
         if (user == null) {
             resp.sendRedirect(GO_TO_AUTHORIZATION + PARAM_NAME_COMMAND_STATUS + "=" + PARAM_VALUE_USER_NOT_FOUND);
