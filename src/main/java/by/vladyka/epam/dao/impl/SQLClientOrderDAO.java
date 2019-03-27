@@ -36,10 +36,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             unhandledClientOrdersNumber = getFoundEntitiesNumber(query, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_UNHANDLED_CLIENT_ORDERS);
-            ps.setInt(1, clientId);
-            ps.setInt(2, start);
-            ps.setInt(3, offset);
-            rs = ps.executeQuery();
+            rs = setParamsToFindOrderQueryAndExecute(ps, clientId, start, offset);
             clientOrders = new EntitySearchingResult<>();
             ClientOrder order;
             while (rs.next()) {
@@ -72,10 +69,9 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             handledClientOrdersNumber = getFoundEntitiesNumber(query, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_HANDLED_CLIENT_ORDERS);
-            ps.setInt(1, clientId);
-            ps.setInt(2, start);
-            ps.setInt(3, offset);
-            rs = ps.executeQuery();
+            setParamsToFindOrderQueryAndExecute(ps, clientId, start, offset);
+            setParamsToFindOrderQueryAndExecute(ps, clientId, start, offset);
+            rs = setParamsToFindOrderQueryAndExecute(ps, clientId, start, offset);
             clientOrders = new EntitySearchingResult<>();
             ClientOrder order;
             while (rs.next()) {
@@ -94,6 +90,14 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             pool.closeConnection(con, ps, rs);
         }
         return clientOrders;
+    }
+
+    private ResultSet setParamsToFindOrderQueryAndExecute(PreparedStatement ps, int clientId, int start, int offset)
+            throws SQLException {
+        ps.setInt(1, clientId);
+        ps.setInt(2, start);
+        ps.setInt(3, offset);
+        return ps.executeQuery();
     }
 
     @Override
@@ -122,10 +126,10 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
                     ps.addBatch();
                 }
             }
-            count = 0;
             int[] reduceStorageQuantityResults = ps.executeBatch();
-            for (int i = 0; i < reduceStorageQuantityResults.length; i++) {
-                if (reduceStorageQuantityResults[i] <= 0) {
+            count = 0;
+            for (int reduceStorageQuantityResult : reduceStorageQuantityResults) {
+                if (reduceStorageQuantityResult <= 0) {
                     throw new SQLException("Not all storage quantities were updated after purchasing");
                 }
             }
@@ -137,19 +141,9 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
                     remedyOrders.entrySet()) {
                 if (count == 0) {
                     ps3 = con.prepareStatement(QUERY_MARKED_USED_RECEIPTS);
-                    Receipt receipt = pair.getKey().getReceipt();
-                    if (receipt != null) {
-                        ps3.setInt(1, receipt.getId());
-                        ps3.addBatch();
-                        count++;
-                    }
+                    count = addNewBatch(ps3, count, pair);
                 } else {
-                    Receipt receipt = pair.getKey().getReceipt();
-                    if (receipt != null) {
-                        ps3.setInt(1, receipt.getId());
-                        ps3.addBatch();
-                        count++;
-                    }
+                    count = addNewBatch(ps3, count, pair);
                     ps3.addBatch();
                 }
             }
@@ -164,11 +158,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
                 return true;
             }
         } catch (SQLException | ConnectionPoolException ex) {
-            try {
-                con.rollback();
-            } catch (SQLException e) {
-                throw new DAOException(e);
-            }
+            doRollback(con);
             throw new DAOException(ex);
         } finally {
             pool.closeStatement(ps);
@@ -178,22 +168,20 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
         return false;
     }
 
+    private int addNewBatch(PreparedStatement ps3, int count, Map.Entry<RemedyOrder, Integer> pair)
+            throws SQLException {
+        Receipt receipt = pair.getKey().getReceipt();
+        if (receipt != null) {
+            ps3.setInt(1, receipt.getId());
+            ps3.addBatch();
+            count++;
+        }
+        return count;
+    }
+
     @Override
     public boolean rejectOrder(int id) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        int result;
-        try {
-            con = pool.takeConnection();
-            ps = con.prepareStatement(QUERY_REJECT_ORDER);
-            ps.setInt(1, id);
-            result = ps.executeUpdate();
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DAOException(e);
-        } finally {
-            pool.closeConnection(con, ps);
-        }
-        return result == 1;
+        return abstractUpdatePattern(id, QUERY_REJECT_ORDER, pool) == 1;
     }
 
     public OrderDtoForPharmacist findByIdForPharmacist(int id) throws DAOException {
@@ -315,7 +303,6 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
     public int create(int clientId, double sum) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
         int insertResult;
         int lastId = -1;
         try {
@@ -325,14 +312,10 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             ps.setDouble(2, sum);
             insertResult = ps.executeUpdate();
         } catch (SQLException | ConnectionPoolException ex) {
-            try {
-                con.rollback();
-            } catch (SQLException e) {
-                throw new DAOException(e);
-            }
+            doRollback(con);
             throw new DAOException(ex);
         } finally {
-            pool.closeConnection(con, ps, rs);
+            pool.closeConnection(con, ps);
         }
         if (insertResult == 1) {
             lastId = getLastInsertId();
@@ -341,7 +324,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
     }
 
     @Override
-    public boolean deleteById(int id) throws DAOException {
+    public boolean deleteById(int id) {
         return false;
     }
 
@@ -384,11 +367,10 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
     }
 
     @Override
-    public ClientOrder findById(int id) throws DAOException {
+    public ClientOrder findById(int id) {
         return null;
     }
 
-    //TODO исправить, есть метод у rs, который возвращает последний вставленный id
     private int getLastInsertId() throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -398,8 +380,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             ps = con.prepareStatement(QUERY_GET_LAST_ORDER_ID);
             rs = ps.executeQuery();
             if (rs.next()) {
-                int id = rs.getInt(1);
-                return id;
+                return rs.getInt(1);
             } else return 0;
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
@@ -407,6 +388,4 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             pool.closeConnection(con, ps, rs);
         }
     }
-
-
 }

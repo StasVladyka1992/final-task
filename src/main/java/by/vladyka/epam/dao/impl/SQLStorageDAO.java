@@ -12,10 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import static by.vladyka.epam.dao.util.DBColumn.REMEDY_LEFT;
-import static by.vladyka.epam.dao.util.SQLDaoAssistant.createRemedy;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.buildRemedy;
 import static by.vladyka.epam.dao.util.SQLDaoAssistant.getFoundEntitiesNumber;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
@@ -47,12 +46,10 @@ public class SQLStorageDAO implements StorageDAO {
                 } else {
                     storage.setRemedyLeft(remedyLeft);
                 }
-                storage.setRemedy(createRemedy(rs));
+                storage.setRemedy(buildRemedy(rs));
                 storage.setId(rs.getInt(7));
             }
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } catch (ConnectionPoolException ex) {
+        } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -74,7 +71,7 @@ public class SQLStorageDAO implements StorageDAO {
             ps.setInt(3, offset);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Remedy remedy = createRemedy(rs);
+                Remedy remedy = buildRemedy(rs);
                 String remedyLeftText = rs.getString(REMEDY_LEFT);
                 int remedyLeft = -1;
                 Storage st = new Storage();
@@ -98,7 +95,7 @@ public class SQLStorageDAO implements StorageDAO {
 
     @Override
     public boolean deleteById(int id) throws DAOException {
-        return deleteHelper(id, QUERY_DELETE_STORAGE_POSITION, pool);
+        return abstractUpdatePattern(id, QUERY_DELETE_STORAGE_POSITION, pool) == 1;
     }
 
     @Override
@@ -129,9 +126,7 @@ public class SQLStorageDAO implements StorageDAO {
             ps.setInt(1, remedyLeft);
             ps.setInt(2, remedyId);
             operationResult = ps.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } catch (ConnectionPoolException ex) {
+        } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps);

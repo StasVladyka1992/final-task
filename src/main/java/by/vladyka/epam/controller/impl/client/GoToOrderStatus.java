@@ -1,7 +1,6 @@
 package by.vladyka.epam.controller.impl.client;
 
 import by.vladyka.epam.controller.Command;
-import by.vladyka.epam.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ import static by.vladyka.epam.controller.util.ParameterName.*;
  **/
 public class GoToOrderStatus implements Command {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         rememberLastRequest(req);
         req.getSession().removeAttribute(PARAM_NAME_ORDER_DTO);
         req.getSession().removeAttribute(PARAM_NAME_ORDER_DTO);

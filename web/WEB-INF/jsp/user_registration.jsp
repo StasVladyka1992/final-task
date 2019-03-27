@@ -18,13 +18,12 @@
 <fmt:message bundle="${loc}" key="incorrectUserName" var="incorrectUserName"/>
 <fmt:message bundle="${loc}" key="incorrectPhone" var="incorrectPhone"/>
 <fmt:message bundle="${loc}" key="incorrectRole" var="incorrectRole"/>
+<fmt:message bundle="${loc}" key="emailContentMessage" var="emailContentMessage"/>
+<fmt:message bundle="${loc}" key="nameContentMessage" var="nameContentMessage"/>
+<fmt:message bundle="${loc}" key="surnameContentMessage" var="surnameContentMessage"/>
+<fmt:message bundle="${loc}" key="passwordContentMessage" var="passwordContentMessage"/>
 
 
-<%--TODO локализация--%>
-<%--Your email must be 6-40 characters long, contain letters, numbers,".", "_" or @.--%>
-<%--Your password must be 1-30 characters long, contain letters and numbers "." or "_".--%>
-<%--Your first name be more 1-30 characters long and contain only letters.--%>
-<%--Your last name must be 1-30 characters long and contain only letters.--%>
 
 <div class="container-fluid mt-2 mb-2">
     <div class="card col-6 m-auto">
@@ -36,7 +35,7 @@
                     <input type="text" id="email" name="email" class="form-control" aria-describedby="emailHelpBlock" placeholder="newemail@mail.ru"
                            required maxlength="40"/>
                     <small id="emailHelpBlock" class="form-text text-muted">
-                        Your email must be 6-40 characters long, contain letters, numbers,".", "_" or @.
+                        ${emailContentMessage}
                     </small>
                 </div>
                 <div class="form-group">
@@ -44,7 +43,7 @@
                     <input type="password" id="password" name="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="${password}"
                            required maxlength="30">
                     <small id="passwordHelpBlock" class="form-text text-muted">
-                        Your password must be 1-30 characters long, contain letters and numbers "." or "_".
+                        ${passwordContentMessage}
                     </small>
                 </div>
 
@@ -53,7 +52,7 @@
                     <input type="text" id="firstName" name="firstName" class="form-control" aria-describedby="firstNameHelpBlock" placeholder="${firstName}"
                            required maxlength="30">
                     <small id="firstNameHelpBlock" class="form-text text-muted">
-                        Your first name must be 1-30 characters long and contain only letters.
+                        ${nameContentMessage}
                     </small>
                 </div>
                 <div class="form-group">
@@ -61,11 +60,11 @@
                     <input type="text" id="lastName" name="lastName" class="form-control" aria-describedby="lastNameHelpBlock" placeholder="${lastName}"
                            required maxlength="30">
                     <small id="lastNameHelpBlock" class="form-text text-muted">
-                        Your last name must be 1-30 characters long and contain only letters.
+                        ${surnameContentMessage}
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for="phone">${lastName}</label>
+                    <label for="phone">${phone}</label>
                     <input type="text" id="phone" name="phone" class="form-control" placeholder="+375-29-111-11-11"
                            required maxlength="17">
                 </div>

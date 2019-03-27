@@ -12,5 +12,5 @@ import by.vladyka.epam.service.exception.ServiceException;
 public interface RemedyOrderService extends AbstractService<RemedyOrder> {
     boolean create(OrderDto orderDto, int clientOrderId) throws ServiceException;
 
-    boolean setReceipts(ClientOrder order) throws ServiceException;
+    void setReceipts(ClientOrder order) throws ServiceException;
 }

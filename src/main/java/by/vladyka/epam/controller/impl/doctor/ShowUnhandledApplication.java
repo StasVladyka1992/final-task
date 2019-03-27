@@ -1,12 +1,12 @@
 package by.vladyka.epam.controller.impl.doctor;
 
 import by.vladyka.epam.controller.Command;
+import by.vladyka.epam.controller.exception.CommandException;
 import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.ReceiptServiceImpl;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,14 +22,18 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_RECEIPT_L
  **/
 public class ShowUnhandledApplication implements Command {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException, IOException {
+        int currentPage = getCurrentPage(req);
+        int startPosition = calculateStartPosition(currentPage);
         ServiceProvider provider = ServiceProvider.getInstance();
         ReceiptServiceImpl service = provider.getReceiptService();
         EntitySearchingResult entitySearchingResult;
-        int currentPage = getCurrentPage(req);
-        int startPosition = calculateStartPosition(currentPage);
-        entitySearchingResult = service.findUnhandledReceipts(startPosition, OFFSET);
-        HttpSession session = req.getSession(true);
+        try {
+            entitySearchingResult = service.findUnhandledReceipts(startPosition, OFFSET);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
+        HttpSession session = req.getSession();
         setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_RECEIPT_LIST);
         resp.sendRedirect(GO_TO_PRESCRIPTION_APPLICATION);
     }

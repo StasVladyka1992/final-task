@@ -3,8 +3,10 @@ package by.vladyka.epam.service.validator.impl;
 import by.vladyka.epam.entity.User;
 import by.vladyka.epam.service.validator.AbstractValidator;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 
+import static by.vladyka.epam.controller.util.ParameterName.*;
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.*;
 import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
 
@@ -20,20 +22,19 @@ public final class UserValidator extends AbstractValidator {
         return isEmailCorrect && isPasswordCorrect;
     }
 
-    public boolean checkRegistrationDataAndSetMessage(String email, String firstName, String lastName, String password,
-                                                      String phone, User.UserRole role) {
-        boolean isCommonUpdateAndRegistrationDataCorrect = checkUpdateDataAndSetMessage(email,
-                firstName, lastName, phone);
+    public boolean checkRegistrationDataAndSetMessage(Map<String, String> userInfo, User.UserRole role,
+                                                      String password) {
+        boolean isCommonUpdateAndRegistrationDataCorrect = checkUpdateDataAndSetMessage(userInfo);
         boolean isRoleCorrect = checkRoleAndSetMessage(role);
         boolean isPasswordCorrect = checkPasswordAndSetMessage(password);
         return isCommonUpdateAndRegistrationDataCorrect && isRoleCorrect && isPasswordCorrect;
     }
 
-    public boolean checkUpdateDataAndSetMessage(String email, String firstName, String lastName, String phone) {
-        boolean isEmailCorrect = checkEmailAndSetMessage(email);
-        boolean isFirstNameCorrect = checkNameAndSetMessage(firstName);
-        boolean isLastNameCorrect = checkNameAndSetMessage(lastName);
-        boolean isPhoneCorrect = checkPhoneAndSetMessage(phone);
+    public boolean checkUpdateDataAndSetMessage(Map<String, String> userInfo) {
+        boolean isEmailCorrect = checkEmailAndSetMessage(userInfo.get(PARAM_NAME_EMAIL));
+        boolean isFirstNameCorrect = checkNameAndSetMessage(userInfo.get(PARAM_NAME_FIRST_NAME));
+        boolean isLastNameCorrect = checkNameAndSetMessage(userInfo.get(PARAM_NAME_LAST_NAME));
+        boolean isPhoneCorrect = checkPhoneAndSetMessage(userInfo.get(PARAM_NAME_PHONE));
         return isEmailCorrect && isFirstNameCorrect &&
                 isLastNameCorrect && isPhoneCorrect;
     }

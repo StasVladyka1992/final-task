@@ -10,7 +10,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_USER;
-import static by.vladyka.epam.controller.util.UserNavigationManager.*;
+import static by.vladyka.epam.controller.util.UserNavigationManager.authorization_scenarios;
+
 /**
  * Created by Vladyka Stas
  * on 23.02.2019 at 21:37
@@ -18,11 +19,11 @@ import static by.vladyka.epam.controller.util.UserNavigationManager.*;
 public class GoToAuthorizedMain implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession();
         User user = (User) session.getAttribute(PARAM_NAME_USER);
         User.UserRole role = user.getRole();
         String navigationCommand = authorization_scenarios.get(role);
         rememberLastRequest(req);
-        req.getRequestDispatcher(navigationCommand).forward(req,resp);
+        req.getRequestDispatcher(navigationCommand).forward(req, resp);
     }
 }

@@ -44,7 +44,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean registration(String email, String firstName, String lastName, String password, String phone,
+    public boolean registration(String email, String firstName, String lastName, String phone, String password,
                                 User.UserRole role) throws DAOException {
         if (isMailOccupied(email)) {
             return false;

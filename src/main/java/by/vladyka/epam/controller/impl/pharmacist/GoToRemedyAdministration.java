@@ -17,6 +17,6 @@ public class GoToRemedyAdministration implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         rememberLastRequest(req);
-        req.getRequestDispatcher(REMEDY_ADMINISTRATION).forward(req,resp);
+        req.getRequestDispatcher(REMEDY_ADMINISTRATION).forward(req, resp);
     }
 }

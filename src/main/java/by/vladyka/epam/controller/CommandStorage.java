@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CommandStorage {
-
     private static final String COMMAND_VALUE_GO_TO_DEFAULT = "go_to_default";
     private static final String COMMAND_VALUE_GO_TO_AUTHORIZATION = "go_to_authorization";
     private static final String COMMAND_VALUE_GO_TO_REGISTRATION = "go_to_registration";
@@ -99,7 +98,7 @@ public final class CommandStorage {
         commands.put(COMMAND_VALUE_SHOW_WRITTEN_PRESCRIPTIONS, new ShowWrittenPrescription());
         commands.put(COMMAND_VALUE_SHOW_REJECTED_APPLICATIONS, new ShowRejectedApplication());
         commands.put(COMMAND_VALUE_GO_TO_REJECTION_LIST, new GoToRejectedList());
-        commands.put(COMMAND_VALUE_GO_TO_PRESCRIPTION_LIST, new GoToPrescritptionList());
+        commands.put(COMMAND_VALUE_GO_TO_PRESCRIPTION_LIST, new GoToPrescriptionList());
         commands.put(COMMAND_VALUE_GO_TO_BASKET, new GoToBasket());
         commands.put(COMMAND_VALUE_UPDATE_PERSONAL_INFO, new UpdatePersonalInfo());
         commands.put(COMMAND_VALUE_GO_TO_PERSONAL_INFO, new GoToPersonalInfo());

@@ -2,7 +2,8 @@ package by.vladyka.epam.dao.util;
 
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
-import by.vladyka.epam.entity.*;
+import by.vladyka.epam.entity.Receipt;
+import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ import static by.vladyka.epam.dao.util.DBColumn.*;
  * on 12.03.2019 at 12:12
  **/
 public final class SQLDaoAssistant {
-    public static Remedy createRemedy(ResultSet rs) throws SQLException {
+    public static Remedy buildRemedy(ResultSet rs) throws SQLException {
         Remedy remedy = new Remedy();
         remedy.setId(rs.getInt(ID));
         remedy.setReceiptRequired(rs.getBoolean(RECEIPT_REQUIRED));
@@ -26,31 +27,12 @@ public final class SQLDaoAssistant {
         return remedy;
     }
 
-//    public static Receipt createReceipt(ResultSet rs) throws SQLException{
-//
-//    }
-//
-//    public static RemedyOrder createRemedyOrder (ResultSet rs) throws SQLException{
-//
-//    }
-//
-//    public static ClientOrder createClientOrder (ResultSet rs) throws SQLException{
-//
-//    }
-
-//    private User createUser(ResultSet resultSet) throws SQLException {
-//        User user = new User();
-//        user.setId(resultSet.getInt(ID));
-//        user.setEmail(resultSet.getString(EMAIL));
-//        user.setFirstName(resultSet.getString(FIRST_NAME));
-//        user.setLastName(resultSet.getString(LAST_NAME));
-//        user.setRole(User.UserRole.valueOf(resultSet.getString(ROLE)));
-//        user.setPhone(resultSet.getString(PHONE));
-//        return user;
-//    }
-
-
-
+    public static Receipt buildReceipt(ResultSet rs) throws SQLException {
+        Receipt receipt = new Receipt();
+        receipt.setId(rs.getInt(1));
+        receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
+        return receipt;
+    }
 
     public static int getFoundEntitiesNumber(String query, ConnectionPool pool) throws DAOException {
         int foundEntitiesNumber = 0;

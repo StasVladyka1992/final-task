@@ -12,5 +12,5 @@ import by.vladyka.epam.entity.RemedyOrder;
 public interface RemedyOrderDAO extends AbstractDAO<RemedyOrder> {
     boolean create(OrderDto orderDto, int clientOrderId) throws DAOException;
 
-    int[] setReceiptsToRemedyOrders(ClientOrder order) throws DAOException;
+    void setReceiptsToRemedyOrders(ClientOrder order) throws DAOException;
 }

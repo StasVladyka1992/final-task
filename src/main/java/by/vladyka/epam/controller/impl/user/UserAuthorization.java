@@ -1,6 +1,7 @@
 package by.vladyka.epam.controller.impl.user;
 
 import by.vladyka.epam.controller.Command;
+import by.vladyka.epam.controller.exception.CommandException;
 import by.vladyka.epam.entity.User;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
@@ -22,12 +23,16 @@ import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_USER_NO
 public class UserAuthorization implements Command {
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
-        HttpSession session = req.getSession(true);
-        User user;
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException, IOException {
+        HttpSession session = req.getSession();
         String email = req.getParameter(PARAM_NAME_EMAIL);
         String password = req.getParameter(PARAM_NAME_PASSWORD);
-        user = ServiceProvider.getInstance().getUserService().authorization(email, password);
+        User user;
+        try {
+            user = ServiceProvider.getInstance().getUserService().authorization(email, password);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
         if (user == null) {
             resp.sendRedirect(GO_TO_AUTHORIZATION + PARAM_NAME_COMMAND_STATUS + "=" + PARAM_VALUE_USER_NOT_FOUND);
         } else {

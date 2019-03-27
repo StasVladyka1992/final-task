@@ -28,4 +28,13 @@ public final class ParameterValue {
     public static final String PARAM_VALUE_CONFIRM_BUTTON_DISABLED = "disabled";
     public static final String PARAM_VALUE_ORDER_REJECTED = "order_rejected";
     public static final String PARAM_VALUE_TRUE = "true";
+
+    public static Map<String, String> getUserInfo(HttpServletRequest req) {
+        HashMap<String, String> userParams = new HashMap<>();
+        userParams.put(PARAM_NAME_EMAIL, req.getParameter(PARAM_NAME_EMAIL));
+        userParams.put(PARAM_NAME_FIRST_NAME, req.getParameter(PARAM_NAME_FIRST_NAME));
+        userParams.put(PARAM_NAME_LAST_NAME, req.getParameter(PARAM_NAME_LAST_NAME));
+        userParams.put(PARAM_NAME_PHONE, req.getParameter(PARAM_NAME_PHONE));
+        return userParams;
+    }
 }

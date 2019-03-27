@@ -3,9 +3,7 @@ package by.vladyka.epam.controller.impl.client;
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.dto.OrderDto;
 import by.vladyka.epam.entity.Storage;
-import by.vladyka.epam.service.exception.ServiceException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_CLIENT_SEARCHING_PAGE;
-import static by.vladyka.epam.controller.util.JSPNavigation.SHOW_REMEDY_INFO;
 import static by.vladyka.epam.controller.util.ParameterName.*;
 import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_GOOD_ALREADY_IN_BASKET;
 import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_OPERATION_RESULT_SUCCESS;
@@ -26,7 +23,7 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.INCORR
  **/
 public class AddToBasket implements Command {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int quantity = Integer.parseInt(req.getParameter(PARAM_NAME_QUANTITY));
         if (quantity <= 0) {
             resp.sendRedirect(GO_TO_CLIENT_SEARCHING_PAGE + INCORRECT_QUANTITY);

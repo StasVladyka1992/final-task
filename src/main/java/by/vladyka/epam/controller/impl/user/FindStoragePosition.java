@@ -1,10 +1,11 @@
 package by.vladyka.epam.controller.impl.user;
 
 import by.vladyka.epam.controller.Command;
+import by.vladyka.epam.controller.exception.CommandException;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.StorageService;
 import by.vladyka.epam.service.exception.ServiceException;
-import by.vladyka.epam.dto.EntitySearchingResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,20 +22,20 @@ import static by.vladyka.epam.controller.util.ParameterName.*;
  **/
 public class FindStoragePosition implements Command {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException, IOException {
         String remedyName = saveSearchingName(req, PARAM_NAME_REMEDY_NAME);
         int currentPage = Integer.parseInt(req.getParameter(PARAM_NAME_CURRENT_PAGE));
         int startPosition = calculateStartPosition(currentPage);
         ServiceProvider creator = ServiceProvider.getInstance();
-        EntitySearchingResult entitySearchingResult = null;
         StorageService service = creator.getStorageService();
+        EntitySearchingResult entitySearchingResult;
         try {
             entitySearchingResult = service.findFromStartPosition(remedyName, startPosition, OFFSET);
         } catch (ServiceException e) {
-            //TODO логгер
+            throw new CommandException(e);
         }
-        HttpSession session = req.getSession(true);
-        session.setAttribute("name", remedyName);
+        HttpSession session = req.getSession();
+        session.setAttribute(PARAM_NAME_REMEDY_NAME, remedyName);
         setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_STORAGE_LIST);
         resp.sendRedirect(GO_TO_REMEDY);
     }

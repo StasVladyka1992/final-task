@@ -16,7 +16,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.REGISTRATION_RESULT;
 public class UserInfoAfterRegistration implements Command {
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         rememberLastRequest(req);
         req.getRequestDispatcher(REGISTRATION_RESULT).forward(req, resp);
     }

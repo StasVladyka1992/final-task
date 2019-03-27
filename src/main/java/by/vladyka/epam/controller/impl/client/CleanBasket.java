@@ -1,9 +1,7 @@
 package by.vladyka.epam.controller.impl.client;
 
 import by.vladyka.epam.controller.Command;
-import by.vladyka.epam.service.exception.ServiceException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,9 +18,9 @@ import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_BASKET_
  **/
 public class CleanBasket implements Command {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         session.removeAttribute(PARAM_NAME_ORDER_DTO);
-        resp.sendRedirect(GO_TO_BASKET+PARAM_NAME_OPERATION_RESULT+"="+PARAM_VALUE_BASKET_CLEANED);
+        resp.sendRedirect(GO_TO_BASKET + PARAM_NAME_OPERATION_RESULT + "=" + PARAM_VALUE_BASKET_CLEANED);
     }
 }

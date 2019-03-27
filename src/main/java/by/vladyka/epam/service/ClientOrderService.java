@@ -21,9 +21,11 @@ public interface ClientOrderService extends AbstractService<ClientOrder> {
 
     boolean rejectOrder(int id) throws ServiceException;
 
-    EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int clientId, int startPosition, int offset) throws ServiceException;
+    EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int clientId, int startPosition, int offset)
+            throws ServiceException;
 
-    EntitySearchingResult<ClientOrder> findHandledClientOrders(int clientId, int startPosition, int offset) throws ServiceException;
+    EntitySearchingResult<ClientOrder> findHandledClientOrders(int clientId, int startPosition, int offset)
+            throws ServiceException;
 
     OrderDtoForPharmacist findByIdForPharmacist(int id) throws ServiceException;
 }

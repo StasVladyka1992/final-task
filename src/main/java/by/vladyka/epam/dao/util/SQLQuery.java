@@ -49,8 +49,8 @@ public final class SQLQuery {
             " = u.id WHERE rec.status='NONE' AND u.id=? LIMIT ?,?";
     public static final String QUERY_COUNT_CLIENT_WRITTEN_PRESCRIPTIONS = "SELECT COUNT(id) FROM receipts WHERE" +
             " status='APPROVED' and clientId=";
-    public static final String QUERY_FIND_CLIENT_WRITTEN_PRESCRIPTIONS = "SELECT rec.id, rec.status, rem.name," +
-            " rec.expireDate FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN" +
+    public static final String QUERY_FIND_CLIENT_WRITTEN_PRESCRIPTIONS = "SELECT rec.id, rec.status, rec.expireDate, " +
+            " rem.name FROM receipts AS rec LEFT JOIN remedies AS rem ON rec.remedyId = rem.id LEFT JOIN" +
             " users AS u ON rec.clientId = u.id WHERE rec.status='APPROVED' AND u.id=? LIMIT ?,?";
     public static final String QUERY_COUNT_CLIENT_REJECTED_APPLICATIONS = "SELECT COUNT(id) FROM receipts WHERE" +
             " status='REJECTED' and clientId=";

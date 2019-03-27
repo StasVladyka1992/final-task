@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static by.vladyka.epam.dao.util.SQLDaoAssistant.getFoundEntitiesNumber;
-import static by.vladyka.epam.dao.util.SQLDaoAssistant.setStartPositionAndOffset;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.*;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
@@ -41,13 +40,10 @@ public class SQLReceiptDAO implements ReceiptDAO {
             receipts = new ArrayList<>();
             rs = ps.executeQuery();
             while (rs.next()) {
-                Receipt receipt = new Receipt();
-                receipt.setId(rs.getInt(1));
-                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
-                receipt.setExpireDate(new Date(rs.getTimestamp(4).getTime()));
+                Receipt receipt = buildReceipt(rs);
+                receipt.setExpireDate(new Date(rs.getTimestamp(3).getTime()));
                 Remedy remedy = new Remedy();
-                remedy.setName(rs.getString(3));
-
+                remedy.setName(rs.getString(4));
                 receipt.setRemedy(remedy);
                 receipts.add(receipt);
             }
@@ -69,24 +65,21 @@ public class SQLReceiptDAO implements ReceiptDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         int rejectedApplicationsNumber;
+        String countCommand = QUERY_COUNT_CLIENT_REJECTED_APPLICATIONS + clientId;
         List<Receipt> receipts;
         try {
-            String countCommand = QUERY_COUNT_CLIENT_REJECTED_APPLICATIONS + clientId;
             rejectedApplicationsNumber = getFoundEntitiesNumber(countCommand, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_CLIENT_REJECTED_APPLICATIONS);
-            setClientIdStartOffsetToStatement(ps, clientId, start, offset);
             receipts = new ArrayList<>();
+            setClientIdStartOffsetToStatement(ps, clientId, start, offset);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Receipt receipt = new Receipt();
-                receipt.setId(rs.getInt(1));
-                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
+                Receipt receipt = buildReceipt(rs);
                 receipt.setPrescriptionDate(new Date(rs.getTimestamp(4).getTime()));
                 receipt.setMessage(rs.getString(5));
                 Remedy remedy = new Remedy();
                 remedy.setName(rs.getString(3));
-
                 receipt.setRemedy(remedy);
                 receipts.add(receipt);
             }
@@ -108,23 +101,18 @@ public class SQLReceiptDAO implements ReceiptDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         int unhandledReceiptsNumber;
-        List<Receipt> receipts;
+        List<Receipt> receipts = new ArrayList<>();
+        String countCommand = QUERY_COUNT_CLIENT_UNHANDLED_APPLICATIONS + clientId;
         try {
-            String countCommand = QUERY_COUNT_CLIENT_UNHANDLED_APPLICATIONS + clientId;
             unhandledReceiptsNumber = getFoundEntitiesNumber(countCommand, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_CLIENT_UNHANDLED_APPLICATIONS);
             setClientIdStartOffsetToStatement(ps, clientId, start, offset);
-            receipts = new ArrayList<>();
             rs = ps.executeQuery();
             while (rs.next()) {
-                Receipt receipt = new Receipt();
-                receipt.setId(rs.getInt(1));
-                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
-
+                Receipt receipt = buildReceipt(rs);
                 Remedy remedy = new Remedy();
                 remedy.setName(rs.getString(3));
-
                 receipt.setRemedy(remedy);
                 receipts.add(receipt);
             }
@@ -137,7 +125,6 @@ public class SQLReceiptDAO implements ReceiptDAO {
         unhandledReceipts.setFoundEntities(receipts);
         unhandledReceipts.setFoundEntitiesNumber(unhandledReceiptsNumber);
         return unhandledReceipts;
-
     }
 
     @Override
@@ -155,20 +142,15 @@ public class SQLReceiptDAO implements ReceiptDAO {
             receipts = new ArrayList<>();
             rs = ps.executeQuery();
             while (rs.next()) {
-                Receipt receipt = new Receipt();
-                receipt.setId(rs.getInt(1));
-                receipt.setStatus(Receipt.Status.valueOf(rs.getString(2)));
-
+                Receipt receipt = buildReceipt(rs);
                 User client = new User();
                 client.setFirstName(rs.getString(3));
                 client.setLastName(rs.getString(4));
                 client.setId(rs.getInt(5));
                 client.setEmail(rs.getString(6));
-
                 Remedy remedy = new Remedy();
                 remedy.setName(rs.getString(7));
                 remedy.setDescription(rs.getString(8));
-
                 receipt.setRemedy(remedy);
                 receipt.setClient(client);
                 receipts.add(receipt);
@@ -186,8 +168,21 @@ public class SQLReceiptDAO implements ReceiptDAO {
 
     @Override
     public boolean createAppliance(int clientId, int remedyId) throws DAOException {
-        boolean result = createAndSetClientReceiptParamToPreparedStatement(clientId, remedyId, QUERY_CREATE_RECEIPT);
-        return result;
+        Connection con = null;
+        PreparedStatement ps = null;
+        int insertionResult;
+        try {
+            con = pool.takeConnection();
+            ps = con.prepareStatement(QUERY_CREATE_RECEIPT);
+            ps.setInt(2, remedyId);
+            ps.setInt(1, clientId);
+            insertionResult = ps.executeUpdate();
+        } catch (SQLException | ConnectionPoolException ex) {
+            throw new DAOException(ex);
+        } finally {
+            pool.closeConnection(con, ps);
+        }
+        return insertionResult == 1;
     }
 
     @Override
@@ -288,9 +283,8 @@ public class SQLReceiptDAO implements ReceiptDAO {
             writtenPrescriptionsNumber = getFoundSpecialReceiptsNumber(queryCountApplications, doctorId);
             con = pool.takeConnection();
             ps = con.prepareStatement(queryFindApplications);
-            ps.setInt(1, doctorId);
-            //setStartPosition не подходит, т.к. у них позиция 2,3
             ps.setInt(2, start);
+            ps.setInt(1, doctorId);
             ps.setInt(3, offset);
             rs = ps.executeQuery();
             writtenPrescriptions = new ArrayList<>();
@@ -305,15 +299,12 @@ public class SQLReceiptDAO implements ReceiptDAO {
                     application.setExpireDate(new Date(rs.getTimestamp(4).getTime()));
                 }
                 application.setMessage(rs.getString(5));
-
                 User client = new User();
                 client.setFirstName(rs.getString(6));
                 client.setLastName(rs.getString(7));
                 client.setEmail(rs.getString(8));
-
                 Remedy remedy = new Remedy();
                 remedy.setName(rs.getString(9));
-
                 application.setRemedy(remedy);
                 application.setClient(client);
                 writtenPrescriptions.add(application);
@@ -341,26 +332,6 @@ public class SQLReceiptDAO implements ReceiptDAO {
         ps.setInt(3, offset);
     }
 
-    private boolean createAndSetClientReceiptParamToPreparedStatement(int clientId, int remedyId, String query)
-            throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        int insertionResult;
-        try {
-            con = pool.takeConnection();
-            ps = con.prepareStatement(query);
-            ps.setInt(2, remedyId);
-            ps.setInt(1, clientId);
-            insertionResult = ps.executeUpdate();
-        } catch (SQLException | ConnectionPoolException ex) {
-            throw new DAOException(ex);
-        } finally {
-            pool.closeConnection(con, ps);
-        }
-        return insertionResult == 1;
-    }
-
-
     private int getFoundSpecialReceiptsNumber(String query, int id) throws DAOException {
         int foundReceiptsNumber = 0;
         Connection con = null;
@@ -383,12 +354,12 @@ public class SQLReceiptDAO implements ReceiptDAO {
     }
 
     @Override
-    public Receipt findById(int id) throws DAOException {
+    public Receipt findById(int id) {
         return null;
     }
 
     @Override
-    public boolean deleteById(int id) throws DAOException {
+    public boolean deleteById(int id) {
         return false;
     }
 

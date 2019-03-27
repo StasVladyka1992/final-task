@@ -16,7 +16,7 @@ import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_AUTHORIZATION;
 public class UserSignOut implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession(true);
+        HttpSession session = req.getSession();
         session.invalidate();
         resp.sendRedirect(GO_TO_AUTHORIZATION);
     }

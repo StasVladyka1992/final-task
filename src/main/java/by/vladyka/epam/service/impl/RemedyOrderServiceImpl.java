@@ -29,23 +29,14 @@ public class RemedyOrderServiceImpl implements RemedyOrderService {
     }
 
     @Override
-    public boolean setReceipts(ClientOrder order) throws ServiceException {
+    public void setReceipts(ClientOrder order) throws ServiceException {
         DAOProvider provider = DAOProvider.getInstance();
         RemedyOrderDAO dao = provider.getSQLRemedyOrderDAO();
-        boolean result = true;
-        int[] settingReceiptsResult;
         try {
-            settingReceiptsResult = dao.setReceiptsToRemedyOrders(order);
+            dao.setReceiptsToRemedyOrders(order);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        for (int i = 0; i < settingReceiptsResult.length; i++) {
-            if (settingReceiptsResult[i] != 1) {
-                result = false;
-                break;
-            }
-        }
-        return result;
     }
 
     @Override

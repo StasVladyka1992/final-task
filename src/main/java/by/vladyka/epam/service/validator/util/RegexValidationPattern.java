@@ -13,7 +13,7 @@ public final class RegexValidationPattern {
     public static final Pattern EMAIL = Pattern.compile("^[A-Z0-9._]+?@[A-Z0-9_]+?\\.[A-Z]{2,6}$",
             Pattern.CASE_INSENSITIVE);
     public static final Pattern PASSWORD = Pattern.compile("^[А-яA-Z0-9_.]+$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern USER_NAME = Pattern.compile("^[A-ZА-я]+$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern USER_NAME = Pattern.compile("^[A-ZА-я -]+$", Pattern.CASE_INSENSITIVE);
     public static final Pattern ROLE = Pattern.compile("^(DOCTOR)|(CLIENT)|(PHARMACIST)$",
             Pattern.CASE_INSENSITIVE);
     public static final Pattern PHONE = Pattern.compile("^\\+\\d{3}-\\d{2}-\\d{3}-\\d{2}-\\d{2}$");

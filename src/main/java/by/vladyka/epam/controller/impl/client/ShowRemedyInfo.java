@@ -1,6 +1,7 @@
 package by.vladyka.epam.controller.impl.client;
 
 import by.vladyka.epam.controller.Command;
+import by.vladyka.epam.controller.exception.CommandException;
 import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
@@ -22,11 +23,16 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_STORAGE;
  **/
 public class ShowRemedyInfo implements Command {
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException, IOException,
+            ServletException {
         int id = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
-        ServiceProvider provider = ServiceProvider.getInstance();
-        StorageServiceImpl service = provider.getStorageService();
-        Storage storage = service.findById(id);
+        StorageServiceImpl service = ServiceProvider.getInstance().getStorageService();
+        Storage storage;
+        try {
+            storage = service.findById(id);
+        } catch (ServiceException e) {
+            throw new CommandException(e);
+        }
         HttpSession session = req.getSession();
         session.setAttribute(PARAM_NAME_STORAGE, storage);
         rememberLastRequest(req);

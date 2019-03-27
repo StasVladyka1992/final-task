@@ -23,6 +23,7 @@
 <fmt:message bundle="${loc}" key="incorrectPhone" var="incorrectPhone"/>
 <fmt:message bundle="${loc}" key="changePassword" var="changePassword"/>
 <fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
+<fmt:message bundle="${loc}" key="personalInfoUpdated" var="personalInfoUpdated"/>
 
 <div class="container-fluid">
     <div class="container-fluid col-sm-8 mb-3 mt-5">
@@ -76,6 +77,11 @@
     <c:if test="${not empty param.incorrectPhone}">
         <p class="text-danger">
             <c:out value="${incorrectPhone}"/>
+        </p>
+    </c:if>
+    <c:if test="${not empty param.operationResult && param.operationResult.equals('success') }">
+        <p class="text-success">
+            <c:out value="${personalInfoUpdated}"/>
         </p>
     </c:if>
     <div class="d-flex justify-content-start">

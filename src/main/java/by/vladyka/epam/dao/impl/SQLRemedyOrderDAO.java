@@ -5,7 +5,6 @@ import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.dto.OrderDto;
-import by.vladyka.epam.dto.OrderDtoForPharmacist;
 import by.vladyka.epam.entity.ClientOrder;
 import by.vladyka.epam.entity.RemedyOrder;
 import by.vladyka.epam.entity.Storage;
@@ -13,7 +12,6 @@ import by.vladyka.epam.entity.Storage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import static by.vladyka.epam.dao.util.SQLQuery.QUERY_CREATE_REMEDY_ORDER;
@@ -27,12 +25,12 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
-    public RemedyOrder findById(int id) throws DAOException {
+    public RemedyOrder findById(int id) {
         return null;
     }
 
     @Override
-    public boolean deleteById(int id) throws DAOException {
+    public boolean deleteById(int id) {
         return false;
     }
 
@@ -61,15 +59,10 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
                 int insertResult = ps.executeUpdate();
                 result = insertResult == 1;
             }
-
             con.commit();
             return result;
         } catch (ConnectionPoolException | SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                throw new DAOException(e1);
-            }
+            doRollback(con);
             throw new DAOException(e);
         } finally {
             pool.closeConnection(con, ps);
@@ -92,27 +85,35 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
         return commands;
     }
 
-    public int[] setReceiptsToRemedyOrders(ClientOrder order) throws DAOException {
+    public void setReceiptsToRemedyOrders(ClientOrder order) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
-        int[] result;
+        int[] batchResult;
         try {
             con = pool.takeConnection();
+            con.setAutoCommit(false);
             ps = con.prepareStatement(QUERY_SET_RECEIPTS_TO_CLIENT_ORDER);
-
-            for (RemedyOrder remedyOrder:
-                 order.getRemedyOrders()) {
+            for (RemedyOrder remedyOrder :
+                    order.getRemedyOrders()) {
                 ps.setInt(1, order.getClient().getId());
                 ps.setInt(2, remedyOrder.getRemedy().getId());
                 ps.setInt(3, remedyOrder.getId());
                 ps.addBatch();
             }
-            result = ps.executeBatch();
+            batchResult = ps.executeBatch();
+            for (int i = 0; i < batchResult.length; i++) {
+                if (batchResult[i] != 1) {
+                    throw new SQLException("Not all receipts were set to remedy orders");
+                }
+            }
+            con.commit();
         } catch (SQLException | ConnectionPoolException e) {
+            doRollback(con);
             throw new DAOException(e);
         } finally {
             pool.closeConnection(con, ps);
         }
-        return result;
     }
+
+
 }

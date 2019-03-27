@@ -4,16 +4,14 @@ import by.vladyka.epam.dao.RemedyDAO;
 import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
-import by.vladyka.epam.dao.util.SQLDaoAssistant;
 import by.vladyka.epam.entity.Remedy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
-import static by.vladyka.epam.dao.util.SQLDaoAssistant.createRemedy;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.buildRemedy;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
@@ -35,11 +33,9 @@ public class SQLRemedyDAO implements RemedyDAO {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                remedy = createRemedy(rs);
+                remedy = buildRemedy(rs);
             }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } catch (ConnectionPoolException e) {
+        } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -50,27 +46,25 @@ public class SQLRemedyDAO implements RemedyDAO {
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws DAOException {
         String query = QUERY_UPDATE_REMEDY + id;
-        boolean result = queryExecutor(query, name, description, price,
+        return queryExecutor(query, name, description, price,
                 receiptRequired);
-        return result;
     }
 
 
     @Override
     public boolean create(String name, String description, double price, boolean receiptRequired) throws DAOException {
-        boolean result = queryExecutor(QUERY_ADD_REMEDY, name, description, price,
+        return queryExecutor(QUERY_ADD_REMEDY, name, description, price,
                 receiptRequired);
-        return result;
     }
 
     @Override
     public boolean deleteById(int id) throws DAOException {
-        return deleteHelper(id, QUERY_DELETE_REMEDY, pool);
+        return abstractUpdatePattern(id, QUERY_DELETE_REMEDY, pool) == 1;
     }
 
     private boolean queryExecutor(String query, String name,
                                   String description, double price, boolean
-                                                                       receiptRequired) throws DAOException {
+                                          receiptRequired) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         int insertionResult;
@@ -82,9 +76,7 @@ public class SQLRemedyDAO implements RemedyDAO {
             ps.setDouble(3, price);
             ps.setBoolean(4, receiptRequired);
             insertionResult = ps.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } catch (ConnectionPoolException ex) {
+        } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps);
