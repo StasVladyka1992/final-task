@@ -17,16 +17,17 @@ import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_TRUE;
  **/
 public class LoginFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute(PARAM_NAME_USER) == null ) {
-              response.sendRedirect(GO_TO_AUTHORIZATION+PARAM_NAME_SESSION_EXPIRED+"="+PARAM_VALUE_TRUE);
+        if (session == null || session.getAttribute(PARAM_NAME_USER) == null) {
+            response.sendRedirect(GO_TO_AUTHORIZATION + PARAM_NAME_SESSION_EXPIRED + "=" + PARAM_VALUE_TRUE);
         } else {
             filterChain.doFilter(request, servletResponse);
         }

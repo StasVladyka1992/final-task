@@ -78,7 +78,10 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
                 order = new ClientOrder();
                 order.setId(rs.getInt(1));
                 order.setCreatedOn(new Date(rs.getTimestamp(2).getTime()));
-                order.setFinishedOn(new Date(rs.getTimestamp(3).getTime()));
+                Timestamp ts = rs.getTimestamp(3);
+                if (ts != null) {
+                    order.setFinishedOn(new Date(ts.getTime()));
+                }
                 order.setStatus(ClientOrder.ClientOrderStatus.valueOf(rs.getString(4)));
                 order.setSum(rs.getDouble(5));
                 clientOrders.getFoundEntities().add(order);

@@ -22,7 +22,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     private ReceiptValidator validator = new ReceiptValidator();
 
     @Override
-    public EntitySearchingResult<Receipt> findUnhandledReceipts(int start, int offset) throws ServiceException {
+    public EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws ServiceException {
         SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         EntitySearchingResult<Receipt> receipts;
         try {
@@ -34,7 +34,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public EntitySearchingResult<Receipt> findClientUnhandledReceipts(int userId, int start, int offset) throws ServiceException {
+    public EntitySearchingResult<Receipt> findClientUnhandledApplications(int userId, int start, int offset) throws ServiceException {
         SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         EntitySearchingResult<Receipt> receipts;
         try {
@@ -148,8 +148,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public boolean createReceipt(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
-                                 Receipt.Status status) throws ServiceException {
+    public boolean createPrescription(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
+                                      Receipt.Status status) throws ServiceException {
         boolean validationResult = validator.checkDoctorAddingDataAndSetMessage(id, doctorId, expireDate, prescriptionDate,
                 message, status);
         if (!validationResult) {

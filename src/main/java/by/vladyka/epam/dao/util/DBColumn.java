@@ -16,27 +16,8 @@ public final class DBColumn {
     public static final String EMAIL = "email";
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
-    public static final String PASSWORD = "password";
     public static final String PHONE = "phone";
     public static final String ROLE = "role";
-
-    //receipts
-    public static final String EXPIRE_DATE = "expireDate";
-    public static final String PRESCRIPTION_DATE = "prescriptionDate";
-    public static final String DOCTOR_ID = "doctorId";
-    public static final String MESSAGE = "message";
-    public static final String USED = "used";
-
-    //client order
-    public static final String CREATED_ON = "createdOn";
-    public static final String FINISHED_ON = "finishedOn";
-    public static final String REMEDY_ORDER_ID = "remedyOrderId";
-
-    //remedy order
-    public static final String QUANTITY_ORDER = "quantity";
-    public static final String RECEIPT_ID = "receiptId";
-    public static final String ORDER_ID = "orderId";
-
     //storage
     public static final String REMEDY_LEFT = "remedyLeft";
 

@@ -128,6 +128,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
             throw new ServiceException(e);
         }
         return clientOrderId;
+
     }
 
     public ClientOrderValidator getValidator() {

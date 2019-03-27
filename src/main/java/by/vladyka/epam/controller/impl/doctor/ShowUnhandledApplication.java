@@ -29,7 +29,7 @@ public class ShowUnhandledApplication implements Command {
         ReceiptServiceImpl service = provider.getReceiptService();
         EntitySearchingResult entitySearchingResult;
         try {
-            entitySearchingResult = service.findUnhandledReceipts(startPosition, OFFSET);
+            entitySearchingResult = service.findUnhandledApplications(startPosition, OFFSET);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

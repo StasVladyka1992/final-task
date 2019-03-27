@@ -68,7 +68,7 @@
                            id="price" placeholder="0.00" value="${storage.remedy.price}">
                 </div>
             </div>
-            <button class="btn btn-sm btn-primary mr-2 ml-2" type="submit">${alter}</button>
+            <button class="btn btn-sm btn-primary mr-2" type="submit">${alter}</button>
             <input type="hidden" name="id" value="${storage.remedy.id}">
             <c:if test="${storage.remedyLeft!=-1}">
                 <button type="button" class="btn btn-primary btn-sm mr-2 ml-2" data-toggle="modal"

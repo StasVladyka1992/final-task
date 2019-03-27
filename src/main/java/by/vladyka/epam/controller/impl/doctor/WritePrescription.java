@@ -44,7 +44,7 @@ public class WritePrescription implements Command {
         ReceiptServiceImpl service = provider.getReceiptService();
         boolean result;
         try {
-            result = service.createReceipt(id, doctorId, expireDate, prescriptionDate, message, status);
+            result = service.createPrescription(id, doctorId, expireDate, prescriptionDate, message, status);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

@@ -3,9 +3,8 @@ package by.vladyka.epam.service;
 import by.vladyka.epam.service.impl.*;
 
 /**
- * Created by Vladyka Stas
- * on 17.02.2019 at 14:50
- **/
+ *
+ */
 public class ServiceProvider {
     private static final ServiceProvider instance = new ServiceProvider();
     private final UserServiceImpl userService = new UserServiceImpl();

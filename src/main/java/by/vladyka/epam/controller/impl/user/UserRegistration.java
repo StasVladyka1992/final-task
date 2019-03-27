@@ -4,7 +4,6 @@ import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.exception.CommandException;
 import by.vladyka.epam.entity.User;
 import by.vladyka.epam.service.ServiceProvider;
-import by.vladyka.epam.service.UserService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.UserServiceImpl;
 import by.vladyka.epam.service.validator.impl.UserValidator;
@@ -30,7 +29,7 @@ public class UserRegistration implements Command {
         Map<String, String> userInfo = getUserInfo(req);
         String password = req.getParameter(PARAM_NAME_PASSWORD);
         User.UserRole role = User.UserRole.valueOf(req.getParameter(PARAM_NAME_ROLE));
-        UserService<User> userService = ServiceProvider.getInstance().getUserService();
+        UserServiceImpl userService = ServiceProvider.getInstance().getUserService();
         boolean isRegistrationSuccessful;
         try {
             isRegistrationSuccessful = userService.registration(userInfo, password, role);
@@ -48,7 +47,7 @@ public class UserRegistration implements Command {
             session.setAttribute(PARAM_NAME_USER, user);
             resp.sendRedirect(GO_TO_REGISTRATION_RESULT);
         } else {
-            UserValidator validator = ((UserServiceImpl) userService).getValidator();
+            UserValidator validator = userService.getValidator();
             String invalidDataMessages = validator.getIncorrectDataMessages().toString();
             resp.sendRedirect(GO_TO_REGISTRATION + invalidDataMessages);
         }
