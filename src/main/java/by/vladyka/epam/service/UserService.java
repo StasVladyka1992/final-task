@@ -13,6 +13,6 @@ public interface UserService<T extends User> {
 
     T authorization(String email, String password) throws ServiceException;
 
-    boolean update (int id, String email, String firstName, String lastName, String phone)
+    boolean update(int id, String email, String firstName, String lastName, String phone)
             throws ServiceException;
 }

@@ -30,12 +30,9 @@ public class UserRegistration implements Command {
         String phone = req.getParameter(PARAM_NAME_PHONE);
         String password = req.getParameter(PARAM_NAME_PASSWORD);
         User.UserRole role = User.UserRole.valueOf(req.getParameter(PARAM_NAME_ROLE));
-
         UserService<User> userService = ServiceProvider.getInstance().getUserService();
         boolean isRegistrationSuccessful = userService.registration(email, firstName, lastName, password, phone, role);
-
         HttpSession session = req.getSession(true);
-        rememberLastRequest(req);
         if (isRegistrationSuccessful) {
             User user = new User();
             user.setFirstName(firstName);

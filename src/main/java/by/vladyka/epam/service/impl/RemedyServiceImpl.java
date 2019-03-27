@@ -7,8 +7,6 @@ import by.vladyka.epam.service.RemedyService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.RemedyValidator;
 
-import java.util.List;
-
 /**
  * Created by Vladyka Stas
  * on 26.02.2019 at 1:54
@@ -31,60 +29,53 @@ public class RemedyServiceImpl implements RemedyService {
         return remedy;
     }
 
-
-
     @Override
-    public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws ServiceException {
-        boolean validationResult = validateCreateData(name, description, price, receiptRequired) &&
-                validator.checkId(id);
+    public boolean update(int id, String name, String description, double price, boolean receiptRequired)
+            throws ServiceException {
+        boolean validationResult = validator.checkRemedyAddingDataAndSetMessage(name, description, price,
+                receiptRequired) && validator.checkId(id);
         if (!validationResult) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
-        boolean isUpdatigSuccessfull;
+        boolean isUpdatingSuccessful;
         try {
-            isUpdatigSuccessfull = daoProvider.getSQLRemedyDAO().update(id, name, description, price, receiptRequired);
+            isUpdatingSuccessful = daoProvider.getSQLRemedyDAO().update(id, name, description, price,
+                    receiptRequired);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        return isUpdatigSuccessfull;
+        return isUpdatingSuccessful;
     }
 
     @Override
-    public boolean create(String name, String description, double price, boolean receiptRequired) throws ServiceException {
-        if (!validateCreateData(name, description, price, receiptRequired)) {
+    public boolean create(String name, String description, double price, boolean receiptRequired)
+            throws ServiceException {
+        if (!validator.checkRemedyAddingDataAndSetMessage(name, description, price, receiptRequired)) {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
-        boolean isAddingSuccessfull;
+        boolean isAddingSuccessful;
         try {
-            isAddingSuccessfull = daoProvider.getSQLRemedyDAO().create(name, description, price, receiptRequired);
+            isAddingSuccessful = daoProvider.getSQLRemedyDAO().create(name, description, price, receiptRequired);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        return isAddingSuccessfull;
+        return isAddingSuccessful;
     }
 
     @Override
     public boolean delete(int id) throws ServiceException {
-        boolean isDeletingSuccessfull = false;
+        boolean isDeletingSuccessful = false;
         if (validator.checkId(id)) {
             DAOProvider daoProvider = DAOProvider.getInstance();
             try {
-                isDeletingSuccessfull = daoProvider.getSQLRemedyDAO().deleteById(id);
+                isDeletingSuccessful = daoProvider.getSQLRemedyDAO().deleteById(id);
             } catch (DAOException e) {
                 throw new ServiceException(e);
             }
         }
-        return isDeletingSuccessfull;
-    }
-
-    private boolean validateCreateData(String name, String description, double price, boolean receiptRequired) {
-        boolean validationResult = validator.checkRemedyAddingDataAndSetMessage(name, description, price, receiptRequired);
-        if (!validationResult) {
-            return false;
-        }
-        return true;
+        return isDeletingSuccessful;
     }
 
     public RemedyValidator getValidator() {

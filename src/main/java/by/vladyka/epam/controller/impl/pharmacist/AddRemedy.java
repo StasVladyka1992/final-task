@@ -31,7 +31,6 @@ public class AddRemedy implements Command {
         double price = Double.valueOf(req.getParameter(PARAM_NAME_PRICE));
         boolean receiptRequired = Boolean.valueOf(req.getParameter(PARAM_NAME_RECEIPT_REQUIRED));
         String description = req.getParameter(PARAM_NAME_DESCRIPTION);
-
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         RemedyService remedyService = serviceProvider.getRemedyService();
         boolean result = false;

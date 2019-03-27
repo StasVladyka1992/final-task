@@ -27,13 +27,13 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.INCORR
 public class AddToBasket implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        HttpSession session = req.getSession();
-        OrderDto orderDto = (OrderDto) session.getAttribute(PARAM_NAME_ORDER_DTO);
-        Storage storage = (Storage) session.getAttribute(PARAM_NAME_STORAGE);
         int quantity = Integer.parseInt(req.getParameter(PARAM_NAME_QUANTITY));
         if (quantity <= 0) {
             resp.sendRedirect(GO_TO_CLIENT_SEARCHING_PAGE + INCORRECT_QUANTITY);
         }
+        HttpSession session = req.getSession();
+        OrderDto orderDto = (OrderDto) session.getAttribute(PARAM_NAME_ORDER_DTO);
+        Storage storage = (Storage) session.getAttribute(PARAM_NAME_STORAGE);
         if (orderDto == null) {
             orderDto = new OrderDto();
             Map<Storage, Integer> goods = new HashMap<>();

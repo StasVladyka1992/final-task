@@ -5,7 +5,8 @@ import by.vladyka.epam.service.validator.AbstractValidator;
 import java.util.regex.Matcher;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.*;
-import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
+import static by.vladyka.epam.service.validator.util.RegexValidationPattern.QUANTITY;
+import static by.vladyka.epam.service.validator.util.RegexValidationPattern.REMEDY_NAME;
 
 /**
  * Created by Vladyka Stas
@@ -44,6 +45,4 @@ public final class StorageValidator extends AbstractValidator {
         addIncorrectDataMessage(INCORRECT_REMEDY_NAME);
         return false;
     }
-
-
 }

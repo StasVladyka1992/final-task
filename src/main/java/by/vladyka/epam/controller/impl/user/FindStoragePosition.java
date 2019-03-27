@@ -34,7 +34,6 @@ public class FindStoragePosition implements Command {
             //TODO логгер
         }
         HttpSession session = req.getSession(true);
-        rememberLastRequest(req);
         session.setAttribute("name", remedyName);
         setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_STORAGE_LIST);
         resp.sendRedirect(GO_TO_REMEDY);

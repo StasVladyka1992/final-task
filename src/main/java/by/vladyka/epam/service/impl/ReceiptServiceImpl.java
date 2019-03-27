@@ -10,7 +10,6 @@ import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.ReceiptValidator;
 
 import java.util.Date;
-import java.util.List;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_APPLICATION_EXIST;
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_EXIST;
@@ -96,7 +95,6 @@ public class ReceiptServiceImpl implements ReceiptService {
         }
         EntitySearchingResult<Receipt> applications;
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
-
         try {
             applications = sqlReceiptDAO.findWrittenPrescriptions(doctorId, start, offset);
         } catch (DAOException e) {
@@ -112,14 +110,14 @@ public class ReceiptServiceImpl implements ReceiptService {
             return false;
         }
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
-        boolean isUpdateSuccessfull;
+        boolean isUpdateSuccessful;
         try {
-            isUpdateSuccessfull = sqlReceiptDAO.reject(id, doctorId, message, status);
+            isUpdateSuccessful = sqlReceiptDAO.reject(id, doctorId, message, status);
 
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        return isUpdateSuccessfull;
+        return isUpdateSuccessful;
     }
 
     @Override
@@ -130,7 +128,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         }
         DAOProvider provider = DAOProvider.getInstance();
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) provider.getSQLReceiptDAO();
-        boolean isAddingSuccessfull;
+        boolean isAddingSuccessful;
         try {
             int checkingResult = sqlReceiptDAO.isValidReceiptExist(clientId, remedyId);
             if (checkingResult == 1) {
@@ -142,11 +140,11 @@ public class ReceiptServiceImpl implements ReceiptService {
                 validator.addIncorrectDataMessage(RECEIPT_EXIST);
                 return false;
             }
-            isAddingSuccessfull = provider.getSQLReceiptDAO().createAppliance(clientId, remedyId);
+            isAddingSuccessful = provider.getSQLReceiptDAO().createAppliance(clientId, remedyId);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        return isAddingSuccessfull;
+        return isAddingSuccessful;
     }
 
     @Override
@@ -157,14 +155,14 @@ public class ReceiptServiceImpl implements ReceiptService {
         if (!validationResult) {
             return false;
         }
-        boolean isUpdatingSuccessfull;
+        boolean isUpdatingSuccessful;
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         try {
-            isUpdatingSuccessfull = sqlReceiptDAO.createReceipt(id, doctorId, expireDate, prescriptionDate, message, status);
+            isUpdatingSuccessful = sqlReceiptDAO.createReceipt(id, doctorId, expireDate, prescriptionDate, message, status);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-        return isUpdatingSuccessfull;
+        return isUpdatingSuccessful;
     }
 
     @Override
@@ -184,6 +182,5 @@ public class ReceiptServiceImpl implements ReceiptService {
     public void setValidator(ReceiptValidator validator) {
         this.validator = validator;
     }
-
 
 }

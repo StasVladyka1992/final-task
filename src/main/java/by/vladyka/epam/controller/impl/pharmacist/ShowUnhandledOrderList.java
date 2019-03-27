@@ -31,7 +31,6 @@ public class ShowUnhandledOrderList implements Command {
         entitySearchingResult = service.findUnhandledOrders(startPosition, OFFSET);
         HttpSession session = req.getSession();
         setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_CLIENT_ORDER_LIST);
-        rememberLastRequest(req);
         resp.sendRedirect(GO_TO_PURCHASE_ADMINISTRATION);
     }
 }

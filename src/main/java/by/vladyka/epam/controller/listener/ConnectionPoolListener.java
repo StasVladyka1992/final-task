@@ -16,8 +16,9 @@ import javax.servlet.annotation.WebListener;
  **/
 @WebListener
 public class ConnectionPoolListener implements ServletContextListener {
-private static final ConnectionPool pool = ConnectionPool.getInstance();
-private static final Logger logger  = LogManager.getLogger(ConnectionPoolListener.class);
+    private static final ConnectionPool pool = ConnectionPool.getInstance();
+    private static final Logger logger = LogManager.getLogger(ConnectionPoolListener.class);
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
@@ -27,6 +28,7 @@ private static final Logger logger  = LogManager.getLogger(ConnectionPoolListene
             throw new InitializationPoolException();
         }
     }
+
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         pool.disposeOfConnectionQueues();

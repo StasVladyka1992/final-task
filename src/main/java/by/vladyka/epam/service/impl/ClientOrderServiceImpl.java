@@ -31,7 +31,6 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-
     }
 
     @Override
@@ -87,6 +86,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         return orderDtoForPharmacist;
     }
 
+    @Override
     public EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws ServiceException {
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
         EntitySearchingResult<ClientOrder> orders;
@@ -155,6 +155,4 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     public ClientOrder findById(int id) throws ServiceException {
         return null;
     }
-
-
 }

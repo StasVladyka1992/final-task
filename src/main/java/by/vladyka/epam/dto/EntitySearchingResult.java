@@ -11,7 +11,7 @@ import java.util.List;
  * on 17.02.2019 at 15:53
  **/
 
-public class EntitySearchingResult<T extends AbstractEntity>implements Serializable {
+public class EntitySearchingResult<T extends AbstractEntity> implements Serializable {
     private static final long serialVersionUID = -2650708455747923267L;
     private int foundEntitiesNumber;
     private List<T> foundEntities = new ArrayList<>();

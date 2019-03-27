@@ -15,18 +15,23 @@ public interface ReceiptService extends AbstractService<Receipt> {
 
     EntitySearchingResult<Receipt> findUnhandledReceipts(int start, int offset) throws ServiceException;
 
-    EntitySearchingResult<Receipt> findClientUnhandledReceipts(int userId, int start, int offset) throws ServiceException;
+    EntitySearchingResult<Receipt> findClientUnhandledReceipts(int userId, int start, int offset)
+            throws ServiceException;
 
-    EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int userId, int start, int offset) throws ServiceException;
+    EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int userId, int start, int offset)
+            throws ServiceException;
 
-    EntitySearchingResult<Receipt> findClientRejectedApplications (int userId, int start, int offset) throws ServiceException;
+    EntitySearchingResult<Receipt> findClientRejectedApplications(int userId, int start, int offset)
+            throws ServiceException;
 
-    EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset) throws ServiceException;
+    EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset)
+            throws ServiceException;
 
-    EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset) throws ServiceException;
+    EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset)
+            throws ServiceException;
 
     boolean createAppliance(int clientId, int remedyId) throws ServiceException;
 
-    boolean createReceipt(int id, int doctorId, Date expireDate,  Date prescriptionDate, String message,
+    boolean createReceipt(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
                           Receipt.Status status) throws ServiceException;
 }

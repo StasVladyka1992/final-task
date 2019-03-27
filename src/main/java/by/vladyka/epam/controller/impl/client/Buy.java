@@ -31,14 +31,16 @@ public class Buy implements Command {
         ServiceProvider provider = ServiceProvider.getInstance();
         ClientOrderService clientOrderService = provider.getClientOrderService();
         OrderDto orderDto = (OrderDto) session.getAttribute(PARAM_NAME_ORDER_DTO);
-        int clientOrderId = clientOrderService.buy(user.getId(), orderDto);
+        int clientOrderId = clientOrderService.buy(user.getId(),orderDto);
         if (clientOrderId == -1) {
-            resp.sendRedirect(GO_TO_ORDER_STATUS + PARAM_NAME_OPERATION_RESULT + '=' + PARAM_VALUE_OPERATION_RESULT_FAIL);
+            resp.sendRedirect(GO_TO_ORDER_STATUS + PARAM_NAME_OPERATION_RESULT + '=' +
+                    PARAM_VALUE_OPERATION_RESULT_FAIL);
         }
         RemedyOrderService remedyOrderService = provider.getRemedyOrderService();
         boolean result = remedyOrderService.create(orderDto, clientOrderId);
         if (result) {
-            resp.sendRedirect(GO_TO_ORDER_STATUS + PARAM_NAME_OPERATION_RESULT + "=" + PARAM_VALUE_OPERATION_RESULT_SUCCESS);
+            resp.sendRedirect(GO_TO_ORDER_STATUS + PARAM_NAME_OPERATION_RESULT + "=" +
+                    PARAM_VALUE_OPERATION_RESULT_SUCCESS);
         }
     }
 }

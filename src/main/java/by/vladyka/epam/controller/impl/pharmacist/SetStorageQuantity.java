@@ -26,9 +26,8 @@ public class SetStorageQuantity implements Command {
         int remedyLeft = Integer.parseInt(req.getParameter(PARAM_NAME_STORAGE_REMEDY_LEFT));
         ServiceProvider provider = ServiceProvider.getInstance();
         StorageService service = provider.getStorageService();
-        boolean isOperationSuccessfull = service.update(remedyId, remedyLeft);
-        rememberLastRequest(req);
-        if (isOperationSuccessfull) {
+        boolean isOperationSuccessful = service.update(remedyId, remedyLeft);
+        if (isOperationSuccessful) {
             resp.sendRedirect(GO_TO_REMEDY_ADMINISTRATION+PARAM_NAME_OPERATION_RESULT + "=" + PARAM_VALUE_OPERATION_RESULT_SUCCESS);
         }
         else {

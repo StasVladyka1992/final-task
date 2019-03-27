@@ -24,7 +24,6 @@ public class UserAuthorization implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException {
         HttpSession session = req.getSession(true);
-        rememberLastRequest(req);
         User user;
         String email = req.getParameter(PARAM_NAME_EMAIL);
         String password = req.getParameter(PARAM_NAME_PASSWORD);

@@ -27,19 +27,26 @@ public final class JSPNavigation {
     public static final String BASKET = "/WEB-INF/jsp/secure/client/basket.jsp";
     public static final String REMEDY_INFO = "/WEB-INF/jsp/secure/client/remedy_info.jsp";
     public static final String ORDER_STATUS = "/WEB-INF/jsp/secure/client/order_status.jsp";
-    public static final String PRESCRIPTION_APPLICATION_LIST = "/WEB-INF/jsp/secure/client/prescription_application_list.jsp";
-    public static final String CLIENT_WRITTEN_PRESCRIPTION_LIST = "/WEB-INF/jsp/secure/client/client_written_prescription_list.jsp";
-    public static final String CLIENT_REJECTED_APPLICATION_LIST = "/WEB-INF/jsp/secure/client/client_rejected_application_list.jsp";
-    public static final String CLIENT_UNHANDLED_ORDER_LIST = "/WEB-INF/jsp/secure/client/client_unhandled_order_list.jsp";
+    public static final String PRESCRIPTION_APPLICATION_LIST =
+            "/WEB-INF/jsp/secure/client/prescription_application_list.jsp";
+    public static final String CLIENT_WRITTEN_PRESCRIPTION_LIST =
+            "/WEB-INF/jsp/secure/client/client_written_prescription_list.jsp";
+    public static final String CLIENT_REJECTED_APPLICATION_LIST =
+            "/WEB-INF/jsp/secure/client/client_rejected_application_list.jsp";
+    public static final String CLIENT_UNHANDLED_ORDER_LIST =
+            "/WEB-INF/jsp/secure/client/client_unhandled_order_list.jsp";
     public static final String CLIENT_HANDLED_ORDER_LIST = "/WEB-INF/jsp/secure/client/client_handled_order_list.jsp";
     public static final String GO_TO_REMEDY = "/secure?command=go_to_remedy";
     public static final String SHOW_REMEDY_INFO = "/secure?command=show_remedy_info&";
     public static final String GO_TO_CLIENT_SEARCHING_PAGE = "/secure?command=go_to_client_searching_page&";
     public static final String GO_TO_BASKET = "/secure?command=go_to_basket&";
     public static final String GO_TO_ORDER_STATUS = "/secure?command=go_to_order_status&";
-    public static final String GO_TO_PRESCRIPTION_APPLICATION_LIST = "/secure?command=go_to_prescription_application_list&";
-    public static final String GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST = "/secure?command=go_to_client_written_prescription_list&";
-    public static final String GO_TO_CLIENT_REJECTED_APPLICATION_LIST = "/secure?command=go_to_client_rejected_application_list&";
+    public static final String GO_TO_PRESCRIPTION_APPLICATION_LIST =
+            "/secure?command=go_to_prescription_application_list&";
+    public static final String GO_TO_CLIENT_WRITTEN_PRESCRIPTION_LIST =
+            "/secure?command=go_to_client_written_prescription_list&";
+    public static final String GO_TO_CLIENT_REJECTED_APPLICATION_LIST =
+            "/secure?command=go_to_client_rejected_application_list&";
     public static final String GO_TO_CLIENT_UNHANDLED_ORDER_LIST = "/secure?command=go_to_client_unhandled_order_list&";
     public static final String GO_TO_CLIENT_HANDLED_ORDER_LIST = "/secure?command=go_to_client_handled_order_list&";
     //doctor

@@ -29,12 +29,12 @@ public class ShowWrittenPrescription implements Command {
         HttpSession session = req.getSession(true);
         User user = (User) session.getAttribute(PARAM_NAME_USER);
         int currentPage = getCurrentPage(req);
-        int doctotrId = user.getId();
+        int doctorId = user.getId();
         int startPosition = calculateStartPosition(currentPage);
         EntitySearchingResult entitySearchingResult;
         ServiceProvider provider = ServiceProvider.getInstance();
         ReceiptServiceImpl service = provider.getReceiptService();
-        entitySearchingResult = service.findWrittenPrescriptions(doctotrId, startPosition, OFFSET);
+        entitySearchingResult = service.findWrittenPrescriptions(doctorId, startPosition, OFFSET);
         setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_RECEIPT_LIST);
         resp.sendRedirect(GO_TO_PRESCRIPTION_LIST);
     }

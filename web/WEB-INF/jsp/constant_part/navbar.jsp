@@ -5,7 +5,6 @@
 <fmt:setBundle basename="localization" var="loc"/>
 
 <fmt:message bundle="${loc}" key="main" var="main"/>
-<fmt:message bundle="${loc}" key="about" var="about"/>
 <fmt:message bundle="${loc}" key="language" var="language"/>
 <fmt:message bundle="${loc}" key="registration" var="registration"/>
 <fmt:message bundle="${loc}" key="signIn" var="signIn"/>
@@ -38,9 +37,6 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="/index.jsp">${main}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">${about}</a>
                 </li>
             </ul>
         </div>

@@ -14,15 +14,6 @@ import by.vladyka.epam.service.exception.ServiceException;
  * on 21.03.2019 at 12:35
  **/
 public class RemedyOrderServiceImpl implements RemedyOrderService {
-    @Override
-    public boolean delete(int id) throws ServiceException {
-        return false;
-    }
-
-    @Override
-    public RemedyOrder findById(int id) throws ServiceException {
-        return null;
-    }
 
     @Override
     public boolean create(OrderDto orderDto, int clientOrderId) throws ServiceException {
@@ -37,6 +28,7 @@ public class RemedyOrderServiceImpl implements RemedyOrderService {
         return result;
     }
 
+    @Override
     public boolean setReceipts(ClientOrder order) throws ServiceException {
         DAOProvider provider = DAOProvider.getInstance();
         RemedyOrderDAO dao = provider.getSQLRemedyOrderDAO();
@@ -54,5 +46,15 @@ public class RemedyOrderServiceImpl implements RemedyOrderService {
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean delete(int id) throws ServiceException {
+        return false;
+    }
+
+    @Override
+    public RemedyOrder findById(int id) throws ServiceException {
+        return null;
     }
 }

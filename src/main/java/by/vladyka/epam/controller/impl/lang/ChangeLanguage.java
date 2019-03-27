@@ -23,9 +23,4 @@ public class ChangeLanguage implements Command {
         String url = (String) session.getAttribute(PARAM_NAME_PREVIOUS_URL);
         resp.sendRedirect(url);
     }
-
-    @Override
-    public void rememberLastRequest(HttpServletRequest req) {
-        /* no implementation */
-    }
 }

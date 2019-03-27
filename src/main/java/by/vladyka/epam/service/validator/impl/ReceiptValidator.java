@@ -21,8 +21,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkDoctorAddingDataAndSetMessage(int id, int doctorId, Date expireDate, Date prescriptionDate,
-                                                      String message,
-                                                      Receipt.Status status) {
+                                                      String message, Receipt.Status status) {
         boolean isIdCorrect = checkId(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isExpireDateCorrect = checkDateAndSetMessage(expireDate);
@@ -32,18 +31,18 @@ public final class ReceiptValidator extends AbstractValidator {
         }
         boolean isMessageCorrect = checkMessageAndSetMessage(message);
         boolean isStatusCorrect = checkStatusAndSetMessage(status);
-        return isIdCorrect && isDoctorIdCorrect && isExpireDateCorrect && isPrescriptionDateCorrect && isMessageCorrect &&
-                isStatusCorrect;
+        return isIdCorrect && isDoctorIdCorrect && isExpireDateCorrect && isPrescriptionDateCorrect &&
+                isMessageCorrect && isStatusCorrect;
     }
 
-    public boolean checkRejectionDataAndSetMessage(int id, int doctorId, String message){
+    public boolean checkRejectionDataAndSetMessage(int id, int doctorId, String message) {
         boolean isIdCorrect = checkId(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isMessageCorrect = checkMessageAndSetMessage(message);
         return isIdCorrect && isMessageCorrect && isDoctorIdCorrect;
     }
 
-    public boolean checkMessageAndSetMessage (String message){
+    public boolean checkMessageAndSetMessage(String message) {
         Matcher matcher = MESSAGE.matcher(message);
         if (!matcher.find()) {
             addIncorrectDataMessage(INCORRECT_MESSAGE);
@@ -84,6 +83,7 @@ public final class ReceiptValidator extends AbstractValidator {
         }
         return result;
     }
+
     public boolean checkDateAndSetMessage(Date date) {
         boolean result = DATE.matcher(String.valueOf(date.getTime())).find() ? true : false;
         if (!result) {
@@ -91,6 +91,7 @@ public final class ReceiptValidator extends AbstractValidator {
         }
         return result;
     }
+
     public boolean checkReceiptIdAndSetMessage(int id) {
         boolean result = checkId(id);
         if (!result) {

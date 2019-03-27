@@ -21,7 +21,6 @@ public final class RemedyValidator extends AbstractValidator {
         return isNameCorrect && isDescriptionCorrect && isPriceCorrect && isReceiptRequiredCorrect;
     }
 
-
     public boolean checkNameAndSetMessage(String name) {
         Matcher matcher = REMEDY_NAME.matcher(name);
         if (matcher.find()) {

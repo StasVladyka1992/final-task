@@ -1,6 +1,5 @@
 package by.vladyka.epam.service.validator;
 
-import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.INCORRECT_ID;
 import static by.vladyka.epam.service.validator.util.RegexValidationPattern.ID;
 
 /**
@@ -8,9 +7,9 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.ID;
  * on 01.03.2019 at 16:30
  **/
 public abstract class AbstractValidator {
-    private StringBuilder incorrectDataMessages = new StringBuilder();
+    private StringBuffer incorrectDataMessages = new StringBuffer();
 
-    public StringBuilder getIncorrectDataMessages() {
+    public StringBuffer getIncorrectDataMessages() {
         return incorrectDataMessages;
     }
 

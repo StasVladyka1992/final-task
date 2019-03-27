@@ -3,13 +3,11 @@ package by.vladyka.epam.service.impl;
 import by.vladyka.epam.dao.DAOProvider;
 import by.vladyka.epam.dao.StorageDAO;
 import by.vladyka.epam.dao.exception.DAOException;
+import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Storage;
 import by.vladyka.epam.service.StorageService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.StorageValidator;
-import by.vladyka.epam.dto.EntitySearchingResult;
-
-import java.util.List;
 
 /**
  * Created by Vladyka Stas
@@ -24,13 +22,13 @@ public class StorageServiceImpl implements StorageService {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
-        boolean isAddingSuccessfull;
+        boolean isAddingSuccessful;
         try {
-            isAddingSuccessfull = daoProvider.getSQLStorageDAO().update(remedyId, remedyLeft);
+            isAddingSuccessful = daoProvider.getSQLStorageDAO().update(remedyId, remedyLeft);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        return isAddingSuccessfull;
+        return isAddingSuccessful;
     }
 
     @Override
@@ -39,13 +37,13 @@ public class StorageServiceImpl implements StorageService {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
-        boolean isAddingSuccessfull;
+        boolean isAddingSuccessful;
         try {
-            isAddingSuccessfull = daoProvider.getSQLStorageDAO().create(remedyId, remedyLeft);
+            isAddingSuccessful = daoProvider.getSQLStorageDAO().create(remedyId, remedyLeft);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        return isAddingSuccessfull;
+        return isAddingSuccessful;
     }
 
     @Override
@@ -72,7 +70,8 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public EntitySearchingResult<Storage> findFromStartPosition(String name, int start, int offset) throws ServiceException {
+    public EntitySearchingResult<Storage> findFromStartPosition(String name, int start, int offset) throws
+            ServiceException {
         boolean validationResult = validator.checkNameAndSetMessage(name);
         if (!validationResult) {
             return null;

@@ -20,7 +20,6 @@ public final class Pagination {
         int fullPages = remediesNumber / OFFSET;
         int notFullPages = remediesNumber % OFFSET;
         int result = 1;
-
         if (fullPages >= 1) {
             result = fullPages;
             if (notFullPages != 0) {
@@ -40,7 +39,8 @@ public final class Pagination {
         return reqSearchingName == null ? sessionSearchingName : reqSearchingName;
     }
 
-    public static void setSessionPaginationParams(HttpSession session, int currentPage, EntitySearchingResult searchingResult,
+    public static void setSessionPaginationParams(HttpSession session, int currentPage,
+                                                  EntitySearchingResult searchingResult,
                                                   String paramListName) {
         session.setAttribute(PARAM_NAME_CURRENT_PAGE, currentPage);
         session.setAttribute(paramListName, searchingResult.getFoundEntities());

@@ -18,6 +18,7 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.USER_E
 public class UserServiceImpl implements UserService {
     private UserValidator validator = new UserValidator();
 
+    @Override
     public boolean registration(String email, String firstName, String lastName, String password, String phone,
                                 User.UserRole role) throws ServiceException {
         //TODO может происходить одновременная регистрация 2 разных пользователей с одной и той же почтой
@@ -27,17 +28,17 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         DAOProvider daoProvider = DAOProvider.getInstance();
-        boolean isRegistrationPerfomed;
+        boolean isRegistrationPerformed;
         try {
-            isRegistrationPerfomed = daoProvider.getSQLUserDAO().registration(email, firstName, lastName,
+            isRegistrationPerformed = daoProvider.getSQLUserDAO().registration(email, firstName, lastName,
                     password, phone, role);
-            if (!isRegistrationPerfomed) {
+            if (!isRegistrationPerformed) {
                 validator.addIncorrectDataMessage(USER_EXIST);
             }
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        return isRegistrationPerfomed;
+        return isRegistrationPerformed;
     }
 
     @Override
@@ -57,7 +58,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public boolean update(int id, String email, String firstName, String lastName,  String phone)
+    @Override
+    public boolean update(int id, String email, String firstName, String lastName, String phone)
             throws ServiceException {
         boolean isRegistrationDataCorrect = validator.checkUpdateDataAndSetMessage(email, firstName, lastName, phone);
         if (!isRegistrationDataCorrect) {

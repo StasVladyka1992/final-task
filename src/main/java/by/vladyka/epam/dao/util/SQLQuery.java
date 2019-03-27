@@ -81,7 +81,8 @@ public final class SQLQuery {
             " status='UNHANDLED'";
     public static final String QUERY_FIND_UNHANDLED_ORDERS = "SELECT c.id, c.createdOn, c.status, u.id," +
             " r.id, r.remedyId, r.quantity FROM client_orders c LEFT JOIN users u ON" +
-            " c.clientId = u.id LEFT JOIN remedy_orders r ON r.clientOrderId=c.id WHERE c.status = 'UNHANDLED' LIMIT ?,?";
+            " c.clientId = u.id LEFT JOIN remedy_orders r ON r.clientOrderId=c.id WHERE c.status = 'UNHANDLED'" +
+            " LIMIT ?,?";
     public static final String QUERY_COUNT_UNHANDLED_CLIENT_ORDERS = "SELECT COUNT(id) FROM CLIENT_ORDERS WHERE" +
             " status='UNHANDLED' AND clientId=";
     public static final String QUERY_FIND_UNHANDLED_CLIENT_ORDERS = "SELECT id, createdOn, status, sum FROM" +

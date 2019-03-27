@@ -19,7 +19,6 @@ public interface AbstractDAO<T extends AbstractEntity> {
 
     boolean deleteById(int id) throws DAOException;
 
-
     default boolean deleteHelper(int id, String query, ConnectionPool pool) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -29,9 +28,7 @@ public interface AbstractDAO<T extends AbstractEntity> {
             ps = con.prepareStatement(query);
             ps.setInt(1, id);
             deleteResult = ps.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } catch (ConnectionPoolException ex) {
+        } catch (SQLException | ConnectionPoolException ex) {
             throw new DAOException(ex);
         } finally {
             pool.closeConnection(con, ps);

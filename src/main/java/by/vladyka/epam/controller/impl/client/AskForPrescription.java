@@ -24,11 +24,11 @@ import static by.vladyka.epam.controller.util.ParameterValue.PARAM_VALUE_APPLICA
 public class AskForPrescription implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServiceException, IOException, ServletException {
-        int remedyId = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
         User user = (User) req.getSession(true).getAttribute(PARAM_NAME_USER);
         int clientId = user.getId();
         ServiceProvider provider = ServiceProvider.getInstance();
         ReceiptServiceImpl service = provider.getReceiptService();
+        int remedyId = Integer.parseInt(req.getParameter(PARAM_NAME_ID));
         boolean result = provider.getReceiptService().createAppliance(clientId, remedyId);
         ReceiptValidator validator = service.getValidator();
         String url = formNextUrl(result, validator, PARAM_NAME_OPERATION_RESULT, PARAM_VALUE_APPLICATION_ACCEPTED,

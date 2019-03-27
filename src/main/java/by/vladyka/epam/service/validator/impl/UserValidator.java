@@ -20,8 +20,8 @@ public final class UserValidator extends AbstractValidator {
         return isEmailCorrect && isPasswordCorrect;
     }
 
-    public boolean checkRegistrationDataAndSetMessage(String email, String firstName, String lastName, String password, String phone,
-                                                      User.UserRole role) {
+    public boolean checkRegistrationDataAndSetMessage(String email, String firstName, String lastName, String password,
+                                                      String phone, User.UserRole role) {
         boolean isCommonUpdateAndRegistrationDataCorrect = checkUpdateDataAndSetMessage(email,
                 firstName, lastName, phone);
         boolean isRoleCorrect = checkRoleAndSetMessage(role);

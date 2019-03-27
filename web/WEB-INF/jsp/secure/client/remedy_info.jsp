@@ -70,10 +70,13 @@
         <button type="button" class="btn btn-sm btn-primary mr-2" data-toggle="modal"
                 data-target="#addToBasket">${addToBasket}
         </button>
-        <a href="/secure?command=go_to_client_searching_page" type="button"
-           class="btn btn-sm btn-primary">${toRemedySearching}</a>
     </form>
 </div>
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=go_to_client_searching_page">${toRemedySearching}</a>
+</div>
+
+
 <div class="modal fade" id="addToBasket">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
