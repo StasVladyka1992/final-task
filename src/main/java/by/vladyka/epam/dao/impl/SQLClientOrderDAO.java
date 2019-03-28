@@ -76,12 +76,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             ClientOrder order;
             while (rs.next()) {
                 order = new ClientOrder();
-                order.setId(rs.getInt(1));
-                order.setCreatedOn(new Date(rs.getTimestamp(2).getTime()));
-                Timestamp ts = rs.getTimestamp(3);
-                if (ts != null) {
-                    order.setFinishedOn(new Date(ts.getTime()));
-                }
+                getCreatedOnDate(rs, order);
                 order.setStatus(ClientOrder.ClientOrderStatus.valueOf(rs.getString(4)));
                 order.setSum(rs.getDouble(5));
                 clientOrders.getFoundEntities().add(order);
@@ -327,11 +322,6 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
     }
 
     @Override
-    public boolean deleteById(int id) {
-        return false;
-    }
-
-    @Override
     public EntitySearchingResult<ClientOrder> findHandledOrders(int start, int offset) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -348,12 +338,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
             while (rs.next()) {
                 ClientOrder order = new ClientOrder();
                 User user = new User();
-                order.setId(rs.getInt(1));
-                order.setCreatedOn(new Date(rs.getTimestamp(2).getTime()));
-                Timestamp time = rs.getTimestamp(3);
-                if (time != null) {
-                    order.setFinishedOn(new Date(time.getTime()));
-                }
+                getCreatedOnDate(rs, order);
                 user.setId(rs.getInt(4));
                 order.setClient(user);
                 order.setStatus(ClientOrder.ClientOrderStatus.valueOf(rs.getString(5)));
@@ -369,9 +354,13 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
         return clientOrders;
     }
 
-    @Override
-    public ClientOrder findById(int id) {
-        return null;
+    private void getCreatedOnDate(ResultSet rs, ClientOrder order) throws SQLException {
+        order.setId(rs.getInt(1));
+        order.setCreatedOn(new Date(rs.getTimestamp(2).getTime()));
+        Timestamp time = rs.getTimestamp(3);
+        if (time != null) {
+            order.setFinishedOn(new Date(time.getTime()));
+        }
     }
 
     private int getLastInsertId() throws DAOException {

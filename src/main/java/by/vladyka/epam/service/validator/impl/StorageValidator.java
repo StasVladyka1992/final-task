@@ -4,9 +4,8 @@ import by.vladyka.epam.service.validator.AbstractValidator;
 
 import java.util.regex.Matcher;
 
-import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.*;
+import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.INCORRECT_QUANTITY;
 import static by.vladyka.epam.service.validator.util.RegexValidationPattern.QUANTITY;
-import static by.vladyka.epam.service.validator.util.RegexValidationPattern.REMEDY_NAME;
 
 /**
  * Created by Vladyka Stas
@@ -15,17 +14,10 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.REME
 public final class StorageValidator extends AbstractValidator {
 
     public boolean checkAddingDataAndSetMessage(int remedyId, int remedyLeft) {
+
         boolean isQuantityCorrect = checkQuantityAndSetMessage(remedyLeft);
         boolean isIdCorrect = checkId(remedyId);
         return isQuantityCorrect && isIdCorrect;
-    }
-
-    public boolean checkStorageIdAndSetMessage(int id) {
-        boolean result = checkId(id);
-        if (!result) {
-            addIncorrectDataMessage(INCORRECT_ID);
-        }
-        return result;
     }
 
     public boolean checkQuantityAndSetMessage(int quantity) {
@@ -37,12 +29,4 @@ public final class StorageValidator extends AbstractValidator {
         return false;
     }
 
-    public boolean checkNameAndSetMessage(String name) {
-        Matcher matcher = REMEDY_NAME.matcher(name);
-        if (matcher.find()) {
-            return true;
-        }
-        addIncorrectDataMessage(INCORRECT_REMEDY_NAME);
-        return false;
-    }
 }

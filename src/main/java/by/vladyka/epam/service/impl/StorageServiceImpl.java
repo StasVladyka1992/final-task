@@ -18,11 +18,12 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public boolean update(int remedyId, int remedyLeft) throws ServiceException {
+        validator.cleanBuffer();
         if (!validator.checkAddingDataAndSetMessage(remedyId, remedyLeft)) {
             return false;
         }
-        DAOProvider daoProvider = DAOProvider.getInstance();
         boolean isAddingSuccessful;
+        DAOProvider daoProvider = DAOProvider.getInstance();
         try {
             isAddingSuccessful = daoProvider.getSQLStorageDAO().update(remedyId, remedyLeft);
         } catch (DAOException e) {
@@ -33,6 +34,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public boolean create(int remedyId, int remedyLeft) throws ServiceException {
+        validator.cleanBuffer();
         if (!validator.checkAddingDataAndSetMessage(remedyId, remedyLeft)) {
             return false;
         }
@@ -46,12 +48,6 @@ public class StorageServiceImpl implements StorageService {
         return isAddingSuccessful;
     }
 
-    @Override
-    public boolean delete(int id) throws ServiceException {
-        return false;
-    }
-
-    @Override
     public Storage findById(int id) throws ServiceException {
         boolean validationResult;
         validationResult = validator.checkId(id);
@@ -72,11 +68,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public EntitySearchingResult<Storage> findFromStartPosition(String name, int start, int offset) throws
             ServiceException {
-        boolean validationResult = validator.checkNameAndSetMessage(name);
-        if (!validationResult) {
-            return null;
-        }
-        EntitySearchingResult entitySearchingResult;
+        EntitySearchingResult<Storage> entitySearchingResult;
         DAOProvider daoProvider = DAOProvider.getInstance();
         try {
             entitySearchingResult = daoProvider.getSQLStorageDAO().findFromStartPosition(name, start, offset);

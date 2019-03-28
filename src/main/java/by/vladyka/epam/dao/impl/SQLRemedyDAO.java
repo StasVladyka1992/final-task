@@ -44,7 +44,8 @@ public class SQLRemedyDAO implements RemedyDAO {
     }
 
     @Override
-    public boolean update(int id, String name, String description, double price, boolean receiptRequired) throws DAOException {
+    public boolean update(int id, String name, String description, double price, boolean receiptRequired)
+            throws DAOException {
         String query = QUERY_UPDATE_REMEDY + id;
         return queryExecutor(query, name, description, price,
                 receiptRequired);
@@ -83,5 +84,4 @@ public class SQLRemedyDAO implements RemedyDAO {
         }
         return insertionResult == 1;
     }
-
 }

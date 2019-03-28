@@ -28,14 +28,13 @@ public final class SQLQuery {
     public static final String QUERY_GET_FULL_STORAGE_POSITION = "SELECT r.id, r.name, r.price, r.receiptRequired," +
             " r.description, s.remedyLeft, s.id FROM remedies AS r LEFT JOIN storage AS s on r.id=s.remedyId" +
             " WHERE r.id=?";
-    public static final String QUERY_DELETE_STORAGE_POSITION = "DELETE FROM storage WHERE id=?";
     public static final String QUERY_UPDATE_STORAGE_POSITION = "UPDATE storage SET remedyLeft=? WHERE remedyId=?";
     public static final String QUERY_REDUCE_STORAGE_QUANTITY = "UPDATE storage SET remedyLeft=remedyLeft-? WHERE" +
             " remedyId =?";
     //receipt's queries
     public static final String QUERY_CREATE_RECEIPT = "INSERT INTO RECEIPTS (clientId, remedyId) VALUES (?,?)";
-    public static final String QUERY_FIND_RECEIPT_BY_CLIENT_ID_AND_REMEDY_ID = "SELECT expireDate FROM receipts" +
-            " WHERE clientId=? and remedyId=?";
+    public static final String QUERY_FIND_RECEIPT_BY_CLIENT_ID_AND_REMEDY_ID = "SELECT expireDate, status" +
+            " FROM receipts WHERE clientId=? and remedyId=?";
     public static final String QUERY_COUNT_UNHANDLED_APPLICATIONS = "SELECT COUNT(id) FROM RECEIPTS WHERE" +
             " status='NONE'";
     public static final String QUERY_FIND_UNHANDLED_APPLICATIONS = "SELECT rec.id, rec.status, u.firstName," +

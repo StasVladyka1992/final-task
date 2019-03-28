@@ -21,7 +21,7 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkDoctorAddingDataAndSetMessage(int id, int doctorId, Date expireDate, Date prescriptionDate,
-                                                      String message, Receipt.Status status) {
+                                                      String message) {
         boolean isIdCorrect = checkId(id);
         boolean isDoctorIdCorrect = checkDoctorIdAndSetMessage(doctorId);
         boolean isExpireDateCorrect = checkDateAndSetMessage(expireDate);
@@ -30,9 +30,8 @@ public final class ReceiptValidator extends AbstractValidator {
             addIncorrectDataMessage(INCORRECT_RESIDENCE_BETWEEN_DATES);
         }
         boolean isMessageCorrect = checkMessageAndSetMessage(message);
-        boolean isStatusCorrect = checkStatusAndSetMessage(status);
         return isIdCorrect && isDoctorIdCorrect && isExpireDateCorrect && isPrescriptionDateCorrect &&
-                isMessageCorrect && isStatusCorrect;
+                isMessageCorrect;
     }
 
     public boolean checkRejectionDataAndSetMessage(int id, int doctorId, String message) {
@@ -42,7 +41,7 @@ public final class ReceiptValidator extends AbstractValidator {
         return isIdCorrect && isMessageCorrect && isDoctorIdCorrect;
     }
 
-    public boolean checkMessageAndSetMessage(String message) {
+    private boolean checkMessageAndSetMessage(String message) {
         Matcher matcher = MESSAGE.matcher(message);
         if (!matcher.find()) {
             addIncorrectDataMessage(INCORRECT_MESSAGE);
@@ -85,19 +84,10 @@ public final class ReceiptValidator extends AbstractValidator {
     }
 
     public boolean checkDateAndSetMessage(Date date) {
-        boolean result = DATE.matcher(String.valueOf(date.getTime())).find() ? true : false;
+        boolean result = DATE.matcher(String.valueOf(date.getTime())).find();
         if (!result) {
             addIncorrectDataMessage(INCORRECT_DATE);
         }
         return result;
     }
-
-    public boolean checkReceiptIdAndSetMessage(int id) {
-        boolean result = checkId(id);
-        if (!result) {
-            addIncorrectDataMessage(INCORRECT_ID);
-        }
-        return result;
-    }
-
 }

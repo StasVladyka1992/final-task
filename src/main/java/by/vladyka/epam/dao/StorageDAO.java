@@ -14,4 +14,6 @@ public interface StorageDAO extends AbstractDAO<Storage> {
     boolean create(int remedyId, int remedyLeft) throws DAOException;
 
     boolean update(int remedyId, int remedyLeft) throws DAOException;
+
+    Storage findById(int id) throws DAOException;
 }

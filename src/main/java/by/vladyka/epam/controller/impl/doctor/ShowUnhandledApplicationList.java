@@ -20,7 +20,7 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_RECEIPT_L
  * Created by Vladyka Stas
  * on 16.03.2019 at 15:01
  **/
-public class ShowUnhandledApplication implements Command {
+public class ShowUnhandledApplicationList implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException, IOException {
         int currentPage = getCurrentPage(req);

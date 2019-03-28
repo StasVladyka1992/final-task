@@ -14,7 +14,7 @@ import by.vladyka.epam.service.validator.impl.RemedyValidator;
 public class RemedyServiceImpl implements RemedyService {
     private RemedyValidator validator = new RemedyValidator();
 
-    @Override
+
     public Remedy findById(int id) throws ServiceException {
         boolean validationResult = validator.checkId(id);
         Remedy remedy = null;
@@ -32,6 +32,7 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public boolean update(int id, String name, String description, double price, boolean receiptRequired)
             throws ServiceException {
+        validator.cleanBuffer();
         boolean validationResult = validator.checkRemedyAddingDataAndSetMessage(name, description, price,
                 receiptRequired) && validator.checkId(id);
         if (!validationResult) {
@@ -51,6 +52,7 @@ public class RemedyServiceImpl implements RemedyService {
     @Override
     public boolean create(String name, String description, double price, boolean receiptRequired)
             throws ServiceException {
+        validator.cleanBuffer();
         if (!validator.checkRemedyAddingDataAndSetMessage(name, description, price, receiptRequired)) {
             return false;
         }
@@ -64,7 +66,6 @@ public class RemedyServiceImpl implements RemedyService {
         return isAddingSuccessful;
     }
 
-    @Override
     public boolean delete(int id) throws ServiceException {
         boolean isDeletingSuccessful = false;
         if (validator.checkId(id)) {

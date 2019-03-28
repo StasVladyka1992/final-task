@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Stas Vladyka
  * @version 1.0
  **/
-public interface ReceiptService extends AbstractService<Receipt> {
+public interface ReceiptService<T extends Receipt> {
 
     /**
      * Rejects client's prescription application
@@ -40,7 +40,7 @@ public interface ReceiptService extends AbstractService<Receipt> {
      * @see Receipt
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws ServiceException;
+    EntitySearchingResult<T> findUnhandledApplications(int start, int offset) throws ServiceException;
 
     /**
      * Finds unhandled prescription applications for client
@@ -55,7 +55,7 @@ public interface ReceiptService extends AbstractService<Receipt> {
      * @see Receipt
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Receipt> findClientUnhandledApplications(int userId, int start, int offset)
+    EntitySearchingResult<T> findClientUnhandledApplications(int userId, int start, int offset)
             throws ServiceException;
 
     /**
@@ -71,7 +71,7 @@ public interface ReceiptService extends AbstractService<Receipt> {
      * @see Receipt
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Receipt> findClientWrittenPrescriptions(int userId, int start, int offset)
+    EntitySearchingResult<T> findClientWrittenPrescriptions(int userId, int start, int offset)
             throws ServiceException;
 
     /**
@@ -87,7 +87,7 @@ public interface ReceiptService extends AbstractService<Receipt> {
      * @see Receipt
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Receipt> findClientRejectedApplications(int userId, int start, int offset)
+    EntitySearchingResult<T> findClientRejectedApplications(int userId, int start, int offset)
             throws ServiceException;
 
     /**
@@ -103,7 +103,7 @@ public interface ReceiptService extends AbstractService<Receipt> {
      * @see Receipt
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Receipt> findRejectedApplications(int doctorId, int start, int offset)
+    EntitySearchingResult<T> findRejectedApplications(int doctorId, int start, int offset)
             throws ServiceException;
 
     /**
@@ -119,7 +119,7 @@ public interface ReceiptService extends AbstractService<Receipt> {
      * @see Receipt
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Receipt> findWrittenPrescriptions(int doctorId, int start, int offset)
+    EntitySearchingResult<T> findWrittenPrescriptions(int doctorId, int start, int offset)
             throws ServiceException;
 
     /**

@@ -5,7 +5,6 @@ import by.vladyka.epam.dao.RemedyOrderDAO;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dto.OrderDto;
 import by.vladyka.epam.entity.ClientOrder;
-import by.vladyka.epam.entity.RemedyOrder;
 import by.vladyka.epam.service.RemedyOrderService;
 import by.vladyka.epam.service.exception.ServiceException;
 
@@ -37,15 +36,5 @@ public class RemedyOrderServiceImpl implements RemedyOrderService {
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
-    }
-
-    @Override
-    public boolean delete(int id) throws ServiceException {
-        return false;
-    }
-
-    @Override
-    public RemedyOrder findById(int id) throws ServiceException {
-        return null;
     }
 }

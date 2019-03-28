@@ -6,6 +6,8 @@ import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.StorageService;
 import by.vladyka.epam.service.exception.ServiceException;
+import by.vladyka.epam.service.impl.StorageServiceImpl;
+import by.vladyka.epam.service.validator.impl.StorageValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +36,15 @@ public class FindStoragePosition implements Command {
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        HttpSession session = req.getSession();
-        session.setAttribute(PARAM_NAME_REMEDY_NAME, remedyName);
-        setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_STORAGE_LIST);
-        resp.sendRedirect(GO_TO_REMEDY);
+        if (entitySearchingResult == null) {
+            StorageValidator validator = ((StorageServiceImpl) service).getValidator();
+            String incorrectMessage = validator.getIncorrectDataMessages().toString();
+            resp.sendRedirect(GO_TO_REMEDY + incorrectMessage);
+        } else {
+            HttpSession session = req.getSession();
+            session.setAttribute(PARAM_NAME_REMEDY_NAME, remedyName);
+            setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_STORAGE_LIST);
+            resp.sendRedirect(GO_TO_REMEDY);
+        }
     }
 }

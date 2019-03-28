@@ -25,16 +25,6 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
-    public RemedyOrder findById(int id) {
-        return null;
-    }
-
-    @Override
-    public boolean deleteById(int id) {
-        return false;
-    }
-
-    @Override
     public boolean create(OrderDto orderDto, int clientOrderId) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -45,8 +35,8 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
             String[] commands = builtInsertCommands(orderDto, clientOrderId);
             ps = con.prepareStatement(commands[0]);
             if (commands.length > 1) {
-                for (int i = 0; i < commands.length; i++) {
-                    ps.addBatch(commands[i]);
+                for (String command : commands) {
+                    ps.addBatch(command);
                 }
                 int[] results = ps.executeBatch();
                 for (int i = 0; i < commands.length; i++) {
@@ -101,8 +91,8 @@ public class SQLRemedyOrderDAO implements RemedyOrderDAO {
                 ps.addBatch();
             }
             batchResult = ps.executeBatch();
-            for (int i = 0; i < batchResult.length; i++) {
-                if (batchResult[i] != 1) {
+            for (int i1 : batchResult) {
+                if (i1 != 1) {
                     throw new SQLException("Not all receipts were set to remedy orders");
                 }
             }

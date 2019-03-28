@@ -9,7 +9,7 @@ import by.vladyka.epam.service.exception.ServiceException;
  * @author Stas Vladyka
  * @version 1.0
  **/
-public interface RemedyService extends AbstractService<Remedy> {
+public interface RemedyService<T extends Remedy> {
 
     /**
      * Updates remedy data
@@ -40,4 +40,22 @@ public interface RemedyService extends AbstractService<Remedy> {
      */
     boolean create(String name, String description, double price, boolean receiptRequired)
             throws ServiceException;
+
+    /**
+     * Finds remedy with specified id
+     *
+     * @param id remedy id
+     * @return remedy with specified id
+     * @throws ServiceException if there was exception during interaction with data source
+     */
+    T findById(int id) throws ServiceException;
+
+    /**
+     * Deletes remedy with specified id
+     *
+     * @param id remedy id
+     * @return result of remedy deleting true - remedy is deleted, false otherwise
+     * @throws ServiceException
+     */
+    boolean delete(int id) throws ServiceException;
 }

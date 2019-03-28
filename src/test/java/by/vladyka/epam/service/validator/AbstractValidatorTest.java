@@ -4,18 +4,18 @@ import by.vladyka.epam.service.validator.impl.UserValidator;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Vladyka Stas
  * on 16.03.2019 at 11:33
  **/
 public class AbstractValidatorTest {
-    private Set<Integer> correctValues = new HashSet<Integer>();
-    private Set<Integer> incorrectValues = new HashSet<Integer>();
+    private List<Integer> correctValues = new ArrayList<>();
+    private List<Integer> incorrectValues = new ArrayList<>();
 
     @Before
     public void setUp() {

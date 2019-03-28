@@ -213,17 +213,21 @@ public class SQLReceiptDAO implements ReceiptDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        int result = 0;
         try {
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_RECEIPT_BY_CLIENT_ID_AND_REMEDY_ID);
             setClientIdAndRemedyIdToStatement(ps, clientId, remedyId);
             rs = ps.executeQuery();
-            if (rs.next()) {
-                Date expireDate = rs.getDate(1);
-                if (expireDate == null) {
-                    return 1;
-                } else if ((expireDate.getTime() - new Date().getTime()) >= 0) {
-                    return 2;
+            while (rs.next()) {
+                Timestamp expireDate = rs.getTimestamp(1);
+                Receipt.Status status = Receipt.Status.valueOf(rs.getString(2));
+                if (expireDate == null && status == Receipt.Status.NONE) {
+                    result = 1;
+                    break;
+                } else if (expireDate!=null && (expireDate.getTime() - new Date().getTime()) >= 0) {
+                    result = 2;
+                    break;
                 }
             }
         } catch (SQLException | ConnectionPoolException ex) {
@@ -231,7 +235,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-        return 0;
+        return result;
     }
 
     @Override
@@ -326,7 +330,8 @@ public class SQLReceiptDAO implements ReceiptDAO {
         ps.setInt(2, remedyId);
     }
 
-    private void setClientIdStartOffsetToStatement(PreparedStatement ps, int clientId, int start, int offset) throws SQLException {
+    private void setClientIdStartOffsetToStatement(PreparedStatement ps, int clientId, int start, int offset)
+            throws SQLException {
         ps.setInt(1, clientId);
         ps.setInt(2, start);
         ps.setInt(3, offset);
@@ -352,15 +357,4 @@ public class SQLReceiptDAO implements ReceiptDAO {
         }
         return foundReceiptsNumber;
     }
-
-    @Override
-    public Receipt findById(int id) {
-        return null;
-    }
-
-    @Override
-    public boolean deleteById(int id) {
-        return false;
-    }
-
 }

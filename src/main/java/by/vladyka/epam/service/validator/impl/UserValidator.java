@@ -17,6 +17,7 @@ import static by.vladyka.epam.service.validator.util.RegexValidationPattern.*;
 public final class UserValidator extends AbstractValidator {
 
     public boolean checkAuthorizationDataAndSetMessage(String email, String password) {
+
         boolean isEmailCorrect = checkEmailAndSetMessage(email);
         boolean isPasswordCorrect = checkPasswordAndSetMessage(password);
         return isEmailCorrect && isPasswordCorrect;
@@ -24,6 +25,7 @@ public final class UserValidator extends AbstractValidator {
 
     public boolean checkRegistrationDataAndSetMessage(Map<String, String> userInfo, User.UserRole role,
                                                       String password) {
+
         boolean isCommonUpdateAndRegistrationDataCorrect = checkUpdateDataAndSetMessage(userInfo);
         boolean isRoleCorrect = checkRoleAndSetMessage(role);
         boolean isPasswordCorrect = checkPasswordAndSetMessage(password);
@@ -31,6 +33,7 @@ public final class UserValidator extends AbstractValidator {
     }
 
     public boolean checkUpdateDataAndSetMessage(Map<String, String> userInfo) {
+
         boolean isEmailCorrect = checkEmailAndSetMessage(userInfo.get(PARAM_NAME_EMAIL));
         boolean isFirstNameCorrect = checkNameAndSetMessage(userInfo.get(PARAM_NAME_FIRST_NAME));
         boolean isLastNameCorrect = checkNameAndSetMessage(userInfo.get(PARAM_NAME_LAST_NAME));

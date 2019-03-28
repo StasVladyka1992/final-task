@@ -11,7 +11,7 @@ import by.vladyka.epam.service.exception.ServiceException;
  * @author Stas Vladyka
  * @version 1.0
  **/
-public interface RemedyOrderService extends AbstractService<RemedyOrder> {
+public interface RemedyOrderService {
 
     /**
      * Creates new remedy order which is a part of client order

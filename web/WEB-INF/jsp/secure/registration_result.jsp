@@ -11,8 +11,8 @@
 <fmt:message bundle="${loc}" key="registrationResult" var="registrationResult"/>
 <fmt:message bundle="${loc}" key="userMessageBeforeTable" var="userMessageBeforeTable"/>
 <fmt:message bundle="${loc}" key="userMessageAfterTable" var="userMessageAfterTable"/>
-<fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
+<fmt:message bundle="${loc}" key="firstName" var="remedyName"/>
+<fmt:message bundle="${loc}" key="lastName" var="description"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="startWork" var="startWork"/>
 
@@ -25,8 +25,8 @@
     <table class="table col-sm-10 table-bordered">
         <thead>
         <tr>
-            <th>${firstName}</th>
-            <th>${lastName}</th>
+            <th>${remedyName}</th>
+            <th>${description}</th>
             <th>${email}</th>
         </tr>
         </thead>

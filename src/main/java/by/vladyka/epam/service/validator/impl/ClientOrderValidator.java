@@ -9,7 +9,7 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.INCORR
  * Created by Vladyka Stas
  * on 21.03.2019 at 12:39
  **/
-public class ClientOrderValidator extends AbstractValidator {
+public final class ClientOrderValidator extends AbstractValidator {
     public boolean checkClientOrderIdAndSetMessage(int id) {
         boolean result = checkId(id);
         if (!result) {
@@ -17,6 +17,7 @@ public class ClientOrderValidator extends AbstractValidator {
         }
         return result;
     }
+
     public boolean checkClientIdAndSetMessage(int id) {
         boolean result = checkId(id);
         if (!result) {

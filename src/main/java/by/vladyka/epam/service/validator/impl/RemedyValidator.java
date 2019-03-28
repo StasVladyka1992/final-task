@@ -26,7 +26,9 @@ public final class RemedyValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         }
-        addIncorrectDataMessage(INCORRECT_REMEDY_NAME);
+        if (!getIncorrectDataMessages().toString().contains(INCORRECT_REMEDY_NAME)) {
+            addIncorrectDataMessage(INCORRECT_REMEDY_NAME);
+        }
         return false;
     }
 
@@ -53,15 +55,10 @@ public final class RemedyValidator extends AbstractValidator {
         if (matcher.find()) {
             return true;
         }
-        addIncorrectDataMessage(INCORRECT_DESCRIPTION);
+        if (!getIncorrectDataMessages().toString().contains(INCORRECT_DESCRIPTION)) {
+            addIncorrectDataMessage(INCORRECT_DESCRIPTION);
+        }
         return false;
     }
 
-    public boolean checkRemedyIdAndSetMessage(int id) {
-        boolean result = checkId(id);
-        if (!result) {
-            addIncorrectDataMessage(INCORRECT_ID);
-        }
-        return result;
-    }
 }

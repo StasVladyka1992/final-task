@@ -7,11 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../constant_part/navbar.jsp" %>
-<fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
+<fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
-<fmt:message bundle="${loc}" key="description" var="lastName"/>
+<fmt:message bundle="${loc}" key="description" var="description"/>
 <fmt:message bundle="${loc}" key="alter" var="alter"/>
 <fmt:message bundle="${loc}" key="yes" var="yes"/>
 <fmt:message bundle="${loc}" key="no" var="no"/>
@@ -21,6 +21,8 @@
 <fmt:message bundle="${loc}" key="add" var="add"/>
 <fmt:message bundle="${loc}" key="editRemedyInformation" var="editRemedyInformation"/>
 <fmt:message bundle="${loc}" key="back" var="back"/>
+<fmt:message bundle="${loc}" key="incorrectName" var="incorrectName"/>
+<fmt:message bundle="${loc}" key="incorrectDescription" var="incorrectDescription"/>
 
 <div class="container-fluid">
     <div class="container-fluid col-sm-8 mb-3 mt-5">
@@ -28,13 +30,13 @@
             <h3 class="text-center">${editRemedyInformation}</h3>
             <div class="form-row">
                 <div class="col-sm-6 mb-3">
-                    <label for="remedyName">${firstName}</label>
+                    <label for="remedyName">${remedyName}</label>
                     <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
                            value="${storage.remedy.name}"
                            required>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="description">${lastName}</label>
+                    <label for="description">${description}</label>
                     <input type="text" class="form-control form-control-sm" id="description"
                            name="description" value="${storage.remedy.description}" required>
                 </div>
@@ -99,7 +101,7 @@
                                 <label for="alterQuantity">${quantity}</label>
                                 <input type="number" name="remedyLeft" min="0" step="1"
                                        class="form-control form-control-sm" id="alterQuantity"
-                                       placeholder="0">
+                                       placeholder="0" value="${storage.remedyLeft}">
                             </div>
                             <button class="btn btn-sm btn-primary" type="submit">${alter}</button>
                             <input type="hidden" name="id" value="${storage.remedy.id}">
@@ -123,7 +125,7 @@
                                 <label for="newQuantity">${quantity}</label>
                                 <input type="number" name="remedyLeft" min="0" step="1"
                                        class="form-control form-control-sm"
-                                       id="newQuantity" placeholder="0">
+                                       id="newQuantity" placeholder="0" value="0">
                             </div>
                             <button class="btn btn-sm btn-primary" type="submit">${add}</button>
                             <input type="hidden" name="id" value="${storage.remedy.id}">
@@ -133,7 +135,21 @@
             </div>
         </div>
     </div>
+    <c:if test="${param.incorrectName.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${incorrectName}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.incorrectDescription.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${incorrectDescription}"/>
+        </p>
+    </c:if>
 </div>
+<div class="d-flex container-fluid justify-content-start">
+    <a href="/secure?command=go_to_remedy_administration">${back}</a>
+</div>
+
 <div class="container-fluid fixed-bottom" id="footer">
     <%@ include file="../../constant_part/footer.jsp" %>
 </div>

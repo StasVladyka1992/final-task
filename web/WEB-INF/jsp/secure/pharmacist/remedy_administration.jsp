@@ -44,6 +44,8 @@
 <fmt:message bundle="${loc}" key="remedyNotExist" var="remedyNotExist"/>
 <fmt:message bundle="${loc}" key="addNewRemedy" var="addNewRemedy"/>
 <fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
+<fmt:message bundle="${loc}" key="incorrectName" var="incorrectName"/>
+<fmt:message bundle="${loc}" key="incorrectDescription" var="incorrectDescription"/>
 
 <div class="container-fluid mb-2">
     <h5>${remedyAdministration}</h5>
@@ -111,11 +113,14 @@
             </c:if>
         </table>
     </div>
-    <%--TODO вставить другие информаторы по валидации данных--%>
-    <c:if test="${param.incorrectId.equals('true')}">
+    <c:if test="${param.incorrectName.equals('true')}">
         <p class="text-danger">
-            <c:out value="${deletingUnsuccessfull}"/>
-            <c:out value="${incorrectId}"/>
+            <c:out value="${incorrectName}"/>
+        </p>
+    </c:if>
+    <c:if test="${param.incorrectDescription.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${incorrectDescription}"/>
         </p>
     </c:if>
     <c:if test="${param.operationResult.equals('success')}">
@@ -198,17 +203,11 @@
                                     <label for="remedyName">${remedyName}</label>
                                     <input type="text" name="name" class="form-control form-control-sm" id="remedyName"
                                            required>
-                                    <%--<div class="valid-feedback">--%>
-                                    <%--Looks good!--%>
-                                    <%--</div>--%>
                                 </div>
                                 <div class="col-sm-6 mb-3">
                                     <label for="description">${description}</label>
                                     <input type="text" class="form-control form-control-sm" id="description"
                                            name="description" required>
-                                    <%--<div class="valid-feedback">--%>
-                                    <%--Looks good!--%>
-                                    <%--</div>--%>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -218,18 +217,12 @@
                                         <option selected value="false">${no}</option>
                                         <option value="true">${yes}</option>
                                     </select>
-                                    <%--<div class="valid-feedback">--%>
-                                    <%--Please provide a valid state.--%>
-                                    <%--</div>--%>
                                 </div>
                                 <div class="col-sm-6 mb-3">
                                     <label for="price">${price}</label>
                                     <input type="number" name="price" min="0.00" max="9999.99" step="0.01"
-                                           class="form-control form-control-sm"
+                                           class="form-control form-control-sm" value="0.00"
                                            id="price" placeholder="0.00" required>
-                                    <%--<div class="invalid-feedback">--%>
-                                    <%--Please provide a valid zip.--%>
-                                    <%--</div>--%>
                                 </div>
                             </div>
                             <button class="btn btn-primary btn-sm" type="submit">${add}</button>
@@ -242,7 +235,4 @@
 </div>
 <div class="d-flex container-fluid justify-content-start">
     <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
-</div>
-<div class="container-fluid fixed-bottom" id="footer">
-    <%@ include file="../../constant_part/footer.jsp" %>
 </div>

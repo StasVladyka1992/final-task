@@ -93,16 +93,6 @@ public class SQLUserDAO implements UserDAO {
         return insertionResult == 1;
     }
 
-    @Override
-    public User findById(int id) throws DAOException {
-        return null;
-    }
-
-    @Override
-    public boolean deleteById(int id) throws DAOException {
-        return false;
-    }
-
     private User createUser(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt(ID));

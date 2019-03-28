@@ -2,7 +2,6 @@ package by.vladyka.epam.controller.impl.pharmacist;
 
 import by.vladyka.epam.controller.Command;
 import by.vladyka.epam.controller.exception.CommandException;
-import by.vladyka.epam.service.RemedyService;
 import by.vladyka.epam.service.ServiceProvider;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.impl.RemedyServiceImpl;
@@ -29,14 +28,14 @@ public class AddRemedy implements Command {
         boolean receiptRequired = Boolean.valueOf(req.getParameter(PARAM_NAME_RECEIPT_REQUIRED));
         String description = req.getParameter(PARAM_NAME_DESCRIPTION);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
-        RemedyService remedyService = serviceProvider.getRemedyService();
+        RemedyServiceImpl remedyService = serviceProvider.getRemedyService();
         boolean result;
         try {
             result = remedyService.create(name, description, price, receiptRequired);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        RemedyValidator validator = ((RemedyServiceImpl) remedyService).getValidator();
+        RemedyValidator validator = remedyService.getValidator();
         String url = formNextUrl(result, validator, PARAM_NAME_OPERATION_RESULT, PARAM_VALUE_OPERATION_RESULT_SUCCESS,
                 GO_TO_REMEDY_ADMINISTRATION);
         resp.sendRedirect(url);

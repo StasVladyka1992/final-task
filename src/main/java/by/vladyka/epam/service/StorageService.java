@@ -10,7 +10,7 @@ import by.vladyka.epam.service.exception.ServiceException;
  * @author Stas Vladyka
  * @version 1.0
  **/
-public interface StorageService extends AbstractService<Storage> {
+public interface StorageService<T extends Storage>  {
     /**
      * Updates remedy quantity on storage if it has already been there
      *
@@ -43,5 +43,14 @@ public interface StorageService extends AbstractService<Storage> {
      * @throws ServiceException if there was exception  during interaction with data source
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<Storage> findFromStartPosition(String name, int start, int offset) throws ServiceException;
+    EntitySearchingResult<T> findFromStartPosition(String name, int start, int offset) throws ServiceException;
+
+    /**
+     * Finds storage position by id
+     *
+     * @param id storage position id
+     * @return storage position with specified id
+     * @throws ServiceException if there was exception  during interaction with data source
+     */
+    T findById(int id) throws ServiceException;
 }

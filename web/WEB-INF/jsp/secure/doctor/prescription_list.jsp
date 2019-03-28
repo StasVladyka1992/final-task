@@ -10,8 +10,8 @@
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="status" var="status"/>
-<fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
+<fmt:message bundle="${loc}" key="firstName" var="remedyName"/>
+<fmt:message bundle="${loc}" key="lastName" var="description"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
 <fmt:message bundle="${loc}" key="nothingFound" var="nothingFound"/>
@@ -32,12 +32,12 @@
         <table class="table table-bordered">
             <thead>
             <th class="align-middle"><c:out value="${id}"/></th>
-            <th class="align-middle"><c:out value="${firstName}"/></th>
+            <th class="align-middle"><c:out value="${remedyName}"/></th>
             <th class="align-middle"><c:out value="${status}"/></th>
             <th class="align-middle"><c:out value="${prescriptionDate}"/></th>
             <th class="align-middle"><c:out value="${expireDate}"/></th>
-            <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${lastName}"/></th>
+            <th class="align-middle"><c:out value="${remedyName}"/></th>
+            <th class="align-middle"><c:out value="${description}"/></th>
             <th class="align-middle"><c:out value="${email}"/></th>
             <th class="align-middle"><c:out value="${receiptComment}"/></th>
             </thead>

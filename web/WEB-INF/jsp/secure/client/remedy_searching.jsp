@@ -10,7 +10,7 @@
 <fmt:message bundle="${loc}" key="remedyName" var="remedyName"/>
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="quantity" var="quantity"/>
-<fmt:message bundle="${loc}" key="description" var="lastName"/>
+<fmt:message bundle="${loc}" key="description" var="description"/>
 <fmt:message bundle="${loc}" key="price" var="price"/>
 <fmt:message bundle="${loc}" key="receipt" var="receipt"/>
 <fmt:message bundle="${loc}" key="next" var="next"/>
@@ -35,6 +35,7 @@
 <fmt:message bundle="${loc}" key="incorrectQuantity" var="incorrectQuantity"/>
 <fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
 <fmt:message bundle="${loc}" key="receiptExist" var="receiptExist"/>
+<fmt:message bundle="${loc}" key="incorrectName" var="incorrectName"/>
 
 
 <div class="container-fluid">
@@ -130,6 +131,11 @@
             <c:out value="${goodAlreadyInBasket}"/>
         </p>
     </c:if>
+    <c:if test="${param.incorrectName.equals('true')}">
+        <p class="text-danger">
+            <c:out value="${incorrectName}"/>
+        </p>
+    </c:if>
     <c:if test="${sessionScope.pagesNumber>1}">
         <ul class="pagination justify-content-center">
             <!--available "Previous" link-->
@@ -192,8 +198,5 @@
             </div>
         </div>
     </div>
-</div>
-<div class="container-fluid fixed-bottom" id="footer">
-    <%@ include file="../../constant_part/footer.jsp" %>
 </div>
 

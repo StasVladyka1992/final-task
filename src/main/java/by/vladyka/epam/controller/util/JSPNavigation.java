@@ -36,7 +36,7 @@ public final class JSPNavigation {
     public static final String CLIENT_UNHANDLED_ORDER_LIST =
             "/WEB-INF/jsp/secure/client/client_unhandled_order_list.jsp";
     public static final String CLIENT_HANDLED_ORDER_LIST = "/WEB-INF/jsp/secure/client/client_handled_order_list.jsp";
-    public static final String GO_TO_REMEDY = "/secure?command=go_to_remedy";
+    public static final String GO_TO_REMEDY = "/secure?command=go_to_remedy&";
     public static final String GO_TO_CLIENT_SEARCHING_PAGE = "/secure?command=go_to_client_searching_page&";
     public static final String GO_TO_BASKET = "/secure?command=go_to_basket&";
     public static final String GO_TO_ORDER_STATUS = "/secure?command=go_to_order_status&";

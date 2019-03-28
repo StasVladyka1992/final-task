@@ -23,6 +23,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws ServiceException {
+        validator.cleanBuffer();
         SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         EntitySearchingResult<Receipt> receipts;
         try {
@@ -105,6 +106,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public boolean rejectApplication(int id, int doctorId, String message, Receipt.Status status) throws ServiceException {
+        validator.cleanBuffer();
         boolean validationResult = validator.checkRejectionDataAndSetMessage(id, doctorId, message);
         if (!validationResult) {
             return false;
@@ -122,6 +124,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public boolean createAppliance(int clientId, int remedyId) throws ServiceException {
+        validator.cleanBuffer();
         boolean validationResult = validator.checkClientAddingDataAndSetMessage(clientId, remedyId);
         if (!validationResult) {
             return false;
@@ -132,11 +135,9 @@ public class ReceiptServiceImpl implements ReceiptService {
         try {
             int checkingResult = sqlReceiptDAO.isValidReceiptExist(clientId, remedyId);
             if (checkingResult == 1) {
-                validator.getIncorrectDataMessages().delete(0, validator.getIncorrectDataMessages().length());
                 validator.addIncorrectDataMessage(RECEIPT_APPLICATION_EXIST);
                 return false;
             } else if (checkingResult == 2) {
-                validator.getIncorrectDataMessages().delete(0, validator.getIncorrectDataMessages().length());
                 validator.addIncorrectDataMessage(RECEIPT_EXIST);
                 return false;
             }
@@ -150,29 +151,21 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public boolean createPrescription(int id, int doctorId, Date expireDate, Date prescriptionDate, String message,
                                       Receipt.Status status) throws ServiceException {
-        boolean validationResult = validator.checkDoctorAddingDataAndSetMessage(id, doctorId, expireDate, prescriptionDate,
-                message, status);
+        validator.cleanBuffer();
+        boolean validationResult = validator.checkDoctorAddingDataAndSetMessage(id, doctorId, expireDate,
+                prescriptionDate, message);
         if (!validationResult) {
             return false;
         }
         boolean isUpdatingSuccessful;
         SQLReceiptDAO sqlReceiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
         try {
-            isUpdatingSuccessful = sqlReceiptDAO.createReceipt(id, doctorId, expireDate, prescriptionDate, message, status);
+            isUpdatingSuccessful = sqlReceiptDAO.createReceipt(id, doctorId, expireDate, prescriptionDate, message,
+                    status);
         } catch (DAOException ex) {
             throw new ServiceException(ex);
         }
         return isUpdatingSuccessful;
-    }
-
-    @Override
-    public boolean delete(int id) throws ServiceException {
-        return false;
-    }
-
-    @Override
-    public Receipt findById(int id) throws ServiceException {
-        return null;
     }
 
     public ReceiptValidator getValidator() {

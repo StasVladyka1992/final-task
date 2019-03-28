@@ -21,10 +21,10 @@ import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.USER_E
 public class UserServiceImpl implements UserService {
     private UserValidator validator = new UserValidator();
 
-
     @Override
     public boolean registration(Map userInfo, String password, User.UserRole role)
             throws ServiceException {
+        validator.cleanBuffer();
         boolean isRegistrationDataCorrect = validator.checkRegistrationDataAndSetMessage(userInfo, role, password);
         if (!isRegistrationDataCorrect) {
             return false;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User authorization(String email, String password) throws ServiceException {
-        validator = new UserValidator();
+        validator.cleanBuffer();
         if (!validator.checkAuthorizationDataAndSetMessage(email, password)) {
             return null;
         }
@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public boolean update(int id, Map userInfo)
-            throws ServiceException {
+    public boolean update(int id, Map userInfo) throws ServiceException {
+        validator.cleanBuffer();
         boolean isRegistrationDataCorrect = validator.checkUpdateDataAndSetMessage(userInfo);
         if (!isRegistrationDataCorrect) {
             return false;

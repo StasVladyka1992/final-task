@@ -17,7 +17,11 @@ public abstract class AbstractValidator {
         incorrectDataMessages.append(incorrectMessage);
     }
 
+    public void cleanBuffer() {
+        incorrectDataMessages.delete(0, incorrectDataMessages.length());
+    }
+
     public boolean checkId(int id) {
-        return ID.matcher(String.valueOf(id)).find() ? true : false;
+        return ID.matcher(String.valueOf(id)).find();
     }
 }

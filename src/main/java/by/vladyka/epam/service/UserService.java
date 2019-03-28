@@ -23,15 +23,15 @@ public interface UserService<T extends User> {
      * @see Map
      * @see User.UserRole
      */
-    boolean registration(Map<String, String> userInfo, String password, User.UserRole role) throws ServiceException;
+    boolean registration(Map<String, String> userInfo, String password, T.UserRole role) throws ServiceException;
 
     /**
      * User authorization
      *
      * @param email user email
      * @param password user password
-     * @return
-     * @throws ServiceException
+     * @return created user which will storage in session
+     * @throws ServiceException if there was exception during interaction with data source
      */
     T authorization(String email, String password) throws ServiceException;
 

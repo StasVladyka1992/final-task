@@ -92,7 +92,7 @@ public final class CommandStorage {
         commands.put(COMMAND_VALUE_ADD_TO_BASKET, new AddToBasket());
         commands.put(COMMAND_VALUE_GO_TO_CLIENT_SEARCHING_PAGE, new GoToClientSearchingPage());
         commands.put(COMMAND_VALUE_GO_TO_PRESCRIPTION_APPLICATION_PAGE, new GoToPrescriptionApplication());
-        commands.put(COMMAND_VALUE_SHOW_UNHANDLED_APPLICATIONS, new ShowUnhandledApplication());
+        commands.put(COMMAND_VALUE_SHOW_UNHANDLED_APPLICATIONS, new ShowUnhandledApplicationList());
         commands.put(COMMAND_VALUE_WRITE_PRESCRIPTION, new WritePrescription());
         commands.put(COMMAND_VALUE_REJECT, new RejectApplication());
         commands.put(COMMAND_VALUE_SHOW_WRITTEN_PRESCRIPTIONS, new ShowWrittenPrescription());

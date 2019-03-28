@@ -114,6 +114,4 @@
         <a href="/secure?command=go_to_client_searching_page" class="mr-2">${goToRemedySearching}</a>
     </c:if>
 </div>
-<%--<div class="container-fluid fixed-bottom" id="footer">--%>
-<%--<%@ include file="../../constant_part/footer.jsp" %>--%>
-<%--</div>--%>
+

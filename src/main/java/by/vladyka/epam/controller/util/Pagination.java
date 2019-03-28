@@ -15,7 +15,7 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_PAGES_NUM
 public final class Pagination {
     public static final int OFFSET = 5;
 
-    public static int calculatePagesNumber(EntitySearchingResult entitySearchingResult) {
+    private static int calculatePagesNumber(EntitySearchingResult entitySearchingResult) {
         int remediesNumber = entitySearchingResult.getFoundEntitiesNumber();
         int fullPages = remediesNumber / OFFSET;
         int notFullPages = remediesNumber % OFFSET;

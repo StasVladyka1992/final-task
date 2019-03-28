@@ -94,11 +94,6 @@ public class SQLStorageDAO implements StorageDAO {
     }
 
     @Override
-    public boolean deleteById(int id) throws DAOException {
-        return abstractUpdatePattern(id, QUERY_DELETE_STORAGE_POSITION, pool) == 1;
-    }
-
-    @Override
     public boolean create(int remedyId, int remedyLeft) throws DAOException {
         int insertionResult = createAndExecutePreparedStatement(QUERY_ADD_REMEDY_TO_STORAGE, remedyId, remedyLeft);
         return insertionResult == 1;

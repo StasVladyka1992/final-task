@@ -2,8 +2,8 @@
 <%@ include file="constant_part/navbar.jsp" %>
 
 <fmt:message bundle="${loc}" key="email" var="email"/>
-<fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
+<fmt:message bundle="${loc}" key="firstName" var="remedyName"/>
+<fmt:message bundle="${loc}" key="lastName" var="description"/>
 <fmt:message bundle="${loc}" key="phone" var="phone"/>
 <fmt:message bundle="${loc}" key="password" var="password"/>
 <fmt:message bundle="${loc}" key="submit" var="submit"/>
@@ -48,16 +48,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="firstName">${firstName}</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control" aria-describedby="firstNameHelpBlock" placeholder="${firstName}"
+                    <label for="firstName">${remedyName}</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" aria-describedby="firstNameHelpBlock" placeholder="${remedyName}"
                            required maxlength="30">
                     <small id="firstNameHelpBlock" class="form-text text-muted">
                         ${nameContentMessage}
                     </small>
                 </div>
                 <div class="form-group">
-                    <label for="lastName">${lastName}</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" aria-describedby="lastNameHelpBlock" placeholder="${lastName}"
+                    <label for="lastName">${description}</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" aria-describedby="lastNameHelpBlock" placeholder="${description}"
                            required maxlength="30">
                     <small id="lastNameHelpBlock" class="form-text text-muted">
                         ${surnameContentMessage}

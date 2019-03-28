@@ -58,7 +58,8 @@
                 <h5 class="card-title text-center">${orders}</h5>
                 <p class="card-text">${ordersMessage}</p>
                 <div class="d-flex justify-content-around">
-                    <a href="/secure?command=show_client_unhandled_orders" type="button" class="btn btn-success ">${further}</a>
+                    <a href="/secure?command=show_client_unhandled_orders" type="button"
+                       class="btn btn-success ">${further}</a>
                 </div>
             </div>
         </div>

@@ -72,7 +72,7 @@
         </button>
     </form>
 </div>
-<div class="d-flex container-fluid justify-content-start">
+<div class="d-flex container-fluid justify-content-start mt-3">
     <a href="/secure?command=go_to_client_searching_page">${toRemedySearching}</a>
 </div>
 

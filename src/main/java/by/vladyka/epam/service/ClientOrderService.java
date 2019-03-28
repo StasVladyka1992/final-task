@@ -12,7 +12,7 @@ import by.vladyka.epam.service.exception.ServiceException;
  * @author Stas Vladyka
  * @version 1.0
  **/
-public interface ClientOrderService extends AbstractService<ClientOrder> {
+public interface ClientOrderService<T extends ClientOrder>  {
 
     /**
      * Creates client order that need to be process by pharmacist
@@ -37,7 +37,7 @@ public interface ClientOrderService extends AbstractService<ClientOrder> {
      * @see ClientOrder
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws ServiceException;
+    EntitySearchingResult<T> findUnhandledOrders(int start, int offset) throws ServiceException;
 
     /**
      * Finds all handled orders for pharmacist
@@ -51,7 +51,7 @@ public interface ClientOrderService extends AbstractService<ClientOrder> {
      * @see ClientOrder
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<ClientOrder> findHandledOrders(int start, int offset) throws ServiceException;
+    EntitySearchingResult<T> findHandledOrders(int start, int offset) throws ServiceException;
 
     /**
      * Confirms client order
@@ -85,7 +85,7 @@ public interface ClientOrderService extends AbstractService<ClientOrder> {
      * @see ClientOrder
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<ClientOrder> findUnhandledClientOrders(int clientId, int startPosition, int offset)
+    EntitySearchingResult<T> findUnhandledClientOrders(int clientId, int startPosition, int offset)
             throws ServiceException;
 
     /**
@@ -101,7 +101,7 @@ public interface ClientOrderService extends AbstractService<ClientOrder> {
      * @see ClientOrder
      * @see EntitySearchingResult
      */
-    EntitySearchingResult<ClientOrder> findHandledClientOrders(int clientId, int startPosition, int offset)
+    EntitySearchingResult<T> findHandledClientOrders(int clientId, int startPosition, int offset)
             throws ServiceException;
 
     /**

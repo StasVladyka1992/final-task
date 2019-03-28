@@ -115,6 +115,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     @Override
     public int buy(int clientId, OrderDto orderDto) throws ServiceException {
         int clientOrderId = -1;
+        validator.cleanBuffer();
         boolean validationResult = validator.checkClientIdAndSetMessage(clientId);
         if (!validationResult) {
             return clientOrderId;
@@ -149,13 +150,4 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         return sum;
     }
 
-    @Override
-    public boolean delete(int id) throws ServiceException {
-        return false;
-    }
-
-    @Override
-    public ClientOrder findById(int id) throws ServiceException {
-        return null;
-    }
 }

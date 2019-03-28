@@ -12,8 +12,8 @@
 <fmt:message bundle="${loc}" key="no" var="no"/>
 <fmt:message bundle="${loc}" key="back" var="back"/>
 <fmt:message bundle="${loc}" key="editUserInfo" var="editUserInfo"/>
-<fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
+<fmt:message bundle="${loc}" key="firstName" var="remedyName"/>
+<fmt:message bundle="${loc}" key="lastName" var="description"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="phone" var="phone"/>
 <fmt:message bundle="${loc}" key="password" var="password"/>
@@ -32,13 +32,13 @@
             <h3 class="text-center">${editUserInfo}</h3>
             <div class="form-row">
                 <div class="col-sm-6 mb-3">
-                    <label for="firstName">${firstName}</label>
+                    <label for="firstName">${remedyName}</label>
                     <input type="text" name="firstName" class="form-control form-control-sm" id="firstName"
                            value="${sessionScope.get('user').firstName}"
                            required>
                 </div>
                 <div class="col-sm-6 mb-3">
-                    <label for="lastName">${lastName}</label>
+                    <label for="lastName">${description}</label>
                     <input type="text" class="form-control form-control-sm" id="lastName"
                            name="lastName" value="${sessionScope.get('user').lastName}" required>
                 </div>
@@ -87,7 +87,4 @@
     <div class="d-flex justify-content-start">
         <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
     </div>
-</div>
-<div class="container-fluid fixed-bottom" id="footer">
-    <%@ include file="../constant_part/footer.jsp" %>
 </div>

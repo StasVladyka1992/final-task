@@ -10,8 +10,8 @@
 <%@ include file="../../constant_part/navbar.jsp" %>
 <fmt:message bundle="${loc}" key="id" var="id"/>
 <fmt:message bundle="${loc}" key="status" var="status"/>
-<fmt:message bundle="${loc}" key="firstName" var="firstName"/>
-<fmt:message bundle="${loc}" key="lastName" var="lastName"/>
+<fmt:message bundle="${loc}" key="firstName" var="remedyName"/>
+<fmt:message bundle="${loc}" key="lastName" var="description"/>
 <fmt:message bundle="${loc}" key="email" var="email"/>
 <fmt:message bundle="${loc}" key="remedyName" var="firstName"/>
 <fmt:message bundle="${loc}" key="writePrescription" var="writePrescription"/>
@@ -33,6 +33,7 @@
 <fmt:message bundle="${loc}" key="remedy" var="remedy"/>
 <fmt:message bundle="${loc}" key="checkApplications" var="checkApplications"/>
 <fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
+<fmt:message bundle="${loc}" key="incorrectMessage" var="incorrectMessage"/>
 
 <div class="container-fluid ">
     <h4 class="mb-2">${prescriptionWriting}</h4>
@@ -42,12 +43,15 @@
             <th class="align-middle"><c:out value="${id}"/></th>
             <th class="align-middle"><c:out value="${remedy}"/></th>
             <th class="align-middle"><c:out value="${status}"/></th>
-            <th class="align-middle"><c:out value="${firstName}"/></th>
-            <th class="align-middle"><c:out value="${lastName}"/></th>
+            <th class="align-middle"><c:out value="${remedyName}"/></th>
+            <th class="align-middle"><c:out value="${description}"/></th>
             <th class="align-middle"><c:out value="${email}"/></th>
             </thead>
             <c:if test="${receiptList.size()!=0 || receiptList !=null}">
+                <c:set var="counter" value="0"/>
                 <c:forEach var="receipt" items="${receiptList}">
+                    <c:set var="rejectFormName" value="reject${counter=counter+1}"/>
+                    <c:set var="confirmFormName" value="confirm${counter=counter+1}"/>
                     <tr>
                         <td><c:out value="${receipt.id}"/></td>
                         <td><c:out value="${receipt.remedy.name}"/></td>
@@ -58,14 +62,14 @@
                         <td>
                             <div class="row justify-content-center">
                                 <button type="button" class="btn btn-primary btn-sm mr-2 ml-2" data-toggle="modal"
-                                        data-target="#writePrescription">
+                                        data-target="#writePrescription${counter}">
                                         ${writePrescription}
                                 </button>
                                 <button type="button" class="btn btn-primary btn-sm mr-2 ml-2" data-toggle="modal"
-                                        data-target="#reject">
+                                        data-target="#reject${counter}">
                                         ${reject}
                                 </button>
-                                <div class="modal fade" id="writePrescription">
+                                <div class="modal fade" id="writePrescription${counter}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <!-- Modal Header -->
@@ -76,7 +80,8 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                                <form action="/secure?command=write_prescription" method="post">
+                                                <form id="${confirmFormName}"
+                                                      action="/secure?command=write_prescription" method="post">
                                                     <div class="form-group pl-0 col-sm-8 mb-3">
                                                         <div class="form-group">
                                                             <label for="expireDate">${expireDate}</label>
@@ -93,7 +98,8 @@
                                                                   name="message"
                                                                   placeholder="${addComment}" required></textarea>
                                                     </div>
-                                                    <button class="btn btn-primary" type="submit">${write}</button>
+                                                    <button form="${confirmFormName}" class="btn btn-primary"
+                                                            type="submit">${write}</button>
                                                     <input type="hidden"
                                                            value="${sessionScope.user.id}" name="doctorId">
                                                     <input type="hidden" value="${receipt.id}" name="id">
@@ -102,7 +108,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal fade" id="reject">
+                                <div class="modal fade" id="reject${counter}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <!-- Modal Header -->
@@ -113,14 +119,16 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                                <form action="/secure?command=reject_application" method="post">
+                                                <form id="${rejectFormName}" action="/secure?command=reject_application"
+                                                      method="post">
                                                     <div class="form-group pl-0 col-sm-12 mb-3">
                                                         <label for="rejectComment">${receiptComment}</label>
                                                         <textarea class="form-control" rows="5" id="rejectComment"
                                                                   name="message" required
                                                                   placeholder="${addComment}"></textarea>
                                                     </div>
-                                                    <button class="btn btn-primary" type="submit">${reject}</button>
+                                                    <button form="${rejectFormName}" class="btn btn-primary"
+                                                            type="submit">${reject}</button>
                                                     <input type="hidden"
                                                            value="${sessionScope.user.id}" name="doctorId">
                                                     <input type="hidden" value="${receipt.id}" name="id">
@@ -141,7 +149,6 @@
             </c:if>
         </table>
     </div>
-
     <c:if test="${param.operationResult.equals('prescriptionWritten')}">
         <p class="text-success">
                 ${prescriptionWrote}
@@ -150,6 +157,11 @@
     <c:if test="${param.operationResult.equals('applicationRejected')}">
         <p class="text-success">
                 ${applicationRejected}
+        </p>
+    </c:if>
+    <c:if test="${param.incorrectMessage.equals('true')}">
+        <p class="text-danger">
+                ${incorrectMessage}
         </p>
     </c:if>
     <%--Pagination--%>

@@ -3,8 +3,8 @@ package by.vladyka.epam.service.validator.impl;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,10 +14,14 @@ import static org.junit.Assert.assertTrue;
  * on 16.03.2019 at 12:40
  **/
 public class UserValidatorTest {
-    private Set<String> correctEmail = new HashSet<>();
-    private Set<String> incorrectEmail = new HashSet<>();
-    private Set<String> correctPassword = new HashSet<>();
-    private Set<String> incorrectPassword = new HashSet<>();
+    private List<String> correctEmail = new ArrayList<>();
+    private List<String> incorrectEmail = new ArrayList<>();
+    private List<String> correctPassword = new ArrayList<>();
+    private List<String> incorrectPassword = new ArrayList<>();
+    private List<String> correctName = new ArrayList<>();
+    private List<String> incorrectName = new ArrayList<>();
+    private List<String> correctPhone = new ArrayList<>();
+    private List<String> incorrectPhone = new ArrayList<>();
     private static final UserValidator validator = new UserValidator();
 
     @Before
@@ -51,6 +55,30 @@ public class UserValidatorTest {
         incorrectPassword.add("9.~");
         incorrectPassword.add("oqwoffs!");
         incorrectPassword.add("e--fa");
+
+        correctName.add("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        correctName.add("Имя-ВтороеИмя");
+        correctName.add("afafa afaS");
+        correctName.add("Ю");
+
+        incorrectName.add("sss - asasaf");
+        incorrectName.add("-addad");
+        incorrectName.add(" addad");
+        incorrectName.add("addad-");
+        incorrectName.add("addad ");
+        incorrectName.add("--");
+        incorrectName.add(" ");
+        incorrectName.add("Sda@");
+        incorrectName.add("252dadafs");
+        incorrectName.add("dad5afs");
+
+        correctPhone.add("+375-29-111-62-52");
+        correctPhone.add("+375-11-111-62-52");
+
+        incorrectPhone.add("+311-29-111-11-11");
+        incorrectPhone.add("+311-29-111-11-1");
+        incorrectPhone.add("+311-29-111-11-111");
+
     }
 
     @Test
@@ -72,9 +100,31 @@ public class UserValidatorTest {
         }
         for (String password :
                 incorrectPassword) {
-            System.out.println(password);
             assertFalse(validator.checkPasswordAndSetMessage(password));
         }
+    }
 
+    @Test
+    public void isNameCorrectTest() {
+        for (String name :
+                correctName) {
+            assertTrue(validator.checkNameAndSetMessage(name));
+        }
+        for (String name :
+                incorrectName) {
+            assertFalse(validator.checkNameAndSetMessage(name));
+        }
+    }
+
+    @Test
+    public void isPhoneCorrect() {
+        for (String phone :
+                correctPhone) {
+            assertTrue(validator.checkPhoneAndSetMessage(phone));
+        }
+        for (String phone :
+                incorrectPhone) {
+            assertFalse(validator.checkPhoneAndSetMessage(phone));
+        }
     }
 }
