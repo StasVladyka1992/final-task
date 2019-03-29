@@ -24,56 +24,6 @@ import static by.vladyka.epam.dao.util.SQLQuery.QUERY_SET_RECEIPTS_TO_CLIENT_ORD
 public class SQLRemedyOrderDAO implements RemedyOrderDAO {
     private static final ConnectionPool pool = ConnectionPool.getInstance();
 
-    @Override
-    public boolean create(OrderDto orderDto, int clientOrderId) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        boolean result;
-        try {
-            con = pool.takeConnection();
-            con.setAutoCommit(false);
-            String[] commands = builtInsertCommands(orderDto, clientOrderId);
-            ps = con.prepareStatement(commands[0]);
-            if (commands.length > 1) {
-                for (String command : commands) {
-                    ps.addBatch(command);
-                }
-                int[] results = ps.executeBatch();
-                for (int i = 0; i < commands.length; i++) {
-                    if (results[i] != 1) {
-                        throw new SQLException("Some of the remedy orders weren't created");
-                    }
-                }
-                result = true;
-            } else {
-                int insertResult = ps.executeUpdate();
-                result = insertResult == 1;
-            }
-            con.commit();
-            return result;
-        } catch (ConnectionPoolException | SQLException e) {
-            doRollback(con);
-            throw new DAOException(e);
-        } finally {
-            pool.closeConnection(con, ps);
-        }
-    }
-
-    private String[] builtInsertCommands(OrderDto dto, int clientOrderId) {
-        int commandsNumber = dto.getGoods().size();
-        String[] commands = new String[commandsNumber];
-        int count = 0;
-        for (Map.Entry<Storage, Integer> pair :
-                dto.getGoods().entrySet()) {
-            int remedyId = pair.getKey().getRemedy().getId();
-            int quantity = pair.getValue();
-            String command = QUERY_CREATE_REMEDY_ORDER + remedyId + "," +
-                    quantity + "," + clientOrderId + ")";
-            commands[count] = command;
-            count++;
-        }
-        return commands;
-    }
 
     public void setReceiptsToRemedyOrders(ClientOrder order) throws DAOException {
         Connection con = null;

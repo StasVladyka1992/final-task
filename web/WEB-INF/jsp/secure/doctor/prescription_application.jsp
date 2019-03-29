@@ -164,55 +164,6 @@
                 ${incorrectMessage}
         </p>
     </c:if>
-    <%--Pagination--%>
-    <c:if test="${sessionScope.pagesNumber>1}">
-        <ul class="pagination justify-content-center">
-            <!--available "Previous" link-->
-            <c:if test="${currentPage>1}">
-                <li class="page-item"><a class="page-link"
-                                         href="/secure?command=show_unhandled_applications&currentPage=${currentPage-1}"><c:out
-                        value="${previous}"/></a>
-                </li>
-            </c:if>
-            <!--disabled "Previous" link-->
-            <c:if test="${currentPage==1}">
-                <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${previous}"/></a></li>
-            </c:if>
-            <!--setting  query's parameters depending on clicked page-->
-            <c:forEach begin="${1}" end="${pagesNumber}" var="i">
-                <c:choose>
-                    <c:when test="${currentPage==i}">
-                        <li class="page-item active"><a class="page-link"
-                                                        href="/secure?command=show_unhandled_applications&currentPage=${i}">${i}</a>
-                        </li>
-                    </c:when>
-                    <c:when test="${i!=currentPage}">
-                        <c:if test="${i>currentPage}">
-                            <li class="page-item"><a class="page-link"
-                                                     href="/secure?command=show_unhandled_applications&currentPage=${i}">${i}</a>
-                            </li>
-                        </c:if>
-                        <c:if test="${i<currentPage}">
-                            <li class="page-item"><a class="page-link"
-                                                     href="/secure?command=show_unhandled_applications&currentPage=${i}">${i}</a>
-                            </li>
-                        </c:if>
-                    </c:when>
-                </c:choose>
-            </c:forEach>
-            <!--available "Next" link-->
-            <c:if test="${currentPage+1<=pagesNumber}">
-                <li class="page-item"><a class="page-link"
-                                         href="/secure?command=show_unhandled_applications&currentPage=${currentPage+1}"><c:out
-                        value="${next}"/></a>
-                </li>
-            </c:if>
-            <!--disabled "Next" link-->
-            <c:if test="${currentPage==pagesNumber}">
-                <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${next}"/></a></li>
-            </c:if>
-        </ul>
-    </c:if>
 </div>
 <div class="container-fluid">
     <div class="btn-group">

@@ -5,6 +5,7 @@ import by.vladyka.epam.entity.Receipt;
 import by.vladyka.epam.service.exception.ServiceException;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * An interface that declare activities with {@link Receipt}
@@ -31,16 +32,11 @@ public interface ReceiptService<T extends Receipt> {
     /**
      * Finds unhandled prescription applications for pharmacist
      *
-     * @param start  pagination parameter that indicates start position from
-     *               which searching of unhandled receipt will start
-     * @param offset pagination parameter that indicates number of unhandled receipts
-     *               per page
-     * @return unhandled receipts and number of pages to show them
+     * @return unhandled receipts
      * @throws ServiceException if there was exception  during interaction with data source
      * @see Receipt
-     * @see EntitySearchingResult
      */
-    EntitySearchingResult<T> findUnhandledApplications(int start, int offset) throws ServiceException;
+    List<T> findUnhandledApplications() throws ServiceException;
 
     /**
      * Finds unhandled prescription applications for client

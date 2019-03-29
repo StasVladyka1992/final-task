@@ -62,6 +62,8 @@ public final class JSPNavigation {
     public static final String PURCHASE_ADMINISTRATION = "/WEB-INF/jsp/secure/pharmacist/purchase_administration.jsp";
     public static final String REMEDY_UPDATE = "/WEB-INF/jsp/secure/pharmacist/remedy_update.jsp";
     public static final String CLIENT_ORDER = "/WEB-INF/jsp/secure/pharmacist/client_order.jsp";
+    public static final String ORDER_HANDLING_RESULT = "/WEB-INF/jsp/secure/pharmacist/order_handling_result.jsp";
+    public static final String GO_TO_ORDER_HANDLING_RESULT = "/secure?command=go_to_order_handling_result&";
     public static final String GO_TO_REMEDY_ADMINISTRATION = "/secure?command=go_to_remedy_administration&";
     public static final String GO_TO_CLIENT_ORDER = "/secure?command=go_to_client_order&";
     public static final String SHOW_UNHANDLED_ORDER_LIST = "/secure?command=show_unhandled_order_list&";

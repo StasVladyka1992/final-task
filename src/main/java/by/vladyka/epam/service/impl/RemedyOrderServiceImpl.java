@@ -15,19 +15,6 @@ import by.vladyka.epam.service.exception.ServiceException;
 public class RemedyOrderServiceImpl implements RemedyOrderService {
 
     @Override
-    public boolean create(OrderDto orderDto, int clientOrderId) throws ServiceException {
-        DAOProvider provider = DAOProvider.getInstance();
-        RemedyOrderDAO remedyOrderDAO = provider.getSQLRemedyOrderDAO();
-        boolean result;
-        try {
-            result = remedyOrderDAO.create(orderDto, clientOrderId);
-        } catch (DAOException e) {
-            throw new ServiceException(e);
-        }
-        return result;
-    }
-
-    @Override
     public void setReceipts(ClientOrder order) throws ServiceException {
         DAOProvider provider = DAOProvider.getInstance();
         RemedyOrderDAO dao = provider.getSQLRemedyOrderDAO();

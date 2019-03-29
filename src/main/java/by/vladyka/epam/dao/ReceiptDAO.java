@@ -5,6 +5,7 @@ import by.vladyka.epam.dto.EntitySearchingResult;
 import by.vladyka.epam.entity.Receipt;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Vladyka Stas
@@ -19,7 +20,7 @@ public interface ReceiptDAO extends AbstractDAO<Receipt> {
     boolean reject(int id, int doctorId, String message, Receipt.Status status)
             throws DAOException;
 
-    EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws DAOException;
+    List<Receipt> findUnhandledApplications() throws DAOException;
 
     EntitySearchingResult<Receipt> findClientUnhandledApplications(int clientId, int start, int offset)
             throws DAOException;

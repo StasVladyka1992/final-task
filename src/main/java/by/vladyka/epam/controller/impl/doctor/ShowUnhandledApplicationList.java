@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 import static by.vladyka.epam.controller.util.JSPNavigation.GO_TO_PRESCRIPTION_APPLICATION;
 import static by.vladyka.epam.controller.util.Pagination.*;
@@ -23,18 +24,16 @@ import static by.vladyka.epam.controller.util.ParameterName.PARAM_NAME_RECEIPT_L
 public class ShowUnhandledApplicationList implements Command {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws CommandException, IOException {
-        int currentPage = getCurrentPage(req);
-        int startPosition = calculateStartPosition(currentPage);
         ServiceProvider provider = ServiceProvider.getInstance();
         ReceiptServiceImpl service = provider.getReceiptService();
-        EntitySearchingResult entitySearchingResult;
+        List unhandledReceipts;
         try {
-            entitySearchingResult = service.findUnhandledApplications(startPosition, OFFSET);
+            unhandledReceipts = service.findUnhandledApplications();
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
         HttpSession session = req.getSession();
-        setSessionPaginationParams(session, currentPage, entitySearchingResult, PARAM_NAME_RECEIPT_LIST);
+        session.setAttribute(PARAM_NAME_RECEIPT_LIST, unhandledReceipts);
         resp.sendRedirect(GO_TO_PRESCRIPTION_APPLICATION);
     }
 }

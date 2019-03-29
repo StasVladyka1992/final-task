@@ -14,17 +14,6 @@ import by.vladyka.epam.service.exception.ServiceException;
 public interface RemedyOrderService {
 
     /**
-     * Creates new remedy order which is a part of client order
-     *
-     * @param orderDto      an object that contains data about client order.
-     * @param clientOrderId client order id
-     * @return result of remedy order creation, true - remedy order is created, false otherwise
-     * @throws ServiceException if there was exception during interaction with data source
-     * @see OrderDto
-     */
-    boolean create(OrderDto orderDto, int clientOrderId) throws ServiceException;
-
-    /**
      * Set receipts to each remedy order if remedy requires receipt
      *
      * @param order client order

@@ -12,6 +12,7 @@ import by.vladyka.epam.service.ClientOrderService;
 import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.ClientOrderValidator;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,11 +90,11 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     }
 
     @Override
-    public EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws ServiceException {
+    public List<ClientOrder> findUnhandledOrders() throws ServiceException {
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) DAOProvider.getInstance().getSQLClientOrderDAO();
-        EntitySearchingResult<ClientOrder> orders;
+        List<ClientOrder> orders;
         try {
-            orders = clientOrderDAO.findUnhandledOrders(start, offset);
+            orders = clientOrderDAO.findUnhandledOrders();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -113,23 +114,20 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     }
 
     @Override
-    public int buy(int clientId, OrderDto orderDto) throws ServiceException {
-        int clientOrderId = -1;
+    public boolean buy(int clientId, OrderDto orderDto) throws ServiceException {
         validator.cleanBuffer();
         boolean validationResult = validator.checkClientIdAndSetMessage(clientId);
         if (!validationResult) {
-            return clientOrderId;
+            return false;
         }
         DAOProvider provider = DAOProvider.getInstance();
         SQLClientOrderDAO clientOrderDAO = (SQLClientOrderDAO) provider.getSQLClientOrderDAO();
         double sum = countOrderSum(orderDto);
         try {
-            clientOrderId = clientOrderDAO.create(clientId, sum);
+            return clientOrderDAO.create(clientId, sum, orderDto);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        return clientOrderId;
-
     }
 
     public ClientOrderValidator getValidator() {

@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static by.vladyka.epam.dao.util.SQLDaoAssistant.*;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.buildReceipt;
+import static by.vladyka.epam.dao.util.SQLDaoAssistant.getFoundEntitiesNumber;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
@@ -128,18 +129,14 @@ public class SQLReceiptDAO implements ReceiptDAO {
     }
 
     @Override
-    public EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws DAOException {
+    public List<Receipt> findUnhandledApplications() throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        int unhandledReceiptsNumber;
-        List<Receipt> receipts;
+        List<Receipt> receipts = new ArrayList<>();
         try {
-            unhandledReceiptsNumber = getFoundEntitiesNumber(QUERY_COUNT_UNHANDLED_APPLICATIONS, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_UNHANDLED_APPLICATIONS);
-            setStartPositionAndOffset(ps, start, offset);
-            receipts = new ArrayList<>();
             rs = ps.executeQuery();
             while (rs.next()) {
                 Receipt receipt = buildReceipt(rs);
@@ -160,10 +157,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-        EntitySearchingResult<Receipt> unhandledReceipts = new EntitySearchingResult<>();
-        unhandledReceipts.setFoundEntities(receipts);
-        unhandledReceipts.setFoundEntitiesNumber(unhandledReceiptsNumber);
-        return unhandledReceipts;
+        return receipts;
     }
 
     @Override
@@ -225,7 +219,7 @@ public class SQLReceiptDAO implements ReceiptDAO {
                 if (expireDate == null && status == Receipt.Status.NONE) {
                     result = 1;
                     break;
-                } else if (expireDate!=null && (expireDate.getTime() - new Date().getTime()) >= 0) {
+                } else if (expireDate != null && (expireDate.getTime() - new Date().getTime()) >= 0) {
                     result = 2;
                     break;
                 }

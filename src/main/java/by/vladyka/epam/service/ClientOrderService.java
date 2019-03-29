@@ -6,38 +6,35 @@ import by.vladyka.epam.dto.OrderDtoForPharmacist;
 import by.vladyka.epam.entity.ClientOrder;
 import by.vladyka.epam.service.exception.ServiceException;
 
+import java.util.List;
+
 /**
  * An interface that declare activities with {@link ClientOrder}
  *
  * @author Stas Vladyka
  * @version 1.0
  **/
-public interface ClientOrderService<T extends ClientOrder>  {
+public interface ClientOrderService<T extends ClientOrder> {
 
     /**
      * Creates client order that need to be process by pharmacist
      *
      * @param clientId client id
      * @param orderDto an object that contains data about client order.
-     * @return id of created {@link ClientOrder}
+     * @return {@code true} is client order was created, {@code false} otherwise
      * @throws ServiceException if there was exception during interaction with data source
      * @see OrderDto
      */
-    int buy(int clientId, OrderDto orderDto) throws ServiceException;
+    boolean buy(int clientId, OrderDto orderDto) throws ServiceException;
 
     /**
      * Finds all unhandled orders for pharmacist
      *
-     * @param start  pagination parameter that indicates start position from
-     *               which searching of client orders will start
-     * @param offset pagination parameter that indicates number of client orders
-     *               per page
-     * @return unhandled client orders and number of pages to show them
+     * @return unhandled client orders
      * @throws ServiceException if there was exception  during interaction with data source
      * @see ClientOrder
-     * @see EntitySearchingResult
      */
-    EntitySearchingResult<T> findUnhandledOrders(int start, int offset) throws ServiceException;
+      List<ClientOrder> findUnhandledOrders() throws ServiceException;
 
     /**
      * Finds all handled orders for pharmacist

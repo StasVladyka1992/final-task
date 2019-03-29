@@ -15,9 +15,6 @@ import java.util.List;
  * on 09.03.2019 at 20:13
  **/
 public interface AbstractDAO<T extends AbstractEntity> {
-//    T findById(int id) throws DAOException;
-
-//    boolean deleteById(int id) throws DAOException;
 
     default int abstractUpdatePattern(int id, String query, ConnectionPool pool) throws DAOException {
         Connection con = null;
@@ -36,7 +33,7 @@ public interface AbstractDAO<T extends AbstractEntity> {
         return result;
     }
 
-    default void doRollback (Connection connection) throws DAOException{
+    default void doRollback(Connection connection) throws DAOException {
         try {
             connection.rollback();
         } catch (SQLException ex) {

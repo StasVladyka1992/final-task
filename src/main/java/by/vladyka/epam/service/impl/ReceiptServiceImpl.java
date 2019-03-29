@@ -10,6 +10,7 @@ import by.vladyka.epam.service.exception.ServiceException;
 import by.vladyka.epam.service.validator.impl.ReceiptValidator;
 
 import java.util.Date;
+import java.util.List;
 
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_APPLICATION_EXIST;
 import static by.vladyka.epam.service.validator.util.IncorrectDataMessage.RECEIPT_EXIST;
@@ -22,12 +23,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     private ReceiptValidator validator = new ReceiptValidator();
 
     @Override
-    public EntitySearchingResult<Receipt> findUnhandledApplications(int start, int offset) throws ServiceException {
+    public List<Receipt> findUnhandledApplications() throws ServiceException {
         validator.cleanBuffer();
         SQLReceiptDAO receiptDAO = (SQLReceiptDAO) DAOProvider.getInstance().getSQLReceiptDAO();
-        EntitySearchingResult<Receipt> receipts;
+        List<Receipt> receipts;
         try {
-            receipts = receiptDAO.findUnhandledApplications(start, offset);
+            receipts = receiptDAO.findUnhandledApplications();
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

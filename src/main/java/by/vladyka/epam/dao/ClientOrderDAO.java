@@ -2,17 +2,20 @@ package by.vladyka.epam.dao;
 
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dto.EntitySearchingResult;
+import by.vladyka.epam.dto.OrderDto;
 import by.vladyka.epam.dto.OrderDtoForPharmacist;
 import by.vladyka.epam.entity.ClientOrder;
+
+import java.util.List;
 
 /**
  * Created by Vladyka Stas
  * on 21.03.2019 at 1:15
  **/
 public interface ClientOrderDAO extends AbstractDAO<ClientOrder> {
-    int create(int clientId, double sum) throws DAOException;
+    boolean create(int clientId, double sum, OrderDto orderDto) throws DAOException;
 
-    EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws DAOException;
+    List<ClientOrder> findUnhandledOrders() throws DAOException;
 
     EntitySearchingResult<ClientOrder> findHandledOrders(int start, int offset) throws DAOException;
 
@@ -25,4 +28,5 @@ public interface ClientOrderDAO extends AbstractDAO<ClientOrder> {
             throws DAOException;
 
     boolean rejectOrder(int id) throws DAOException;
+
 }

@@ -23,10 +23,6 @@
 <fmt:message bundle="${loc}" key="updateOrders" var="updateOrders"/>
 <fmt:message bundle="${loc}" key="ordersAdministration" var="ordersAdministration"/>
 <fmt:message bundle="${loc}" key="goToAuthorizedUserMain" var="goToAuthorizedUserMain"/>
-<fmt:message bundle="${loc}" key="orderConfirmed" var="orderConfirmed"/>
-<fmt:message bundle="${loc}" key="orderNotConfirmed" var="orderNotConfirmed"/>
-<fmt:message bundle="${loc}" key="orderNotRejected" var="orderNotRejected"/>
-<fmt:message bundle="${loc}" key="orderRejected" var="orderRejected"/>
 
 <div class="container-fluid col-sm-10">
     <h4 class="mb-2">${ordersAdministration}</h4>
@@ -37,7 +33,7 @@
             <th class="align-middle"><c:out value="${createdOn}"/></th>
             <th class="align-middle"><c:out value="${status}"/></th>
             </thead>
-            <c:if test="${clientOrderList.size()!=0 || clientOrderList !=null}">
+            <c:if test="${clientOrderList.size()>0}">
                 <c:forEach var="order" items="${clientOrderList}">
                     <tr>
                         <td><c:out value="${order.id}"/></td>
@@ -45,9 +41,6 @@
                             <fmt:formatDate value="${order.createdOn}" pattern="yyyy-MM-dd hh:mm:ss"/>
                         </td>
                         <td>
-                            <c:if test="">
-
-                            </c:if>
                             <c:out value="${order.status}"/>
                         </td>
                         <td>
@@ -69,74 +62,6 @@
             </c:if>
         </table>
     </div>
-    <c:if test="${param.operationResult.equals('order_confirmed')}">
-        <p class="text-success">
-                ${orderConfirmed}
-        </p>
-    </c:if>
-    <c:if test="${param.operationResult.equals('order_not_confirmed')}">
-        <p class="text-success">
-                ${orderNotConfirmed}
-        </p>
-    </c:if>
-    <c:if test="${param.operationResult.equals('fail')}">
-        <p class="text-success">
-                ${orderNotRejected}
-        </p>
-    </c:if>
-    <c:if test="${param.operationResult.equals('order_rejected')}">
-        <p class="text-success">
-                ${orderRejected}
-        </p>
-    </c:if>
-    <c:if test="${sessionScope.pagesNumber>1}">
-        <ul class="pagination justify-content-center">
-            <!--available "Previous" link-->
-            <c:if test="${currentPage>1}">
-                <li class="page-item"><a class="page-link"
-                                         href="/secure?command=show_unhandled_order_list&currentPage=${currentPage-1}"><c:out
-                        value="${previous}"/></a>
-                </li>
-            </c:if>
-            <!--disabled "Previous" link-->
-            <c:if test="${currentPage==1}">
-                <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${previous}"/></a></li>
-            </c:if>
-            <!--setting  query's parameters depending on clicked page-->
-            <c:forEach begin="${1}" end="${pagesNumber}" var="i">
-                <c:choose>
-                    <c:when test="${currentPage==i}">
-                        <li class="page-item active"><a class="page-link"
-                                                        href="/secure?command=show_unhandled_order_list&currentPage=${i}">${i}</a>
-                        </li>
-                    </c:when>
-                    <c:when test="${i!=currentPage}">
-                        <c:if test="${i>currentPage}">
-                            <li class="page-item"><a class="page-link"
-                                                     href="/secure?command=show_unhandled_order_list&currentPage=${i}">${i}</a>
-                            </li>
-                        </c:if>
-                        <c:if test="${i<currentPage}">
-                            <li class="page-item"><a class="page-link"
-                                                     href="/secure?command=show_unhandled_order_list&currentPage=${i}">${i}</a>
-                            </li>
-                        </c:if>
-                    </c:when>
-                </c:choose>
-            </c:forEach>
-            <!--available "Next" link-->
-            <c:if test="${currentPage+1<=pagesNumber}">
-                <li class="page-item"><a class="page-link"
-                                         href="/secure?command=show_unhandled_order_list&currentPage=${currentPage+1}"><c:out
-                        value="${next}"/></a>
-                </li>
-            </c:if>
-            <!--disabled "Next" link-->
-            <c:if test="${currentPage==pagesNumber}">
-                <li class="page-item disabled"><a class="page-link " href="#"><c:out value="${next}"/></a></li>
-            </c:if>
-        </ul>
-    </c:if>
 </div>
 <div class="container-fluid d-flex justify-content-left">
     <div class="btn-group">
@@ -152,7 +77,4 @@
 </div>
 <div class="d-flex container-fluid justify-content-start">
     <a href="/secure?command=go_to_authorized_user_main_page">${goToAuthorizedUserMain}</a>
-</div>
-<div class="container-fluid fixed-bottom" id="footer">
-    <%@ include file="../../constant_part/footer.jsp" %>
 </div>

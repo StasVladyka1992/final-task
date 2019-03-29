@@ -115,6 +115,23 @@ public final class ConnectionPool {
         }
     }
 
+    public void closeStatementAndResultSet(Statement st, ResultSet resultSet) {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        } catch (SQLException ex) {
+            logger.error("ResultSet wasn't closed", ex);
+        }
+        try {
+            if (st != null) {
+                st.close();
+            }
+        } catch (SQLException ex) {
+            logger.error("Statement wasn't closed", ex);
+        }
+    }
+
     public void closeConnection(Connection con, Statement st, ResultSet resultSet) {
         try {
             if (resultSet != null) {

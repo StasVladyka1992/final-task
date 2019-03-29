@@ -5,6 +5,7 @@ import by.vladyka.epam.dao.exception.ConnectionPoolException;
 import by.vladyka.epam.dao.exception.DAOException;
 import by.vladyka.epam.dao.util.ConnectionPool;
 import by.vladyka.epam.dto.EntitySearchingResult;
+import by.vladyka.epam.dto.OrderDto;
 import by.vladyka.epam.dto.OrderDtoForPharmacist;
 import by.vladyka.epam.entity.*;
 
@@ -13,7 +14,6 @@ import java.util.Date;
 import java.util.*;
 
 import static by.vladyka.epam.dao.util.SQLDaoAssistant.getFoundEntitiesNumber;
-import static by.vladyka.epam.dao.util.SQLDaoAssistant.setStartPositionAndOffset;
 import static by.vladyka.epam.dao.util.SQLQuery.*;
 
 /**
@@ -232,17 +232,14 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
         return order;
     }
 
-    public EntitySearchingResult<ClientOrder> findUnhandledOrders(int start, int offset) throws DAOException {
+    public List<ClientOrder> findUnhandledOrders() throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        int unhandledClientOrdersNumber;
         List<ClientOrder> clientOrders;
         try {
-            unhandledClientOrdersNumber = getFoundEntitiesNumber(QUERY_COUNT_UNHANDLED_ORDERS, pool);
             con = pool.takeConnection();
             ps = con.prepareStatement(QUERY_FIND_UNHANDLED_ORDERS);
-            setStartPositionAndOffset(ps, start, offset);
             rs = ps.executeQuery();
             clientOrders = new ArrayList<>();
             ClientOrder order = null;
@@ -268,10 +265,7 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
         } finally {
             pool.closeConnection(con, ps, rs);
         }
-        EntitySearchingResult<ClientOrder> unhandledClientOrders = new EntitySearchingResult<>();
-        unhandledClientOrders.setFoundEntities(clientOrders);
-        unhandledClientOrders.setFoundEntitiesNumber(unhandledClientOrdersNumber);
-        return unhandledClientOrders;
+        return clientOrders;
     }
 
     private ClientOrder buildClientOrder(ResultSet rs) throws SQLException {
@@ -298,27 +292,66 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
     }
 
     @Override
-    public int create(int clientId, double sum) throws DAOException {
+    public boolean create(int clientId, double sum, OrderDto orderDto) throws DAOException {
         Connection con = null;
-        PreparedStatement ps = null;
-        int insertResult;
-        int lastId = -1;
+        PreparedStatement ps0 = null;
+        PreparedStatement ps1 = null;
+        ResultSet rs = null;
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(QUERY_CREATE_CLIENT_ORDER);
-            ps.setInt(1, clientId);
-            ps.setDouble(2, sum);
-            insertResult = ps.executeUpdate();
+            con.setAutoCommit(false);
+            ps0 = con.prepareStatement(QUERY_CREATE_CLIENT_ORDER, Statement.RETURN_GENERATED_KEYS);
+            ps0.setInt(1, clientId);
+            ps0.setDouble(2, sum);
+            if (ps0.executeUpdate()!=1){
+                throw new SQLException("client order wasn't created");
+            }
+            rs = ps0.getGeneratedKeys();
+            if (rs.next()) {
+                int insertedId = rs.getInt(1);
+                String[] commands = builtInsertCommands(orderDto, insertedId);
+                ps1 = con.prepareStatement(commands[0]);
+                if (commands.length >= 1) {
+                    for (String command : commands) {
+                        ps1.addBatch(command);
+                    }
+                    int[] results = ps1.executeBatch();
+                    for (int i = 0; i < commands.length; i++) {
+                        if (results[i] != 1) {
+                            throw new SQLException("Some of the remedy orders weren't created");
+                        }
+                    }
+                }
+            }
+            con.commit();
+            return true;
         } catch (SQLException | ConnectionPoolException ex) {
-            doRollback(con);
+            try {
+                con.rollback();
+            } catch (SQLException e) {
+                throw new DAOException(e);
+            }
             throw new DAOException(ex);
         } finally {
-            pool.closeConnection(con, ps);
+            pool.closeStatementAndResultSet(ps0, rs);
+            pool.closeConnection(con, ps1);
         }
-        if (insertResult == 1) {
-            lastId = getLastInsertId();
+    }
+
+    private String[] builtInsertCommands(OrderDto dto, int clientOrderId) {
+        int commandsNumber = dto.getGoods().size();
+        String[] commands = new String[commandsNumber];
+        int count = 0;
+        for (Map.Entry<Storage, Integer> pair :
+                dto.getGoods().entrySet()) {
+            int remedyId = pair.getKey().getRemedy().getId();
+            int quantity = pair.getValue();
+            String command = QUERY_CREATE_REMEDY_ORDER + remedyId + "," +
+                    quantity + "," + clientOrderId + ")";
+            commands[count] = command;
+            count++;
         }
-        return lastId;
+        return commands;
     }
 
     @Override
@@ -363,21 +396,4 @@ public class SQLClientOrderDAO implements ClientOrderDAO {
         }
     }
 
-    private int getLastInsertId() throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            con = pool.takeConnection();
-            ps = con.prepareStatement(QUERY_GET_LAST_ORDER_ID);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            } else return 0;
-        } catch (SQLException | ConnectionPoolException e) {
-            throw new DAOException(e);
-        } finally {
-            pool.closeConnection(con, ps, rs);
-        }
-    }
 }

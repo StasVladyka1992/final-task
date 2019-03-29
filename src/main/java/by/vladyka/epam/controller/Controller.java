@@ -31,7 +31,7 @@ public class Controller extends HttpServlet {
         String commandName = req.getParameter(COMMAND_PARAMETER);
         try {
             commandStorage.getCommand(commandName).execute(req, resp);
-        } catch (CommandException | ServletException | IOException ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             resp.sendRedirect(ERROR_PAGE);
         }
